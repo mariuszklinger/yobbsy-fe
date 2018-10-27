@@ -1,0 +1,32 @@
+.new-contract {
+  form {
+    display: 'flex';
+    flex-wrap: 'wrap';
+  }
+
+  &__wrapper {
+    margin-left: 15px;
+    max-width: 400px;
+  }
+
+  &__currency {
+    text-align: left;
+  }
+
+  &__tag-select {
+    margin-top: 16px;
+    padding-left: 7px;
+    width: calc(100% - 8px);
+
+    > div {
+      border: none;
+      border-radius: 0;
+      border-bottom: 1px solid #ddd;
+
+      > div {
+        font-size: 16px;
+        padding: 0 0;
+      }
+    }
+  }
+}
