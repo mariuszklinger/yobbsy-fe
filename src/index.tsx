@@ -1,8 +1,11 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+
+import './config/setUpAxios';
 import App from './App';
-import './index.css';
 import registerServiceWorker from './registerServiceWorker';
+
+import './index.css';
 
 ReactDOM.render(
   <App />,

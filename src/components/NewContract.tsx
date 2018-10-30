@@ -1,58 +1,20 @@
 import * as React from 'react';
-import Async from 'react-select/lib/Async';
-import AsyncCreatable from 'react-select/lib/AsyncCreatable';
 
 import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import { TextField, MenuItem, StyleRulesCallback, Switch, Typography } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 
-import axios from 'axios';
+import LocationSelect from './LocationSelect';
+import TagSelect from './TagSelect';
+
+import ContractService from '../services/contract.service';
+import { currencies, notices } from '../consts/dicts';
 
 import './NewContract.scss';
 
 interface IProps {
   classes: any;
 }
-
-const currencies = [
-  {
-    value: 'USD',
-    label: 'USD ($)',
-  },
-  {
-    value: 'EUR',
-    label: 'EUR (€)',
-  },
-  {
-    value: 'BTC',
-    label: 'BTC (฿)',
-  },
-  {
-    value: 'JPY',
-    label: 'JPY (¥)',
-  },
-  {
-    value: 'PLN',
-    label: 'PLN',
-  },
-];
-
-const filterList = (list: any, inputValue: string) => {
-
-  const l = list.filter(({ name } : any) =>
-    name
-      .toLowerCase()
-      .includes(inputValue.toLowerCase())
-  )
-  .map((obj: any) => ({ value: obj.name, label: `${obj.name}, ${obj.country}` }));
-  return l;
-}
-
-const loadOptions = (inputValue: string, callback: any) => {
-  axios.get(`http://localhost:8000/core/location?name=${inputValue}`).then(({ data }) => {
-    callback(filterList(data.results, inputValue));
-  });
-};
 
 class NewContract extends React.Component<IProps> {
   state = {
@@ -64,7 +26,8 @@ class NewContract extends React.Component<IProps> {
     email: '',
     password: '',
     password2: '',
-    tags: [] as any,
+    tags: [{ value: '1', label: 'java' }] as any,
+    locations: [] as any,
   };
 
   handleChange = (name: string) => (event: any) => {
@@ -77,17 +40,17 @@ class NewContract extends React.Component<IProps> {
     this.setState({ [name]: event.target.checked });
   }
 
-  handleMultiSelect = (key: string) => (tags: any) => {
-    this.setState({ tags: [ ...tags ]});
+  handleMultiSelect = (key: string) => (values: any) => {
+    this.setState({ [key]: [ ...values ]});
   }
 
   onSubmit = (event: any) => {
+    ContractService.saveContract(this.state);
     event.preventDefault();
   }
 
   render() {
     const { classes }:any = this.props;
-    const { tags }:any = this.props;
 
     return (
       <div className="new-contract__wrapper">
@@ -101,27 +64,6 @@ class NewContract extends React.Component<IProps> {
             value={this.state.description}
             onChange={this.handleChange('description')}
             helperText="Your dream job position"
-          />
-
-          <AsyncCreatable
-            placeholder="Job keywords"
-            value={tags}
-            onChange={this.handleMultiSelect('tags')}
-            components={{ DropdownIndicator: () => null }}
-            className="new-contract__tag-select"
-            isMulti={true}
-            loadOptions={loadOptions}
-            allowCreateWhileLoading={true}
-          />
-
-          <Async
-            placeholder="Desired locations"
-            value={tags}
-            onChange={this.handleMultiSelect('locations')}
-            className="new-contract__tag-select"
-            components={{ DropdownIndicator: () => null }}
-            isMulti={true}
-            loadOptions={loadOptions}
           />
 
           <TextField
@@ -151,6 +93,9 @@ class NewContract extends React.Component<IProps> {
             ))}
           </TextField>
 
+          <TagSelect selected={this.state.tags} onChange={this.handleMultiSelect('tags')} />
+          <LocationSelect onChange={this.handleMultiSelect('locations')} />
+
           <TextField
             label="Notice period"
             value={this.state.notice}
@@ -159,6 +104,25 @@ class NewContract extends React.Component<IProps> {
             margin="normal"
             onChange={this.handleChange('notice')}
             helperText="How fast you can start new job? (months)"
+            select={true}
+          >
+            {notices.map(option => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+
+          <TextField
+            label="Email"
+            className={classes.textField}
+            type="email"
+            name="email"
+            autoComplete="email"
+            margin="normal"
+            fullWidth={true}
+            onChange={this.handleChange('email')}
+            helperText="E-mail will be hidden from recruiter"
           />
 
           <Typography className={classes.textField} style={{ textAlign: 'left' }} variant="subheading">
@@ -172,17 +136,6 @@ class NewContract extends React.Component<IProps> {
           {/* <Typography variant="subtitle2">You will be able easly manage your posts </Typography> */}
 
           { this.state.createAccount && <>
-            <TextField
-              label="Email"
-              className={classes.textField}
-              type="email"
-              name="email"
-              autoComplete="email"
-              margin="normal"
-              fullWidth={true}
-              onChange={this.handleChange('email')}
-            />
-
             <TextField
               label="Password"
               className={classes.textField}
