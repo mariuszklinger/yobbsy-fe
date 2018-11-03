@@ -35,7 +35,7 @@ class TagSelect extends React.Component<IProps> {
         value={locations}
         onChange={this.onChange}
         className="multiselect"
-        components={{ DropdownIndicator: () => null, }}
+        components={{ DropdownIndicator: () => null }}
         isMulti={true}
         loadOptions={ContractService.getTags}
       />

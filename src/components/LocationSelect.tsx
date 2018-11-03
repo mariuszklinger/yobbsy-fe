@@ -4,14 +4,18 @@ import Async from 'react-select/lib/Async';
 import ContractService from '../services/contract.service';
 import './multiselect.scss';
 
-
 interface IProps {
+  selected: any[];
   onChange: (values: any) => void;
 }
 
 class LocationSelect extends React.Component<IProps> {
   state = {
     locations: [] as any,
+  }
+
+  componentDidMount() {
+    this.setState({ locations: this.props.selected });
   }
 
   onChange = (values: any) => {

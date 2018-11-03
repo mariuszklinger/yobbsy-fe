@@ -1,0 +1,19 @@
+.contract-form {
+  &__wrapper {
+    background-color: #FFF;
+    padding-left: 30px;
+    padding-right: 30px;
+    min-height: 100vh;
+    max-width: 450px;
+
+    form {
+      padding: 15px;
+      display: 'flex';
+      flex-wrap: 'wrap';
+    }
+  }
+
+  &__currency {
+    text-align: left;
+  }
+}

@@ -1,0 +1,21 @@
+.contract-card {
+  border-bottom: 1px solid #cacaca;
+  max-width: 500px;
+  min-width: 400px;
+  margin-top: 15px;
+  margin-bottom: 30px;
+  padding-bottom: 30px;
+  text-align: left;
+
+  &__skills-wrapper {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+
+    > div {
+      margin-right: 5px;
+    }
+  }
+}
