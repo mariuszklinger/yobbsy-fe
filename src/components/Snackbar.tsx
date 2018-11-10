@@ -1,7 +1,7 @@
 import * as React from 'react';
-// import PropTypes from 'prop-types';
+
+import { observer } from 'mobx-react';
 import classNames from 'classnames';
-// import Button from '@material-ui/core/Button';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ErrorIcon from '@material-ui/icons/Error';
 import InfoIcon from '@material-ui/icons/Info';
@@ -14,6 +14,8 @@ import SnackbarContent from '@material-ui/core/SnackbarContent';
 import WarningIcon from '@material-ui/icons/Warning';
 import { withStyles } from '@material-ui/core/styles';
 
+import AppService from '../services/app.service';
+
 const variantIcon = {
   success: CheckCircleIcon,
   warning: WarningIcon,
@@ -21,7 +23,7 @@ const variantIcon = {
   info: InfoIcon,
 };
 
-const styles1 = (theme: any) => ({
+const styles = (theme: any) => ({
   success: {
     backgroundColor: green[600],
   },
@@ -47,42 +49,47 @@ const styles1 = (theme: any) => ({
   },
 });
 
-function MySnackbarContent(props: any) {
-  const { classes, className, message, onClose, variant, ...other } = props;
-  const Icon = variantIcon[variant];
+@observer
+class MySnackbar extends React.Component<any> {
+  hide = () => AppService.hideToaster(this.props.variant)
 
-  return (
-    <Snackbar
-      anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'left',
-      }}
-      open={true}
-      autoHideDuration={6000}
-      // onClose={this.handleClose}
-    >
-      <SnackbarContent
-        className={classNames(classes[variant], className)}
-        message={
-          <span className={classes.message}>
-            <Icon className={classNames(classes.icon, classes.iconVariant)} />
-            {message}
-          </span>
-        }
-        action={[
-          <IconButton
-            key="close"
-            color="inherit"
-            className={classes.close}
-            onClick={onClose}
-          >
-            <CloseIcon className={classes.icon} />
-          </IconButton>,
-        ]}
-        {...other}
-      />
-    </Snackbar>
-  );
+  render() {
+    const { classes, className, message, onClose, variant, open, ...other } = this.props;
+    const Icon = variantIcon[variant];
+
+    return (
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        open={AppService[variant]}
+        autoHideDuration={3000}
+        onClose={this.hide}
+      >
+        <SnackbarContent
+          className={classNames(classes[variant], className)}
+          message={
+            <span className={classes.message}>
+              <Icon className={classNames(classes.icon, classes.iconVariant)} />
+              {message}
+            </span>
+          }
+          action={[
+            <IconButton
+              key="close"
+              color="inherit"
+              className={classes.close}
+              onClick={onClose}
+            >
+              <CloseIcon className={classes.icon} />
+            </IconButton>,
+          ]}
+          {...other}
+        />
+      </Snackbar>
+    );
+  }
 }
 
 // MySnackbarContent.propTypes = {
@@ -93,4 +100,4 @@ function MySnackbarContent(props: any) {
 //   variant: PropTypes.oneOf(['success', 'warning', 'error', 'info']).isRequired,
 // };
 
-export default withStyles(styles1)(MySnackbarContent);
+export default withStyles(styles)(MySnackbar);

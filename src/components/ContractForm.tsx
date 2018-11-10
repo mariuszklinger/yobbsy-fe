@@ -11,7 +11,6 @@ import {
 } from '@material-ui/core';
 
 import LocationSelect from './LocationSelect';
-import Snackbar from './Snackbar';
 import TagSelect from './TagSelect';
 
 import ContractService from '../services/contract.service';
@@ -48,7 +47,8 @@ class ContractForm extends React.Component<IProps, IState> {
         { value: '1', label: 'java' },
         { value: '2', label: 'javascript' },
         { value: '3', label: 'python' }
-      ] as any[]
+      ] as any[],
+      email: 'dasdas21312zda@asdsada.pl',
     }
   };
 
@@ -98,6 +98,7 @@ class ContractForm extends React.Component<IProps, IState> {
           <Typography
             align="left"
             variant="h5"
+            className={classes.textField}
             style={{ fontWeight: 'bold' }}
           >
             { this.inSearchContext() && 'Find your candidate'}
@@ -134,7 +135,6 @@ class ContractForm extends React.Component<IProps, IState> {
             label="Salary"
             value={contract.salary}
             className={classes.textField}
-            type="number"
             margin="normal"
             onChange={this.handleChange('salary')}
             helperText="Minimal accepting salary (monthly)"
@@ -183,6 +183,7 @@ class ContractForm extends React.Component<IProps, IState> {
               className={classes.textField}
               type="email"
               name="email"
+              value={contract.email}
               autoComplete="email"
               margin="normal"
               fullWidth={true}
@@ -192,7 +193,11 @@ class ContractForm extends React.Component<IProps, IState> {
           }
 
           { this.inCreateContext() &&
-            <Typography className={classes.textField} style={{ textAlign: 'left' }} variant="subtitle1">
+            <Typography
+              className={classes.textField}
+              style={{ textAlign: 'left' }}
+              variant="subtitle1"
+            >
               Create account?
               <Switch
                 checked={this.state.createAccount}
@@ -228,17 +233,16 @@ class ContractForm extends React.Component<IProps, IState> {
             )}
           </>}
 
-          <Button type="submit" fullWidth={true} variant="outlined">
+          <Button
+            type="submit"
+            className={classes.textField}
+            fullWidth={true}
+            variant="outlined"
+          >
             { this.inSearchContext() && 'Search'}
             { this.inCreateContext() && 'Submit'}
           </Button>
         </form>
-
-        { false && <Snackbar
-          message="O KUFA ZAPISANE"
-          variant="success"
-        />}
-
       </div>
     );
   }
@@ -253,15 +257,6 @@ const styles = (theme: any) => ({
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
     flex: 'auto',
-  },
-  chip: {
-    margin: theme.spacing.unit,
-  },
-  dense: {
-    marginTop: 16,
-  },
-  menu: {
-    width: 200,
   },
 });
 

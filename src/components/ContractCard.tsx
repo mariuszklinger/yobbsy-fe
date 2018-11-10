@@ -53,7 +53,9 @@ class ContractCard extends React.Component<IContractCardProps> {
           align="left"
           variant="subtitle2"
         >
-          Notice: { contract.notice } month <br />
+          { !!contract.notice && `Notice: ${ contract.notice } month`}
+          { !contract.notice && <span>Notice: <b>Immediately</b></span>}
+          <br />
           Locations: <ul>
             { contract.locations.map((l: Contract.ILocation) => (
               <li key={l.name}>{ l.name }, {l.country} </li>

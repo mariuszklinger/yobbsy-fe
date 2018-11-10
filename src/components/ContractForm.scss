@@ -1,16 +1,30 @@
+$base: #3b7ae5;
+$font-color: #fff;
+
 .contract-form {
   &__wrapper {
-    background-color: #FFF;
+    // background-color: $base;
+    // color: $font-color !important;
+    padding-top: 15px;
     padding-left: 30px;
     padding-right: 30px;
     min-height: 100vh;
     max-width: 450px;
 
-    form {
-      padding: 15px;
-      display: 'flex';
-      flex-wrap: 'wrap';
-    }
+    // form {
+    //   padding: 15px;
+    //   display: 'flex';
+    //   flex-wrap: 'wrap';
+
+    //   input, label, select, div, p, h5 {
+    //     background-color: $base;
+    //     color: $font-color !important;
+    //   }
+
+    //   button {
+    //     background-color: white;
+    //   }
+    // }
   }
 
   &__currency {

@@ -14,5 +14,15 @@ const onRequestStop = (config: any) => {
   return config;
 }
 
+const onResponseSuccess = (response: any) => {
+  const { config } = response;
+  AppService.loadingStop();
+
+  if (config.method !== 'get') {
+    AppService.showToaster('success' as Common.ToasterType.SUCCESS);
+  }
+  return response;
+}
+
 axios.interceptors.request.use(onRequestStart, onRequestStop);
-axios.interceptors.response.use(onRequestStop, onRequestStop);
+axios.interceptors.response.use(onResponseSuccess, onRequestStop);
