@@ -14,9 +14,11 @@ import LocationSelect from './LocationSelect';
 import TagSelect from './TagSelect';
 
 import ContractService from '../services/contract.service';
+import ContractSearchService from '../services/contract-search.service';
 import { currencies, notices } from '../consts/dicts';
 
 import './ContractForm.scss';
+import { observer } from 'mobx-react';
 
 interface IProps {
   classes: any;
@@ -29,27 +31,12 @@ interface IState {
   contract: Contract.IContractFull;
 }
 
+@observer
 class ContractForm extends React.Component<IProps, IState> {
   state: IState = {
     createAccount: false,
     success: true,
-    contract: {
-      salary: 5000,
-      currency: 'USD',
-      title: 'CEO of stuff',
-      description: 'I know everything, have a lot experience, give me the job. Lorem ipsum solor et al mirl.',
-      locations: [
-        { value: 321, label: 'Pabianice, Poland', name: 'Pabianice', country: 'Poland' },
-        { value: 5124, label: 'Gdańsk, Poland', name: 'Gdańsk', country: 'Poland' },
-      ],
-      notice: 0,
-      skills: [
-        { value: '1', label: 'java' },
-        { value: '2', label: 'javascript' },
-        { value: '3', label: 'python' }
-      ] as any[],
-      email: 'dasdas21312zda@asdsada.pl',
-    }
+    contract: ContractService.contract,
   };
 
   inSearchContext = () => this.props.context === 'SEARCH'
@@ -79,7 +66,7 @@ class ContractForm extends React.Component<IProps, IState> {
 
   onSubmit = (event: any) => {
     const submitAction = this.inCreateContext() ?
-      ContractService.save : ContractService.search;
+      ContractService.save : ContractSearchService.search;
 
     submitAction(this.state.contract);
     event.preventDefault();

@@ -1,15 +1,17 @@
-import { observable, action } from "mobx";
+import { observable, action, computed } from "mobx";
 import axios from 'axios';
 
-interface IUserService {
-  isLoggedIn: () => boolean;
-};
+// interface IUserService {
+//   isLoggedIn: () => boolean;
+// };
 
-class UserService implements IUserService {
+class UserService {
   @observable userData: any = {};
-  @observable isLogInFormOpened: boolean = true;
+  @observable isLogInFormOpened: boolean = false;
 
-  isLoggedIn = () => !!this.userData.loggedIn
+  @computed get isLoggedIn() {
+    return !!this.userData.loggedIn;
+  }
 
   @action
   openLoginForm = () => this.isLogInFormOpened = true

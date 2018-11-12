@@ -1,5 +1,5 @@
 {
-  "name": "mycontractio-front",
+  "name": "yobbsy-fe",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -110,7 +110,7 @@
     ],
     "globals": {
       "ts-jest": {
-        "tsConfigFile": "D:\\git\\mycontractio-front\\tsconfig.test.json"
+        "tsConfigFile": "D:\\git\\yobbsy-fe\\tsconfig.test.json"
       }
     }
   },

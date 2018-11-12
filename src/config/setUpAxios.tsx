@@ -14,15 +14,18 @@ const onRequestStop = (config: any) => {
   return config;
 }
 
-const onResponseSuccess = (response: any) => {
+const getResponseCallback = (cbType: 'success' | 'error') => (response: any) => {
   const { config } = response;
   AppService.loadingStop();
 
   if (config.method !== 'get') {
-    AppService.showToaster('success' as Common.ToasterType.SUCCESS);
+    AppService.showToaster(cbType as Common.ToasterType.SUCCESS);
   }
   return response;
 }
 
 axios.interceptors.request.use(onRequestStart, onRequestStop);
-axios.interceptors.response.use(onResponseSuccess, onRequestStop);
+axios.interceptors.response.use(
+  getResponseCallback('success'),
+  getResponseCallback('error')
+);
