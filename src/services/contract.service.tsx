@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { observable, action } from "mobx";
+import { observable, action } from 'mobx';
 
 type callbackType = (list: any) => void;
 
@@ -29,15 +29,36 @@ export function getContractJson(obj: Contract.IContractFull) {
 }
 
 class ContractService implements IContractService {
-  @observable list: Contract.IContractShort[] = [];
-
-  constructor() { // TODO:
-    this.search(null);
-  }
+  @observable contract: Contract.IContractFull = {
+    id: 7,
+    salary: 5000,
+    currency: 'USD',
+    title: 'CEO of stuff',
+    description: 'I know everything, have a lot experience, give me the job. Lorem ipsum solor et al mirl.',
+    locations: [
+      { value: 321, label: 'Pabianice, Poland', name: 'Pabianice', country: 'Poland' },
+      { value: 5124, label: 'Gdańsk, Poland', name: 'Gdańsk', country: 'Poland' },
+    ],
+    notice: 0,
+    skills: [
+      { value: '1', label: 'java' },
+      { value: '2', label: 'javascript' },
+      { value: '3', label: 'python' }
+    ] as any[],
+    email: 'dasdas21312zda@asdsada.pl',
+  };
 
   @action
-  setContractList(data: Contract.IContractShort[]) {
-    this.list = data;
+  setContract = (contract: Contract.IContractFull) => {
+    // console.log(contract);
+    this.contract = contract;
+    return contract;
+  }
+
+  async getContract(id: number) {
+    return axios
+      .get(`/core/contract/${id}`)
+      .then(({ data }) => this.setContract(data));
   }
 
   getTags(query: string, callback: callbackType) {
@@ -57,15 +78,6 @@ class ContractService implements IContractService {
     axios
       .post('/core/contract', contract)
       .then(({ data }) => console.log(data));
-  }
-
-  @action
-  search = (obj: Contract.IContractFull) => {
-    axios
-      .get(`/core/contract?salary=1000000`)
-      .then(({ data }: any) => {
-        this.setContractList(data.results);
-      });
   }
 }
 

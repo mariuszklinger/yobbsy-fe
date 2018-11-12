@@ -5,15 +5,14 @@ import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 
 import './ContractCard.scss';
-import { Link } from 'react-router-dom';
 
 interface IContractCardProps {
-  contract: Contract.IContractShort;
+  offer: Contract.IContractShort;
 }
 
-class ContractCard extends React.Component<IContractCardProps> {
+class OfferCard extends React.Component<IContractCardProps> {
   render() {
-    const { contract } = this.props;
+    const { offer } = this.props;
 
     return (
       <div className="contract-card">
@@ -21,13 +20,11 @@ class ContractCard extends React.Component<IContractCardProps> {
           align="left"
           variant="h5"
         >
-          <Link to={`/contract/${contract.id}`}>
-            <b>{ contract.title }</b>
-          </Link>
+          <b>{ offer.title }</b>
         </Typography>
 
         <div className="contract-card__skills-wrapper">
-          { contract.skills && contract.skills.map((skill: any) =>
+          { offer.skills && offer.skills.map((skill: any) =>
             <Chip
               key={ skill.label || skill.tag.name }
               label={ skill.label || skill.tag.name }
@@ -41,7 +38,7 @@ class ContractCard extends React.Component<IContractCardProps> {
           align="left"
           variant="h6"
         >
-          { contract.salary } { contract.currency }
+          { offer.salary } { offer.currency }
         </Typography>
 
         <Typography
@@ -49,18 +46,18 @@ class ContractCard extends React.Component<IContractCardProps> {
           variant="subtitle2"
           style={{ fontWeight: 300 }}
         >
-          { contract.description }
+          { offer.description }
         </Typography>
 
         <Typography
           align="left"
           variant="subtitle2"
         >
-          { !!contract.notice && `Notice: ${ contract.notice } month`}
-          { !contract.notice && <span>Notice: <b>Immediately</b></span>}
+          { !!offer.notice && `Notice: ${ offer.notice } month`}
+          { !offer.notice && <span>Notice: <b>Immediately</b></span>}
           <br />
           Locations: <ul>
-            { contract.locations.map((l: Contract.ILocation) => (
+            { offer.locations.map((l: Contract.ILocation) => (
               <li key={l.name}>{ l.name }, {l.country} </li>
             ))}
           </ul>
@@ -72,16 +69,10 @@ class ContractCard extends React.Component<IContractCardProps> {
             color="secondary">
             Request contact
           </Button>
-
-          <Button
-            variant="outlined"
-            color="secondary">
-            Edit
-          </Button>
         </div>
       </div>
     );
   }
 }
 
-export default ContractCard;
+export default OfferCard;

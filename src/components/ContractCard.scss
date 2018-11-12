@@ -2,10 +2,15 @@
   border-bottom: 1px solid #cacaca;
   max-width: 500px;
   min-width: 400px;
-  margin-top: 15px;
   margin-bottom: 30px;
   padding-bottom: 30px;
+  padding-left: 50px;
+  padding-right: 50px;
   text-align: left;
+
+  button {
+    min-width: 200px;
+  }
 
   &__skills-wrapper {
     margin-top: 10px;

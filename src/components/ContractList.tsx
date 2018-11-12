@@ -22,7 +22,7 @@ class ContractList extends React.Component<IProps> {
 
     return (
       <div className="contract-list__wrapper">
-        { list.length && contractList }
+        { !!list.length && contractList }
         { !list.length && 'No results :(' }
       </div>
     );

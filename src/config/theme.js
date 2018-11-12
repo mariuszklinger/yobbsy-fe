@@ -5,6 +5,13 @@ const theme = createMuiTheme({
     unit: 30,
   },
 
+  // palette: {
+  //   primary: '#009688',
+  //   secondary: {
+  //     main: '#e91e63',
+  //   },
+  // },
+
   overrides: {
     // Name of the component ⚛️ / style sheet
     // MuiButton: {
