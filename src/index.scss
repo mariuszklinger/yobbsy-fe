@@ -8,3 +8,10 @@ body {
 .app {
   padding-left: 60px;
 }
+
+.loading-bar {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+}

@@ -24,7 +24,7 @@ class App extends React.Component {
   public render() {
     return (
       <MuiThemeProvider theme={theme}>
-        { AppService.isLoading && <LinearProgress style={{ position: 'absolute', zIndex: 1000, }} /> }
+        { AppService.isLoading && <LinearProgress className="loading-bar" /> }
         <Router>
           <>
             <MyAppBar />
