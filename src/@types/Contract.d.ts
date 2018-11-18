@@ -6,6 +6,18 @@ declare namespace Contract {
     country: string,
   }
 
+  interface ITag {
+    id?: number,
+    label?: string,
+    name?: string,
+    value?: number,
+  }
+
+  interface ISkill {
+    proficiency: number,
+    tag: ITag,
+  }
+
   interface IContractShort {
     id?: number,
     salary: number,
@@ -13,11 +25,11 @@ declare namespace Contract {
     title: string,
     description: string,
     locations: ILocation[],
-    skills: any[],
+    skills: ISkill[],
     notice: number,
   }
 
-  interface IContractFull extends  IContractShort{
+  interface IContractFull extends IContractShort{
     email?: string,
     password?: string,
     password2?: string,

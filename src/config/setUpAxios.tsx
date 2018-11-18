@@ -2,7 +2,7 @@ import axios from 'axios';
 import AppService from '../services/app.service';
 
 axios.defaults.baseURL = 'http://localhost:8000';
-axios.defaults.headers.common.Authorization = '1337';
+axios.defaults.headers.common.Authorization = 'Token 2df57c042302e4ca6f92f5d86144671e8c3aea5e';
 
 const onRequestStart = (config: any) => {
   AppService.loadingStart();

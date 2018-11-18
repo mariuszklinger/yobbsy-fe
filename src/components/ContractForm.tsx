@@ -13,42 +13,43 @@ import {
 import LocationSelect from './LocationSelect';
 import TagSelect from './TagSelect';
 
-import ContractService from '../services/contract.service';
+import ContractService, { IContractService } from '../services/contract.service';
 import ContractSearchService from '../services/contract-search.service';
+import userService from '../services/user.service';
 import { currencies, notices } from '../consts/dicts';
 
 import './ContractForm.scss';
 import { observer } from 'mobx-react';
+import { toJS } from 'mobx';
+import classNames from 'classnames';
 
 interface IProps {
   classes: any;
   context: 'SEARCH' | 'CREATE';
+  store: IContractService;
 }
 
 interface IState {
   createAccount: boolean;
-  success: boolean;
-  contract: Contract.IContractFull;
 }
 
 @observer
 class ContractForm extends React.Component<IProps, IState> {
   state: IState = {
     createAccount: false,
-    success: true,
-    contract: ContractService.contract,
   };
 
   inSearchContext = () => this.props.context === 'SEARCH'
   inCreateContext = () => this.props.context === 'CREATE'
 
   handleChange = (name: string) => (event: any) => {
+    const { store } = this.props;
     const contract = {
-      ...this.state.contract,
+      ...store.contract,
       [name]: event.target.value,
     };
 
-    this.setState({ contract, });
+    store.setContract(contract);
   }
 
   handleSwitch = (name: string) => (event: any) => {
@@ -57,24 +58,40 @@ class ContractForm extends React.Component<IProps, IState> {
 
   handleMultiSelect = (key: string) => (values: any) => {
     const contract = {
-      ...this.state.contract,
+      ...this.props.store.contract,
       [key]: [ ...values ]
     };
 
-    this.setState({ contract, });
+    this.props.store.setContract(contract);
+  }
+
+  handleSkillSelect = (values: any) => {
+    const skills = [...values]
+      .map((record: any) => ({ proficiency: 10, tag: toJS(record)}));
+
+    const contract = {
+      ...this.props.store.contract,
+      skills,
+    };
+
+    this.props.store.setContract(contract);
   }
 
   onSubmit = (event: any) => {
     const submitAction = this.inCreateContext() ?
-      ContractService.save : ContractSearchService.search;
+      ContractService.save : ContractSearchService.getMyContracts;
 
-    submitAction(this.state.contract);
+    submitAction(this.props.store.contract);
     event.preventDefault();
+  }
+
+  createAccountEnabled = () => {
+    return this.inCreateContext() && !userService.isLoggedIn;
   }
 
   render() {
     const { classes } = this.props;
-    const { contract } = this.state;
+    const { contract } = this.props.store;
 
     return (
       <div className="contract-form__wrapper">
@@ -121,14 +138,14 @@ class ContractForm extends React.Component<IProps, IState> {
           <TextField
             label="Salary"
             value={contract.salary}
-            className={classes.textField}
+            className={classNames(classes.textField50percent, classes.salary)}
             margin="normal"
             onChange={this.handleChange('salary')}
             helperText="Minimal accepting salary (monthly)"
           />
 
           <TextField
-            className={classes.textField}
+            className={classNames(classes.textField50percent, classes.currency)}
             select={true}
             label="Currency"
             value={contract.currency}
@@ -144,7 +161,7 @@ class ContractForm extends React.Component<IProps, IState> {
             ))}
           </TextField>
 
-          <TagSelect selected={contract.skills} onChange={this.handleMultiSelect('skills')} />
+          <TagSelect selected={contract.skills} onChange={this.handleSkillSelect} />
           <LocationSelect selected={contract.locations} onChange={this.handleMultiSelect('locations')} />
 
           <TextField
@@ -164,7 +181,7 @@ class ContractForm extends React.Component<IProps, IState> {
             ))}
           </TextField>
 
-          { this.inCreateContext() &&
+          { this.createAccountEnabled() &&
             <TextField
               label="Email"
               className={classes.textField}
@@ -179,7 +196,7 @@ class ContractForm extends React.Component<IProps, IState> {
             />
           }
 
-          { this.inCreateContext() &&
+          { this.createAccountEnabled() &&
             <Typography
               className={classes.textField}
               style={{ textAlign: 'left' }}
@@ -195,7 +212,7 @@ class ContractForm extends React.Component<IProps, IState> {
             </Typography>
           }
 
-          { this.inCreateContext() && this.state.createAccount && <>
+          { this.createAccountEnabled() && this.state.createAccount && <>
             <TextField
               label="Password"
               className={classes.textField}
@@ -239,12 +256,23 @@ const styles = (theme: any) => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
-  },
-  textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
+  },
+  textField: {
     flex: 'auto',
   },
+
+  textField50percent: {
+    flex: '0 1 calc(50% - 10px)',
+  },
+
+  salary: {
+  },
+
+  currency: {
+    marginLeft: '10px',
+  }
 });
 
 export default withStyles(styles as StyleRulesCallback<string>)(ContractForm);

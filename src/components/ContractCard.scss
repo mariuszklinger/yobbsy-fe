@@ -1,7 +1,6 @@
 .contract-card {
   border-bottom: 1px solid #cacaca;
   max-width: 500px;
-  min-width: 400px;
   margin-bottom: 30px;
   padding-bottom: 30px;
   padding-left: 50px;
@@ -10,6 +9,11 @@
 
   button {
     min-width: 200px;
+  }
+
+  a button span {
+    text-transform: none;
+    text-decoration: none;
   }
 
   &__skills-wrapper {

@@ -1,19 +1,46 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 
 import { Typography } from '@material-ui/core';
 import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 
+import userService from '../services/user.service';
+import contractService from '../services/contract.service';
+
 import './ContractCard.scss';
-import { Link } from 'react-router-dom';
 
 interface IContractCardProps {
   contract: Contract.IContractShort;
+  editable?: boolean;
 }
 
 class ContractCard extends React.Component<IContractCardProps> {
+  state = {
+    deleted: false,
+  }
+
+  deleteContract = () => {
+    const { id } = this.props.contract;
+    const markAsDeleted = () => this.setState({ deleted: true });
+
+    contractService
+      .deleteContract(id)
+      .then(markAsDeleted)
+  }
+
   render() {
-    const { contract } = this.props;
+    const { contract, editable } = this.props;
+
+    // const userId = userService.userData.user.id;
+    // const isEmployee = userService.isEmployee;
+    const isHunter = userService.isHunter;
+
+    if (this.state.deleted) {
+      return null;
+    }
+
+    // const isContractOwner = userId === contract.profile.
 
     return (
       <div className="contract-card">
@@ -67,17 +94,32 @@ class ContractCard extends React.Component<IContractCardProps> {
         </Typography>
 
         <div style={{ paddingLeft: 0 }}>
-          <Button
-            variant="outlined"
-            color="secondary">
-            Request contact
-          </Button>
+          { isHunter &&
+            <Button
+              variant="outlined"
+              color="secondary">
+              Request contact
+            </Button>
+          }
 
-          <Button
-            variant="outlined"
-            color="secondary">
-            Edit
-          </Button>
+          { editable &&
+            <>
+              <Link to={`/contract/${contract.id}/edit`}>
+                <Button
+                  variant="outlined"
+                  color="secondary">
+                  Edit
+                </Button>
+              </Link>
+
+              <Button
+                variant="outlined"
+                onClick={this.deleteContract}
+                color="secondary">
+                Delete
+              </Button>
+            </>
+          }
         </div>
       </div>
     );

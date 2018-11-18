@@ -12,12 +12,14 @@ import MyAppBar from './components/AppBar';
 
 import SearchPage from './pages/search.page';
 import ContractDetailsPage from './pages/contract-details.page';
+import MyContractsPage from './pages/my-contracts.page';
+
 import AppService from './services/app.service';
+import contractService from './services/contract.service';
 
 import theme from './config/theme';
 
-const createContractForm = () => <ContractForm context="CREATE" />;
-const offerListF = () => <OfferList />;
+const createContractForm = () => <ContractForm context="CREATE" store={contractService} />;
 
 @observer
 class App extends React.Component {
@@ -31,8 +33,10 @@ class App extends React.Component {
 
             <div className="app">
               <Route path="/" exact={true} render={createContractForm} />
-              <Route path="/contract/:id([0-9]+)" component={ContractDetailsPage} />
-              <Route path="/offers" component={offerListF} />
+              <Route path="/contract/:id([0-9]+)/:edit?" component={ContractDetailsPage} />
+              {/* <Route path="/contract/:id([0-9]+/:edit?)" component={ContractDetailsPage} /> */}
+              <Route path="/offers" component={OfferList} />
+              <Route path="/my-contracts" component={MyContractsPage} />
               <Route path="/search" component={SearchPage} />
             </div>
           </>

@@ -70,7 +70,8 @@ class LogInForm extends React.Component<IProps, IState> {
           id="responsive-dialog-title"
           className={classes.textField}
         >
-          Use Google's location service?
+          Log in or create new account. <br />
+          We DO NOT share any of your personal details.
         </DialogTitle>
 
         { appService.isLoading && <LinearProgress /> }

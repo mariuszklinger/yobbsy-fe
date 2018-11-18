@@ -3,9 +3,11 @@ import { observable, action } from 'mobx';
 
 type callbackType = (list: any) => void;
 
-interface IContractService {
+export interface IContractService {
+  contract: Contract.IContractFull;
   getTags: (query: string, callback: callbackType) => void;
   getLocations: (query: string, callback: callbackType) => void;
+  setContract: (contract: Contract.IContractFull) => Contract.IContractFull;
 };
 
 export function getContractJson(obj: Contract.IContractFull) {
@@ -18,19 +20,25 @@ export function getContractJson(obj: Contract.IContractFull) {
     country: l.country,
   }));
 
-  contract.skills = obj.skills.map((tag: any) => ({
-    tag: {
-      name: tag.label,
-    },
-    proficiency: 10,
-  }));
-
   return contract;
+}
+
+function getEmptyContract(): Contract.IContractFull {
+  return {
+    id: null,
+    salary: null,
+    currency: '',
+    title: '',
+    description: '',
+    locations: [],
+    notice: 0,
+    skills: [] as any[],
+    email: '',
+  };
 }
 
 class ContractService implements IContractService {
   @observable contract: Contract.IContractFull = {
-    id: 7,
     salary: 5000,
     currency: 'USD',
     title: 'CEO of stuff',
@@ -41,30 +49,46 @@ class ContractService implements IContractService {
     ],
     notice: 0,
     skills: [
-      { value: '1', label: 'java' },
-      { value: '2', label: 'javascript' },
-      { value: '3', label: 'python' }
+      {
+        proficiency: 10,
+        tag: { value: '1', label: 'java', name: 'java' },
+      },
+      {
+        proficiency: 10,
+        tag: { value: '2', label: 'javascript', name: 'javascript' },
+      }
     ] as any[],
     email: 'dasdas21312zda@asdsada.pl',
   };
 
-  @action
-  setContract = (contract: Contract.IContractFull) => {
-    // console.log(contract);
-    this.contract = contract;
-    return contract;
+  clear() {
+    this.setContract(getEmptyContract());
   }
 
-  async getContract(id: number) {
+  @action
+  setContract = (contract: Contract.IContractFull) => {
+    this.contract = contract;
+    return this.contract;
+  }
+
+  getContract(id: number) {
     return axios
       .get(`/core/contract/${id}`)
       .then(({ data }) => this.setContract(data));
   }
 
+  deleteContract(id: number) {
+    return axios
+      .delete(`/core/contract/${id}`);
+  }
+
   getTags(query: string, callback: callbackType) {
+    const cbw = (e:any) => {
+      return callback(e);
+    }
     axios
       .get(`/core/tag?name=${query}`)
-      .then(({ data }) => callback(data.results));
+      .then(({ data }) => cbw(data.results));
   }
 
   getLocations(query: string, callback: callbackType) {
@@ -75,10 +99,13 @@ class ContractService implements IContractService {
 
   save(obj: Contract.IContractFull) {
     const contract = getContractJson(obj);
-    axios
-      .post('/core/contract', contract)
+    const method = contract.id ? axios.put : axios.post;
+    const url = contract.id ? `/core/contract/${contract.id}` : '/core/contract';
+
+    method(url, contract)
       .then(({ data }) => console.log(data));
   }
+
 }
 
 export default new ContractService();

@@ -6,40 +6,30 @@ import classNames from 'classnames';
 import ContractService from '../services/contract.service';
 
 import './multiselect.scss';
-
+import { observer } from 'mobx-react';
 
 interface IProps {
   classes: any;
-  selected: any[];
+  selected: Contract.ISkill[];
   onChange: (values: any) => void;
 }
 
+@observer
 class TagSelect extends React.Component<IProps> {
-  state = {
-    locations: [] as any,
-  }
 
   ref: null; // TODO: ogarnac focus po wyborze
 
-  componentDidMount() {
-    this.setState({ locations: this.props.selected });
-  }
-
-  onChange = (values: any) => {
-    this.setState({ locations: [ ...values ] });
-    this.props.onChange(values);
-  }
+  getValues = () => this.props.selected.map((record: Contract.ISkill) => record.tag);
 
   render() {
-    const { locations } = this.state;
-    const { classes } = this.props;
+    const { classes, onChange } = this.props;
 
     return (
       <AsyncCreatable
         ref={(el: any) => this.ref = el}
         placeholder="Job keyword"
-        value={locations}
-        onChange={this.onChange}
+        value={this.getValues()}
+        onChange={onChange}
         className={classNames('multiselect', classes.textField)}
         components={{ DropdownIndicator: () => null }}
         isMulti={true}
@@ -55,8 +45,6 @@ const styles = (theme: any) => ({
     flexWrap: 'wrap',
   },
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
     flex: 'auto',
   },
 });

@@ -2,9 +2,12 @@ import * as React from 'react';
 
 import ContractCard from './../components/ContractCard';
 import contractService from '../services/contract.service';
+import ContractForm from 'src/components/ContractForm';
+// import contractSearchService from 'src/services/contract.service';
 
 interface IProps {
   match?: any;
+  editing: boolean;
 }
 
 interface IState {
@@ -22,6 +25,7 @@ class ContractDetailsPage extends React.Component<IProps, IState> {
     super(props);
 
     const id = props.match.params.id;
+
     contractService
       .getContract(id)
       .then(this.setContract);
@@ -32,7 +36,21 @@ class ContractDetailsPage extends React.Component<IProps, IState> {
   }
 
   render() {
-    return this.state.loading ? 'Loading...' : <ContractCard contract={this.state.contract} />;
+    const { loading } = this.state;
+    const editing = this.props.match.params.edit === 'edit';
+
+    if (loading) {
+      return null; // TODO: placeholder form
+    }
+
+    if (editing) {
+      return <ContractForm
+        context="CREATE"
+        store={contractService}
+      />
+    }
+
+    return <ContractCard contract={this.state.contract} />;
   }
 }
 

@@ -8,8 +8,8 @@ interface IContractSearchService {
 class ContractSearchService implements IContractSearchService {
   @observable list: Contract.IContractShort[] = [];
 
-  constructor() { // TODO:
-    // this.search(null);
+  clearList = () => {
+    this.setContractList([]);
   }
 
   @action
@@ -21,6 +21,15 @@ class ContractSearchService implements IContractSearchService {
   search = (obj: Contract.IContractFull) => {
     axios
       .get(`/core/contract?salary=1000000`)
+      .then(({ data }: any) => {
+        this.setContractList(data.results);
+      });
+  }
+
+  @action
+  getMyContracts = () => {
+    axios
+      .get(`/core/contract/my_contracts`)
       .then(({ data }: any) => {
         this.setContractList(data.results);
       });

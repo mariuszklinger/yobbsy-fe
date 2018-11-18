@@ -50,8 +50,6 @@ const styles = (theme: any) => ({
     flexWrap: 'wrap',
   },
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
     flex: 'auto',
   },
 });
