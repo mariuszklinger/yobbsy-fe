@@ -1,8 +1,18 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { withStyles } from '@material-ui/core/styles';
 
-import { TextField, Dialog, DialogTitle, DialogContent, DialogContentText, StyleRulesCallback, Button, LinearProgress } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+import {
+  TextField,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  StyleRulesCallback,
+  Button,
+  LinearProgress
+} from '@material-ui/core';
+
 import userService from 'src/services/user.service';
 import appService from 'src/services/app.service';
 
@@ -23,7 +33,7 @@ interface IState {
 @observer
 class LogInForm extends React.Component<IProps, IState> {
   state: IState = {
-    username: 'mariusz',
+    username: 'hunter',
     password: 'admin',
     password2: '',
     type: 'LOGIN'

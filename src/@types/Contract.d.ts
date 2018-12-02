@@ -27,6 +27,8 @@ declare namespace Contract {
     locations: ILocation[],
     skills: ISkill[],
     notice: number,
+    created?: string,
+    modified?: string,
   }
 
   interface IContractFull extends IContractShort{

@@ -1,14 +1,14 @@
 import * as React from 'react';
+import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react';
+
 import {
   withStyles,
   StyleRulesCallback,
   Badge,
 } from '@material-ui/core';
-
 import IconButton from '@material-ui/core/IconButton';
-
 import AddIcon from '@material-ui/icons/Add';
 import MailIcon from '@material-ui/icons/Mail';
 import PersonIcon from '@material-ui/icons/Person';
@@ -19,7 +19,6 @@ import CardTravelIcon from '@material-ui/icons/CardTravel';
 import userService from '../services/user.service';
 
 import './AppBar.scss';
-import classNames from 'classnames';
 
 interface IProps {
   classes: any;
@@ -42,31 +41,37 @@ class MyAppBar extends React.Component<IProps> {
           </Link>
         </IconButton>
 
-        <IconButton
-          color="inherit"
-          title="Add new contract"
-        >
-          <Link to="/">
-            <AddIcon style={{ color: '#FFF' }} />
-          </Link>
-        </IconButton>
+        { userService.isEmployee &&
+          <IconButton
+            color="inherit"
+            title="Add new contract"
+          >
+            <Link to="/new-contract">
+              <AddIcon style={{ color: '#FFF' }} />
+            </Link>
+          </IconButton>
+        }
 
-        <IconButton
-          color="inherit"
-          title="My contracts"
-        >
-          <Link to="/my-contracts">
-            <CardTravelIcon style={{ color: '#FFF' }} />
-          </Link>
-        </IconButton>
+        { userService.isEmployee &&
+          <IconButton
+            color="inherit"
+            title="My contracts"
+          >
+            <Link to="/my-contracts">
+              <CardTravelIcon style={{ color: '#FFF' }} />
+            </Link>
+          </IconButton>
+        }
 
-        <IconButton
-          color="inherit"
-        >
-          <Link to="/search">
-            <SearchIcon style={{ color: '#FFF' }} />
-          </Link>
-        </IconButton>
+        { userService.isHunter &&
+          <IconButton
+            color="inherit"
+          >
+            <Link to="/search">
+              <SearchIcon style={{ color: '#FFF' }} />
+            </Link>
+          </IconButton>
+        }
 
         <IconButton
           color="inherit"
@@ -75,27 +80,29 @@ class MyAppBar extends React.Component<IProps> {
           <PersonIcon style={{ color: '#FFF' }} />
         </IconButton>
 
-        <IconButton
-          color="inherit"
-          aria-label="4 pending messages"
-        >
-          { showBadgeCount &&
-            <Badge
-              color="secondary"
-              badgeContent={(userService.userData.pending || []).length}
-            >
+        { userService.isLoggedIn &&
+          <IconButton
+            color="inherit"
+            aria-label="4 pending messages"
+          >
+            { showBadgeCount &&
+              <Badge
+                color="secondary"
+                badgeContent={(userService.userData.pending || []).length}
+              >
+                <Link to="/offers">
+                  <MailIcon style={{ color: '#FFF' }} />
+                </Link>
+              </Badge>
+            }
+
+            { !showBadgeCount &&
               <Link to="/offers">
                 <MailIcon style={{ color: '#FFF' }} />
               </Link>
-            </Badge>
-          }
-
-          { !showBadgeCount &&
-            <Link to="/offers">
-              <MailIcon style={{ color: '#FFF' }} />
-            </Link>
-          }
-        </IconButton>
+            }
+          </IconButton>
+        }
       </div>
     );
   }

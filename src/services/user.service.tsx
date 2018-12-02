@@ -11,6 +11,13 @@ class UserService implements IUserService {
   @observable userData: any = {};
   @observable isLogInFormOpened: boolean = false;
 
+  constructor() {
+    const user = localStorage.getItem('userData');
+    if (user) {
+      this.setUserData({ data: JSON.parse(user) });
+    }
+  }
+
   @computed get isLoggedIn() {
     return !!this.userData.token;
   }
@@ -20,7 +27,7 @@ class UserService implements IUserService {
   }
 
   @computed get isEmployee() {
-    return !!this.userData.hunter;
+    return !!this.userData.employee;
   }
 
   @action
@@ -30,12 +37,14 @@ class UserService implements IUserService {
   closeLoginForm = () => this.isLogInFormOpened = false
 
   @action
-  setUserData = (data: any) => {
+  setUserData = ({ data }: any) => {
     this.userData = data;
     this.setAuthToken();
+
+    localStorage.setItem('userData', JSON.stringify(data));
   }
 
-  setAuthToken() {
+  setAuthToken = () => {
     const token = `Token ${this.userData.token}`
     axios.defaults.headers.common.Authorization = token;
   }
@@ -50,7 +59,7 @@ class UserService implements IUserService {
     };
 
     axios.post('/core/api-token-auth', formdata, config)
-      .then(({ data }: any) => this.setUserData(data))
+      .then(this.setUserData)
       .then(this.closeLoginForm);
   }
 }

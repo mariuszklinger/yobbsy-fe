@@ -10,6 +10,7 @@ import Snackbar from './components/Snackbar';
 import LogInForm from './components/LoginForm';
 import MyAppBar from './components/AppBar';
 
+import HomePage from './pages/home.page';
 import SearchPage from './pages/search.page';
 import ContractDetailsPage from './pages/contract-details.page';
 import MyContractsPage from './pages/my-contracts.page';
@@ -32,11 +33,11 @@ class App extends React.Component {
             <MyAppBar />
 
             <div className="app">
-              <Route path="/" exact={true} render={createContractForm} />
+              <Route path="/" exact={true} component={HomePage} />
+              <Route path="/new-contract" exact={true} render={createContractForm} />
               <Route path="/contract/:id([0-9]+)/:edit?" component={ContractDetailsPage} />
-              {/* <Route path="/contract/:id([0-9]+/:edit?)" component={ContractDetailsPage} /> */}
-              <Route path="/offers" component={OfferList} />
               <Route path="/my-contracts" component={MyContractsPage} />
+              <Route path="/offers" component={OfferList} />
               <Route path="/search" component={SearchPage} />
             </div>
           </>

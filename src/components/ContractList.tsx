@@ -2,6 +2,7 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 
 import ContractCard from './ContractCard';
+import contractSearchService from 'src/services/contract-search.service';
 
 import './ContractList.scss';
 
@@ -13,6 +14,11 @@ interface IProps {
 
 @observer
 class ContractList extends React.Component<IProps> {
+  constructor(props: IProps) {
+    super(props);
+    contractSearchService.clearList();
+  }
+
   render() {
     const { list } = this.props.store;
     const { children, editable } = this.props;

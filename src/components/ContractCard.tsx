@@ -5,19 +5,27 @@ import { Typography } from '@material-ui/core';
 import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 
+import OfferForm from './OfferForm';
+
 import userService from '../services/user.service';
 import contractService from '../services/contract.service';
 
 import './ContractCard.scss';
 
-interface IContractCardProps {
+interface IProps {
   contract: Contract.IContractShort;
   editable?: boolean;
 }
 
-class ContractCard extends React.Component<IContractCardProps> {
-  state = {
+interface IState {
+  deleted: boolean;
+  requestFormOpened: boolean;
+}
+
+class ContractCard extends React.Component<IProps, IState> {
+  state: IState = {
     deleted: false,
+    requestFormOpened: false,
   }
 
   deleteContract = () => {
@@ -29,18 +37,18 @@ class ContractCard extends React.Component<IContractCardProps> {
       .then(markAsDeleted)
   }
 
+  toggleRequestForm = () => {
+    this.setState((prev) => ({ requestFormOpened: !prev.requestFormOpened }))
+  }
+
   render() {
     const { contract, editable } = this.props;
-
-    // const userId = userService.userData.user.id;
-    // const isEmployee = userService.isEmployee;
+    const { requestFormOpened } = this.state;
     const isHunter = userService.isHunter;
 
     if (this.state.deleted) {
       return null;
     }
-
-    // const isContractOwner = userId === contract.profile.
 
     return (
       <div className="contract-card">
@@ -52,6 +60,7 @@ class ContractCard extends React.Component<IContractCardProps> {
             <b>{ contract.title }</b>
           </Link>
         </Typography>
+        { contract.created } / { contract.modified }
 
         <div className="contract-card__skills-wrapper">
           { contract.skills && contract.skills.map((skill: any) =>
@@ -97,6 +106,7 @@ class ContractCard extends React.Component<IContractCardProps> {
           { isHunter &&
             <Button
               variant="outlined"
+              onClick={this.toggleRequestForm}
               color="secondary">
               Request contact
             </Button>
@@ -119,6 +129,13 @@ class ContractCard extends React.Component<IContractCardProps> {
                 Delete
               </Button>
             </>
+          }
+
+          { requestFormOpened &&
+            <OfferForm
+              contract={contract}
+              onClose={this.toggleRequestForm}
+            />
           }
         </div>
       </div>

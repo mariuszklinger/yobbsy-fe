@@ -26,7 +26,6 @@ class MyContractsPage extends React.Component<{}> {
               fontWeight: 'bold',
               paddingLeft: '50px',
               marginBottom: '50px',
-              borderBottom: '5px solid #f50057'
             }}
           >
             Your posted jobs

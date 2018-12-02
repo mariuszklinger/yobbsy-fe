@@ -1,4 +1,7 @@
 import * as React from 'react';
+import classNames from 'classnames';
+import { observer } from 'mobx-react';
+import { toJS } from 'mobx';
 
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
@@ -16,12 +19,10 @@ import TagSelect from './TagSelect';
 import ContractService, { IContractService } from '../services/contract.service';
 import ContractSearchService from '../services/contract-search.service';
 import userService from '../services/user.service';
+
 import { currencies, notices } from '../consts/dicts';
 
 import './ContractForm.scss';
-import { observer } from 'mobx-react';
-import { toJS } from 'mobx';
-import classNames from 'classnames';
 
 interface IProps {
   classes: any;
@@ -52,36 +53,39 @@ class ContractForm extends React.Component<IProps, IState> {
     store.setContract(contract);
   }
 
-  handleSwitch = (name: string) => (event: any) => {
+  handleSwitch = (event: any) => {
     this.setState({ createAccount: event.target.checked });
   }
 
   handleMultiSelect = (key: string) => (values: any) => {
+    const { store } = this.props;
     const contract = {
-      ...this.props.store.contract,
+      ...store.contract,
       [key]: [ ...values ]
     };
 
-    this.props.store.setContract(contract);
+    store.setContract(contract);
   }
 
   handleSkillSelect = (values: any) => {
+    const { store } = this.props;
     const skills = [...values]
       .map((record: any) => ({ proficiency: 10, tag: toJS(record)}));
 
     const contract = {
-      ...this.props.store.contract,
+      ...store.contract,
       skills,
     };
 
-    this.props.store.setContract(contract);
+    store.setContract(contract);
   }
 
   onSubmit = (event: any) => {
-    const submitAction = this.inCreateContext() ?
-      ContractService.save : ContractSearchService.getMyContracts;
+    const save = ContractService.save;
+    const search = ContractSearchService.search;
+    const action = this.inCreateContext() ? save : search;
 
-    submitAction(this.props.store.contract);
+    action();
     event.preventDefault();
   }
 
@@ -202,10 +206,10 @@ class ContractForm extends React.Component<IProps, IState> {
               style={{ textAlign: 'left' }}
               variant="subtitle1"
             >
-              Create account?
+              Create password?
               <Switch
                 checked={this.state.createAccount}
-                onChange={this.handleSwitch('createAccount')}
+                onChange={this.handleSwitch}
                 value="createAccount"
                 color="secondary"
               />
@@ -225,7 +229,7 @@ class ContractForm extends React.Component<IProps, IState> {
             />
             { contract.password && (
               <TextField
-                label="Repeat assword"
+                label="Repeat password"
                 className={classes.textField}
                 type="email"
                 name="email"

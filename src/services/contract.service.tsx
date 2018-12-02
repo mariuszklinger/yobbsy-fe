@@ -97,8 +97,8 @@ class ContractService implements IContractService {
       .then(({ data }) => callback(data.results));
   }
 
-  save(obj: Contract.IContractFull) {
-    const contract = getContractJson(obj);
+  save = () => {
+    const contract = getContractJson(this.contract);
     const method = contract.id ? axios.put : axios.post;
     const url = contract.id ? `/core/contract/${contract.id}` : '/core/contract';
 

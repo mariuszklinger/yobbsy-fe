@@ -18,12 +18,13 @@ class ContractSearchService implements IContractSearchService {
   }
 
   @action
-  search = (obj: Contract.IContractFull) => {
+  search = () => {
     axios
       .get(`/core/contract?salary=1000000`)
       .then(({ data }: any) => {
         this.setContractList(data.results);
-      });
+      })
+      .catch((error) => { console.log(error)});
   }
 
   @action
@@ -32,7 +33,7 @@ class ContractSearchService implements IContractSearchService {
       .get(`/core/contract/my_contracts`)
       .then(({ data }: any) => {
         this.setContractList(data.results);
-      });
+      }, this.clearList);
   }
 }
 
