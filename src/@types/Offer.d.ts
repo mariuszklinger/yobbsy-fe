@@ -5,6 +5,7 @@ declare namespace Offer {
     approved: boolean,
     pending: boolean,
     hunter: number,
+    feedback: string,
     description: string,
     link: string,
     modified: string,

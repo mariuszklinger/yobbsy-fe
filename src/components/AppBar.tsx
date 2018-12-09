@@ -103,6 +103,8 @@ class MyAppBar extends React.Component<IProps> {
             }
           </IconButton>
         }
+        { userService.isEmployee && <b>Worker</b> }
+        { userService.isHunter && <b>Hunter</b> }
       </div>
     );
   }

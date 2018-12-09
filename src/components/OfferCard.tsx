@@ -1,12 +1,17 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import { observer } from 'mobx-react';
 
 import { Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 
-import './ContractCard.scss';
 import userService from 'src/services/user.service';
-import { observer } from 'mobx-react';
+// import offerService from 'src/services/offer.service';
+
+import Date from './Date';
+import './ContractCard.scss';
 
 interface IProps {
   offer: Offer.IOffer;
@@ -16,7 +21,7 @@ interface IProps {
 class OfferCard extends React.Component<IProps> {
   render() {
     const { offer } = this.props;
-    const { details } = offer;
+    const { details, pending } = offer;
 
     return (
       <div className="contract-card">
@@ -25,7 +30,8 @@ class OfferCard extends React.Component<IProps> {
           variant="h5"
         >
           <Link to={`/contract/${details.id}`}>
-            <b>{ details.title }</b>
+            { pending && <b>{ details.title }</b> }
+            { !pending && details.title }
           </Link>
         </Typography>
 
@@ -33,26 +39,33 @@ class OfferCard extends React.Component<IProps> {
           align="left"
           variant="h6"
         >
-          { offer.modified }
-          { offer.description }
+          <Date dateStr={ offer.modified } />
+          <p>
+            <ChatBubbleOutlineIcon />{ offer.description }
+          </p>
         </Typography>
 
-        { userService.isEmployee &&
-          <Button
-            variant="outlined"
-            color="secondary"
-          >
-            Accept offer
-          </Button>
+        { !offer.pending &&
+          <div>
+            <p><CheckCircleOutlineIcon /> { offer.feedback }</p>
+          </div>
         }
 
-        { userService.isEmployee &&
-          <Button
-          >
-            Decline offer
-          </Button>
-        }
+        { offer.pending && userService.isEmployee &&
+          <div>
+            <Button
+              variant="outlined"
+              color="secondary"
+            >
+              Accept offer
+            </Button>
 
+            <Button
+            >
+              Decline offer
+            </Button>
+          </div>
+        }
       </div>
     );
   }

@@ -5,6 +5,7 @@ import { Typography } from '@material-ui/core';
 import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 
+import Date from './Date';
 import OfferForm from './OfferForm';
 
 import userService from '../services/user.service';
@@ -57,10 +58,11 @@ class ContractCard extends React.Component<IProps, IState> {
           variant="h5"
         >
           <Link to={`/contract/${contract.id}`}>
-            <b>{ contract.title }</b>
+            { contract.title }
           </Link>
         </Typography>
-        { contract.created } / { contract.modified }
+
+        <Date dateStr={ contract.modified } />
 
         <div className="contract-card__skills-wrapper">
           { contract.skills && contract.skills.map((skill: any) =>
@@ -113,22 +115,17 @@ class ContractCard extends React.Component<IProps, IState> {
           }
 
           { editable &&
-            <>
+            <Typography
+              align="right"
+            >
               <Link to={`/contract/${contract.id}/edit`}>
-                <Button
-                  variant="outlined"
-                  color="secondary">
-                  Edit
-                </Button>
+                Edit
               </Link>
-
-              <Button
-                variant="outlined"
-                onClick={this.deleteContract}
-                color="secondary">
+              &nbsp;
+              <Link to={`/contract/${contract.id}/edit`}>
                 Delete
-              </Button>
-            </>
+              </Link>
+            </Typography>
           }
 
           { requestFormOpened &&

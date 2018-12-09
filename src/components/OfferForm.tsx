@@ -40,14 +40,13 @@ class OfferForm extends React.Component<IProps, IState> {
     };
 
     this.setState({ ...form });
-    debugger;
   }
 
   handleSubmit = (event: any) => {
     const { message } = this.state;
-    const { contract: { id } } = this.props;
+    const { onClose, contract: { id } } = this.props;
 
-    offerService.createOffer(id, message);
+    offerService.createOffer(id, message).then(onClose);
     event.preventDefault();
   }
 
@@ -66,8 +65,7 @@ class OfferForm extends React.Component<IProps, IState> {
           id="responsive-dialog-title"
           className={classes.textField}
         >
-          Log in or create new account. <br />
-          We DO NOT share any of your personal details.
+          Offer job
         </DialogTitle>
 
         { appService.isLoading && <LinearProgress /> }
@@ -75,7 +73,8 @@ class OfferForm extends React.Component<IProps, IState> {
           <DialogContentText
             className={classes.textField}
           >
-            Log in and start your prey for job
+            Describe your offer, include as much details as you can.
+            (it will cost you 1 credit)
           </DialogContentText>
 
           <form
@@ -84,7 +83,7 @@ class OfferForm extends React.Component<IProps, IState> {
           >
             <TextField
               label="Message"
-              value='asdasda'
+              value={this.state.message}
               margin="normal"
               rows="5"
               multiline={true}
