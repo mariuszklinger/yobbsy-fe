@@ -1,5 +1,4 @@
 import * as React from 'react';
-import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react';
 
@@ -17,8 +16,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import CardTravelIcon from '@material-ui/icons/CardTravel';
 
 import userService from '../services/user.service';
-
-import './AppBar.scss';
+import offerService from '../services/offer.service';
 
 interface IProps {
   classes: any;
@@ -26,85 +24,93 @@ interface IProps {
 
 @observer
 class MyAppBar extends React.Component<IProps> {
+  getUnreadCount() {
+    const isHunter = userService.isHunter;
+    const filter = isHunter ?
+      (offer: Offer.IOffer) => !offer.seen :
+      (offer: Offer.IOffer) => offer.pending;
+
+    return offerService.list.filter(filter).length;
+  }
+
   render() {
     const { classes } = this.props;
-    const showBadgeCount = !!(userService.userData.pending || []).length;
+    const offerCount = this.getUnreadCount();
 
     return (
-      <div className={classNames(classes.appbar, 'appbar-wrapper')}>
+      <div className={classes.appbar}>
 
-        <IconButton
-          color="inherit"
-        >
-          <Link to="/">
-            <HomeIcon style={{ color: '#FFF' }} />
-          </Link>
-        </IconButton>
+        <Link to="/">
+          <IconButton
+            className={classes.icon}
+          >
+            <HomeIcon />
+          </IconButton>
+        </Link>
 
         { userService.isEmployee &&
-          <IconButton
-            color="inherit"
-            title="Add new contract"
-          >
-            <Link to="/new-contract">
-              <AddIcon style={{ color: '#FFF' }} />
-            </Link>
-          </IconButton>
+          <Link to="/new-contract">
+            <IconButton
+              color="inherit"
+              title="Add new contract"
+              >
+              <AddIcon className={classes.icon} />
+            </IconButton>
+          </Link>
         }
 
         { userService.isEmployee &&
-          <IconButton
-            color="inherit"
-            title="My contracts"
-          >
-            <Link to="/my-contracts">
-              <CardTravelIcon style={{ color: '#FFF' }} />
-            </Link>
-          </IconButton>
+          <Link to="/my-contracts">
+            <IconButton
+              color="inherit"
+              title="My contracts"
+            >
+                <CardTravelIcon className={classes.icon} />
+            </IconButton>
+          </Link>
         }
 
         { userService.isHunter &&
-          <IconButton
-            color="inherit"
-          >
-            <Link to="/search">
-              <SearchIcon style={{ color: '#FFF' }} />
-            </Link>
-          </IconButton>
+          <Link to="/search">
+            <IconButton
+              color="inherit"
+            >
+                <SearchIcon className={classes.icon} />
+            </IconButton>
+          </Link>
         }
 
         <IconButton
           color="inherit"
           onClick={userService.openLoginForm}
         >
-          <PersonIcon style={{ color: '#FFF' }} />
+          <PersonIcon className={classes.icon} />
         </IconButton>
 
         { userService.isLoggedIn &&
-          <IconButton
-            color="inherit"
-            aria-label="4 pending messages"
-          >
-            { showBadgeCount &&
-              <Badge
-                color="secondary"
-                badgeContent={(userService.userData.pending || []).length}
-              >
-                <Link to="/offers">
-                  <MailIcon style={{ color: '#FFF' }} />
-                </Link>
-              </Badge>
-            }
+          <Link to="/offers">
+            <IconButton
+              color="inherit"
+              aria-label="4 pending messages"
+            >
+              { !!offerCount &&
+                <Badge
+                  color="secondary"
+                  badgeContent={offerCount}
+                >
+                  <MailIcon className={classes.icon} />
+                </Badge>
+              }
 
-            { !showBadgeCount &&
-              <Link to="/offers">
-                <MailIcon style={{ color: '#FFF' }} />
-              </Link>
-            }
-          </IconButton>
+              { !offerCount &&
+                <MailIcon className={classes.icon} />
+              }
+            </IconButton>
+          </Link>
         }
-        { userService.isEmployee && <b>Worker</b> }
-        { userService.isHunter && <b>Hunter</b> }
+
+        { userService.isEmployee && <b>#{userService.userData.id} Worker</b> }
+        { userService.isHunter && <b>#{userService.userData.id} Hunter</b> }
       </div>
     );
   }
@@ -113,7 +119,15 @@ class MyAppBar extends React.Component<IProps> {
 const styles = (theme: any) => ({
   appbar: {
     backgroundColor: theme.palette.primary.main,
+    color: theme.palette.common.white,
+    height: '100%',
+    position: 'fixed',
+    textAlign: 'center',
+    width: 52,
   },
+  icon: {
+    color: theme.palette.common.white,
+  }
 });
 
 export default withStyles(styles as StyleRulesCallback<string>)(MyAppBar);

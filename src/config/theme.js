@@ -1,16 +1,19 @@
 import { createMuiTheme } from '@material-ui/core';
 
 const theme = createMuiTheme({
+  typography: {
+    useNextVariants: true,
+  },
+
   spacing: {
     unit: 30,
   },
 
-  // palette: {
-  //   primary: '#009688',
-  //   secondary: {
-  //     main: '#e91e63',
-  //   },
-  // },
+  palette: {
+    secondary: {
+      main: '#e91e63',
+    },
+  },
 
   overrides: {
     // Name of the component ⚛️ / style sheet

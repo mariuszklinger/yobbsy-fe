@@ -12,13 +12,27 @@ import userService from 'src/services/user.service';
 
 import Date from './Date';
 import './ContractCard.scss';
+import FeedbackForm from './FeedbackForm';
 
 interface IProps {
   offer: Offer.IOffer;
 }
 
+interface IState {
+  feedbackFormOpened: boolean;
+  accept: boolean;
+}
+
 @observer
-class OfferCard extends React.Component<IProps> {
+class OfferCard extends React.Component<IProps, IState> {
+  state = {
+    feedbackFormOpened: false,
+    accept: true,
+  }
+
+  openFeedbackForm = (accept: boolean) => () => this.setState({ feedbackFormOpened: true, accept, })
+  closeFeedbackForm = () => this.setState({ feedbackFormOpened: false })
+
   render() {
     const { offer } = this.props;
     const { details, pending } = offer;
@@ -56,14 +70,24 @@ class OfferCard extends React.Component<IProps> {
             <Button
               variant="outlined"
               color="secondary"
+              onClick={this.openFeedbackForm(true)}
             >
               Accept offer
             </Button>
 
             <Button
+              onClick={this.openFeedbackForm(false)}
             >
               Decline offer
             </Button>
+
+            {this.state.feedbackFormOpened &&
+              <FeedbackForm
+                onClose={this.closeFeedbackForm}
+                offer={offer}
+                accept={this.state.accept}
+              />
+            }
           </div>
         }
       </div>

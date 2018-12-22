@@ -43,15 +43,7 @@ class App extends React.Component {
           </>
         </Router>
 
-        <Snackbar
-          message="Success!"
-          variant="success"
-        />
-
-        <Snackbar
-          message="Error occured..."
-          variant="error"
-        />
+        <Snackbar />
 
         <LogInForm />
       </MuiThemeProvider>

@@ -49,13 +49,22 @@ const styles = (theme: any) => ({
   },
 });
 
+interface IProps {
+  classes: any;
+}
+
 @observer
-class MySnackbar extends React.Component<any> {
-  hide = () => AppService.hideToaster(this.props.variant)
+class MySnackbar extends React.Component<IProps> {
 
   render() {
-    const { classes, className, message, onClose, variant, open, ...other } = this.props;
+    const { classes } = this.props;
+    const variant = AppService.toasterType;
+    const message = AppService.toasterMessage;
     const Icon = variantIcon[variant];
+
+    if (!AppService.toasterActive) {
+      return null;
+    }
 
     return (
       <Snackbar
@@ -63,12 +72,12 @@ class MySnackbar extends React.Component<any> {
           vertical: 'bottom',
           horizontal: 'left',
         }}
-        open={AppService[variant]}
+        open={AppService.toasterActive}
         autoHideDuration={3000}
-        onClose={this.hide}
+        onClose={AppService.hideToaster}
       >
         <SnackbarContent
-          className={classNames(classes[variant], className)}
+          className={classes[variant]}
           message={
             <span className={classes.message}>
               <Icon className={classNames(classes.icon, classes.iconVariant)} />
@@ -80,24 +89,15 @@ class MySnackbar extends React.Component<any> {
               key="close"
               color="inherit"
               className={classes.close}
-              onClick={onClose}
+              onClick={AppService.hideToaster}
             >
               <CloseIcon className={classes.icon} />
             </IconButton>,
           ]}
-          {...other}
         />
       </Snackbar>
     );
   }
 }
-
-// MySnackbarContent.propTypes = {
-//   classes: PropTypes.object.isRequired,
-//   className: PropTypes.string,
-//   message: PropTypes.node,
-//   onClose: PropTypes.func,
-//   variant: PropTypes.oneOf(['success', 'warning', 'error', 'info']).isRequired,
-// };
 
 export default withStyles(styles)(MySnackbar);

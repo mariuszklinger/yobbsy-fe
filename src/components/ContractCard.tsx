@@ -24,7 +24,7 @@ interface IState {
 }
 
 class ContractCard extends React.Component<IProps, IState> {
-  state: IState = {
+  state = {
     deleted: false,
     requestFormOpened: false,
   }
@@ -122,7 +122,7 @@ class ContractCard extends React.Component<IProps, IState> {
                 Edit
               </Link>
               &nbsp;
-              <Link to={`/contract/${contract.id}/edit`}>
+              <Link to={'/my-contracts'} onClick={this.deleteContract}>
                 Delete
               </Link>
             </Typography>

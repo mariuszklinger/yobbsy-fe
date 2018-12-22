@@ -7,7 +7,10 @@ interface IContractService {
 
 class AppService implements IContractService {
   @observable isLoading: boolean = false;
-  @observable success: boolean = false;
+
+  @observable toasterActive: boolean = false;
+  @observable toasterType: Common.ToasterType = null;
+  @observable toasterMessage: string = null;
 
   @action
   loadingStart = () => {
@@ -21,12 +24,14 @@ class AppService implements IContractService {
 
   @action
   showToaster = (name: Common.ToasterType, msg?: string) => {
-    this[name] = true;
+    this.toasterActive = true;
+    this.toasterType = name;
+    this.toasterMessage = msg;
   }
 
   @action
-  hideToaster = (name: Common.ToasterType, msg?: string) => {
-    this[name] = false;
+  hideToaster = () => {
+    this.toasterActive = false;
   }
 
 }

@@ -1,8 +1,8 @@
-// TODO:
 declare namespace Offer {
   interface IOffer {
     id: number,
     approved: boolean,
+    seen: boolean,
     pending: boolean,
     hunter: number,
     feedback: string,
@@ -12,11 +12,3 @@ declare namespace Offer {
     details: Contract.IContractFull,
   }
 }
-
-// "approved": true,
-// "pending": true,
-// "contract": 1,
-// "hunter": 1,
-// "description": "sdadasdasd\n",
-// "modified": null,
-// "link": "http://sadasdasd.pl"

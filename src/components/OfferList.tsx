@@ -3,8 +3,8 @@ import { observer } from 'mobx-react';
 
 import OfferCard from './OfferCard';
 
-import './ContractList.scss';
 import offerService from 'src/services/offer.service';
+import './ContractList.scss';
 
 @observer
 class OffertList extends React.Component {

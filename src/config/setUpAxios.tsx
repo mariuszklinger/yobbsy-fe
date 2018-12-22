@@ -1,4 +1,6 @@
 import axios from 'axios';
+import get from 'lodash-es/get';
+
 import AppService from '../services/app.service';
 
 axios.defaults.baseURL = 'http://localhost:8000';
@@ -13,14 +15,21 @@ const onRequestStop = (config: any) => {
   return config;
 }
 
-const getResponseCallback = (cbType: 'success' | 'error') => (response: any) => {
-  const { config } = response;
+const getResponseCallback = (cbType: Common.ToasterType) => (data: any) => {
+  const { config } = data;
+
+  const DEFAULT_MESSAGE = {
+    'success': 'Success!',
+    'error': 'Error occured'
+  }
+
   AppService.loadingStop();
 
   if (config.method !== 'get') {
-    AppService.showToaster(cbType as Common.ToasterType.SUCCESS);
+    const message = get(data, 'response.data.error', DEFAULT_MESSAGE[cbType]);
+    AppService.showToaster(cbType, message);
   }
-  return response;
+  return data;
 }
 
 axios.interceptors.request.use(onRequestStart, onRequestStop);

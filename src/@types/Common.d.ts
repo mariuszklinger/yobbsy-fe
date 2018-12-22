@@ -1,6 +1,3 @@
 declare namespace Common {
-  enum ToasterType {
-    SUCCESS = 'success',
-    ERROR = 'error',
-  }
+  type ToasterType = 'success' | 'error',
 }

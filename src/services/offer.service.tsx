@@ -10,7 +10,7 @@ class OfferService {
     this.list = list;
   }
 
-  async answer(offerId: number, approved: boolean, feedback: string) {
+  answer = async (offerId: number, approved: boolean, feedback: string) => {
     const params = {
       approved,
       feedback,
@@ -32,7 +32,7 @@ class OfferService {
       .then(({ data }) => console.log(data));
   }
 
-  async getOffers() {
+  getOffers = async () => {
     const onGetOffers = ({ data }: AxiosResponse) => {
       this.setOffers(data.results);
     };

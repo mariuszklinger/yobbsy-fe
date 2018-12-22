@@ -1,5 +1,8 @@
 import { observable, action, computed } from "mobx";
 import axios from 'axios';
+import get from 'lodash-es/get';
+
+import offerService from './offer.service';
 
 interface IUserService {
   isLoggedIn: boolean,
@@ -8,26 +11,27 @@ interface IUserService {
 }
 
 class UserService implements IUserService {
-  @observable userData: any = {};
+  @observable userData: User.IUser = null;
   @observable isLogInFormOpened: boolean = false;
 
   constructor() {
     const user = localStorage.getItem('userData');
     if (user) {
       this.setUserData({ data: JSON.parse(user) });
+      offerService.getOffers();
     }
   }
 
   @computed get isLoggedIn() {
-    return !!this.userData.token;
+    return !!get(this, 'userData.token', false);
   }
 
   @computed get isHunter() {
-    return !!this.userData.hunter;
+    return !!get(this, 'userData.hunter', false);
   }
 
   @computed get isEmployee() {
-    return !!this.userData.employee;
+    return !!get(this, 'userData.employee', false);
   }
 
   @action
@@ -60,6 +64,7 @@ class UserService implements IUserService {
 
     axios.post('/core/api-token-auth', formdata, config)
       .then(this.setUserData)
+      .then(offerService.getOffers)
       .then(this.closeLoginForm);
   }
 }

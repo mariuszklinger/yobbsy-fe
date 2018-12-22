@@ -20,6 +20,13 @@ export function getContractJson(obj: Contract.IContractFull) {
     country: l.country,
   }));
 
+  contract.skills = obj.skills.map((skill: Contract.ISkill) => ({
+    ...skill,
+    tag: {
+      name: skill.tag.name || skill.tag.label,
+    }
+  }));
+
   return contract;
 }
 
