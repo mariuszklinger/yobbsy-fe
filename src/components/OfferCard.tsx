@@ -2,19 +2,19 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react';
 
-import { Typography } from '@material-ui/core';
+import { Typography, StyleRulesCallback, withStyles } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 
 import userService from 'src/services/user.service';
-// import offerService from 'src/services/offer.service';
 
 import Date from './Date';
-import './ContractCard.scss';
+import { styles } from './ContractCard';
 import FeedbackForm from './FeedbackForm';
 
 interface IProps {
+  classes: any;
   offer: Offer.IOffer;
 }
 
@@ -34,11 +34,11 @@ class OfferCard extends React.Component<IProps, IState> {
   closeFeedbackForm = () => this.setState({ feedbackFormOpened: false })
 
   render() {
-    const { offer } = this.props;
+    const { offer, classes } = this.props;
     const { details, pending } = offer;
 
     return (
-      <div className="contract-card">
+      <div className={classes.card}>
         <Typography
           align="left"
           variant="h5"
@@ -95,4 +95,5 @@ class OfferCard extends React.Component<IProps, IState> {
   }
 }
 
-export default OfferCard;
+const getStyles = () => styles;
+export default withStyles(getStyles as StyleRulesCallback<string>)(OfferCard);

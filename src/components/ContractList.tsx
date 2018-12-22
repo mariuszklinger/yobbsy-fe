@@ -4,8 +4,6 @@ import { observer } from 'mobx-react';
 import ContractCard from './ContractCard';
 import contractSearchService from 'src/services/contract-search.service';
 
-import './ContractList.scss';
-
 interface IProps {
   store: any;
   children?: any;
@@ -31,7 +29,7 @@ class ContractList extends React.Component<IProps> {
     ));
 
     return (
-      <div className="contract-list__wrapper">
+      <div>
         { children }
         { !!list.length && contractList }
         { !list.length && 'No results :(' }

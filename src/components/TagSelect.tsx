@@ -1,12 +1,10 @@
 import * as React from 'react';
+import { observer } from 'mobx-react';
 import AsyncCreatable from 'react-select/lib/AsyncCreatable';
 import { withStyles, StyleRulesCallback } from '@material-ui/core';
-import classNames from 'classnames';
 
 import ContractService from '../services/contract.service';
-
-import './multiselect.scss';
-import { observer } from 'mobx-react';
+import getStyles from '../styles/multiselect';
 
 interface IProps {
   classes: any;
@@ -30,7 +28,7 @@ class TagSelect extends React.Component<IProps> {
         placeholder="Job keyword"
         value={this.getValues()}
         onChange={onChange}
-        className={classNames('multiselect', classes.textField)}
+        className={classes.multiselect}
         components={{ DropdownIndicator: () => null }}
         isMulti={true}
         loadOptions={ContractService.getTags}
@@ -39,14 +37,4 @@ class TagSelect extends React.Component<IProps> {
   }
 }
 
-const styles = (theme: any) => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  textField: {
-    flex: 'auto',
-  },
-});
-
-export default withStyles(styles as StyleRulesCallback<string>)(TagSelect);
+export default withStyles(getStyles as StyleRulesCallback<string>)(TagSelect);

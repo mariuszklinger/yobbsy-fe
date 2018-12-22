@@ -3,8 +3,7 @@ import Async from 'react-select/lib/Async';
 import { withStyles, StyleRulesCallback } from '@material-ui/core';
 
 import ContractService from '../services/contract.service';
-import './multiselect.scss';
-import classNames from 'classnames';
+import getStyles from '../styles/multiselect';
 
 interface IProps {
   classes: any;
@@ -35,7 +34,7 @@ class LocationSelect extends React.Component<IProps> {
         placeholder="Desired locations"
         value={locations}
         onChange={this.onChange}
-        className={classNames('multiselect', classes.textField)}
+        className={classes.multiselect}
         components={{ DropdownIndicator: () => null, }}
         isMulti={true}
         loadOptions={ContractService.getLocations}
@@ -44,14 +43,4 @@ class LocationSelect extends React.Component<IProps> {
   }
 }
 
-const styles = (theme: any) => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  textField: {
-    flex: 'auto',
-  },
-});
-
-export default withStyles(styles as StyleRulesCallback<string>)(LocationSelect);
+export default withStyles(getStyles as StyleRulesCallback<string>)(LocationSelect);

@@ -23,8 +23,6 @@ import userService from '../services/user.service';
 
 import { currencies, notices } from '../consts/dicts';
 
-import './ContractForm.scss';
-
 interface IProps {
   classes: any;
   context: 'SEARCH' | 'CREATE';
@@ -99,7 +97,7 @@ class ContractForm extends React.Component<IProps, IState> {
     const { contract } = this.props.store;
 
     return (
-      <div className="contract-form__wrapper">
+      <div className={classes.contractForm}>
         <form
           className={classes.container}
           onSubmit={this.onSubmit}
@@ -257,6 +255,7 @@ class ContractForm extends React.Component<IProps, IState> {
   }
 }
 
+
 const styles = (theme: any) => ({
   container: {
     display: 'flex',
@@ -264,19 +263,21 @@ const styles = (theme: any) => ({
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
   },
+  contractForm: {
+    paddingTop: 15,
+    paddingLeft: 30,
+    paddingRight: 30,
+    minHeight: '100vh',
+    maxWidth: 450,
+  },
   textField: {
     flex: 'auto',
   },
-
   textField50percent: {
     flex: '0 1 calc(50% - 10px)',
   },
-
-  salary: {
-  },
-
   currency: {
-    marginLeft: '10px',
+    marginLeft: 10,
   }
 });
 

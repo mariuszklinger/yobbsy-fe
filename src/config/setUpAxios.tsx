@@ -29,6 +29,11 @@ const getResponseCallback = (cbType: Common.ToasterType) => (data: any) => {
     const message = get(data, 'response.data.error', DEFAULT_MESSAGE[cbType]);
     AppService.showToaster(cbType, message);
   }
+
+  if (cbType === 'error') {
+    return Promise.reject(data);
+  }
+
   return data;
 }
 

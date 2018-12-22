@@ -62,7 +62,8 @@ class UserService implements IUserService {
       headers: { 'Content-Type': 'multipart/form-data' },
     };
 
-    axios.post('/core/api-token-auth', formdata, config)
+    axios
+      .post('/core/api-token-auth', formdata, config)
       .then(this.setUserData)
       .then(offerService.getOffers)
       .then(this.closeLoginForm);

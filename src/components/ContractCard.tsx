@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 
-import { Typography } from '@material-ui/core';
+import { Typography, StyleRulesCallback, withStyles } from '@material-ui/core';
 import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 
@@ -11,9 +11,8 @@ import OfferForm from './OfferForm';
 import userService from '../services/user.service';
 import contractService from '../services/contract.service';
 
-import './ContractCard.scss';
-
 interface IProps {
+  classes: any;
   contract: Contract.IContractShort;
   editable?: boolean;
 }
@@ -43,7 +42,7 @@ class ContractCard extends React.Component<IProps, IState> {
   }
 
   render() {
-    const { contract, editable } = this.props;
+    const { contract, editable, classes } = this.props;
     const { requestFormOpened } = this.state;
     const isHunter = userService.isHunter;
 
@@ -52,7 +51,7 @@ class ContractCard extends React.Component<IProps, IState> {
     }
 
     return (
-      <div className="contract-card">
+      <div className={classes.card}>
         <Typography
           align="left"
           variant="h5"
@@ -64,7 +63,7 @@ class ContractCard extends React.Component<IProps, IState> {
 
         <Date dateStr={ contract.modified } />
 
-        <div className="contract-card__skills-wrapper">
+        <div className={classes.skillsWrapper}>
           { contract.skills && contract.skills.map((skill: any) =>
             <Chip
               key={ skill.label || skill.tag.name }
@@ -121,7 +120,7 @@ class ContractCard extends React.Component<IProps, IState> {
               <Link to={`/contract/${contract.id}/edit`}>
                 Edit
               </Link>
-              &nbsp;
+              |
               <Link to={'/my-contracts'} onClick={this.deleteContract}>
                 Delete
               </Link>
@@ -140,4 +139,41 @@ class ContractCard extends React.Component<IProps, IState> {
   }
 }
 
-export default ContractCard;
+const styles = {
+  card: {
+    borderBottom: '1px solid #cacaca',
+    maxWidth: 500,
+    marginBottom: 30,
+    paddingBottom: 30,
+    paddingLeft: 50,
+    paddingRight: 50,
+    textAlign: 'left',
+
+    '& button': {
+      minWidth: 200,
+    },
+
+    '& a button span': {
+      textTransform: 'none',
+      textDecoration: 'none',
+    },
+  },
+
+  skillsWrapper: {
+    marginTop: 10,
+    marginBottom: 10,
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'left',
+
+    '& > div': {
+      marginRight: 5,
+    },
+  },
+}
+
+const getStyles = () => styles;
+
+export { styles };
+
+export default withStyles(getStyles as StyleRulesCallback<string>)(ContractCard);
