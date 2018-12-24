@@ -41,69 +41,53 @@ class MyAppBar extends React.Component<IProps> {
       <div className={classes.appbar}>
 
         <Link to="/">
-          <IconButton
-            className={classes.icon}
-          >
+          <IconButton className={classes.icon}>
             <HomeIcon />
           </IconButton>
         </Link>
 
-        { userService.isEmployee &&
+        { (userService.isEmployee || !userService.isLoggedIn) &&
           <Link to="/new-contract">
-            <IconButton
-              color="inherit"
-              title="Add new contract"
-              >
-              <AddIcon className={classes.icon} />
+            <IconButton className={classes.icon}>
+              <AddIcon />
             </IconButton>
           </Link>
         }
 
         { userService.isEmployee &&
           <Link to="/my-contracts">
-            <IconButton
-              color="inherit"
-              title="My contracts"
-            >
-                <CardTravelIcon className={classes.icon} />
+            <IconButton className={classes.icon}>
+                <CardTravelIcon />
             </IconButton>
           </Link>
         }
 
         { userService.isHunter &&
           <Link to="/search">
-            <IconButton
-              color="inherit"
-            >
-                <SearchIcon className={classes.icon} />
+            <IconButton className={classes.icon}>
+              <SearchIcon className={classes.icon} />
             </IconButton>
           </Link>
         }
 
-        <IconButton
-          color="inherit"
-          onClick={userService.openLoginForm}
-        >
+        <IconButton onClick={userService.openLoginForm}>
           <PersonIcon className={classes.icon} />
         </IconButton>
 
         { userService.isLoggedIn &&
           <Link to="/offers">
-            <IconButton
-              color="inherit"
-              aria-label="4 pending messages"
-            >
+            <IconButton className={classes.icon}>
               { !!offerCount &&
                 <Badge
                   color="secondary"
                   badgeContent={offerCount}
                 >
-                  <MailIcon className={classes.icon} />
+                  <MailIcon />
                 </Badge>
               }
 
               { !offerCount &&
-                <MailIcon className={classes.icon} />
+                <MailIcon />
               }
             </IconButton>
           </Link>
@@ -123,7 +107,7 @@ const styles = (theme: any) => ({
     height: '100%',
     position: 'fixed',
     textAlign: 'center',
-    width: 52,
+    width: 60,
   },
   icon: {
     color: theme.palette.common.white,

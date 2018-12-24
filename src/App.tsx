@@ -16,11 +16,10 @@ import ContractDetailsPage from './pages/contract-details.page';
 import MyContractsPage from './pages/my-contracts.page';
 
 import AppService from './services/app.service';
-import contractService from './services/contract.service';
 
 import theme from './config/theme';
 
-const createContractForm = () => <ContractForm context="CREATE" store={contractService} />;
+const createContractForm = () => <ContractForm context="CREATE" />;
 
 @observer
 class App extends React.Component {

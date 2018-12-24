@@ -1,11 +1,13 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 
+import { withStyles, StyleRulesCallback } from '@material-ui/core';
+
 import ContractCard from './ContractCard';
 import contractSearchService from 'src/services/contract-search.service';
 
 interface IProps {
-  store: any;
+  classes: any;
   children?: any;
   editable?: boolean;
 }
@@ -18,8 +20,8 @@ class ContractList extends React.Component<IProps> {
   }
 
   render() {
-    const { list } = this.props.store;
-    const { children, editable } = this.props;
+    const { list } = contractSearchService;
+    const { classes, editable } = this.props;
 
     const contractList = list.map((c: Contract.IContractShort) => (
       <ContractCard
@@ -29,8 +31,7 @@ class ContractList extends React.Component<IProps> {
     ));
 
     return (
-      <div>
-        { children }
+      <div className={classes.list}>
         { !!list.length && contractList }
         { !list.length && 'No results :(' }
       </div>
@@ -38,4 +39,10 @@ class ContractList extends React.Component<IProps> {
   }
 }
 
-export default ContractList;
+const styles = (theme: any) => ({
+  list: {
+    paddingTop: theme.spacing.unit,
+  }
+});
+
+export default withStyles(styles as StyleRulesCallback<string>)(ContractList);

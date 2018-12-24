@@ -17,7 +17,7 @@ import {
 import LocationSelect from './LocationSelect';
 import TagSelect from './TagSelect';
 
-import ContractService, { IContractService } from '../services/contract.service';
+import ContractService from '../services/contract.service';
 import ContractSearchService from '../services/contract-search.service';
 import userService from '../services/user.service';
 
@@ -25,8 +25,7 @@ import { currencies, notices } from '../consts/dicts';
 
 interface IProps {
   classes: any;
-  context: 'SEARCH' | 'CREATE';
-  store: IContractService;
+  context: 'SEARCH' | 'CREATE' | 'EDIT';
 }
 
 interface IState {
@@ -39,17 +38,17 @@ class ContractForm extends React.Component<IProps, IState> {
     createAccount: false,
   };
 
-  inSearchContext = () => this.props.context === 'SEARCH'
-  inCreateContext = () => this.props.context === 'CREATE'
+  inInSearchMode = () => this.props.context === 'SEARCH'
+  inInCreateMode = () => this.props.context === 'CREATE'
+  inInEditMode = () => this.props.context === 'EDIT'
 
   handleChange = (name: string) => (event: any) => {
-    const { store } = this.props;
     const contract = {
-      ...store.contract,
+      ...ContractService.contract,
       [name]: event.target.value,
     };
 
-    store.setContract(contract);
+    ContractService.setContract(contract);
   }
 
   handleSwitch = (event: any) => {
@@ -57,44 +56,42 @@ class ContractForm extends React.Component<IProps, IState> {
   }
 
   handleMultiSelect = (key: string) => (values: any) => {
-    const { store } = this.props;
     const contract = {
-      ...store.contract,
+      ...ContractService.contract,
       [key]: [ ...values ]
     };
 
-    store.setContract(contract);
+    ContractService.setContract(contract);
   }
 
   handleSkillSelect = (values: any) => {
-    const { store } = this.props;
     const skills = [...values]
       .map((record: any) => ({ proficiency: 10, tag: toJS(record)}));
 
     const contract = {
-      ...store.contract,
+      ...ContractService.contract,
       skills,
     };
 
-    store.setContract(contract);
+    ContractService.setContract(contract);
   }
 
   onSubmit = (event: any) => {
     const save = ContractService.save;
     const search = ContractSearchService.search;
-    const action = this.inCreateContext() ? save : search;
+    const action = this.inInCreateMode() || this.inInEditMode() ? save : search;
 
     action();
     event.preventDefault();
   }
 
   createAccountEnabled = () => {
-    return this.inCreateContext() && !userService.isLoggedIn;
+    return this.inInCreateMode() && !userService.isLoggedIn;
   }
 
   render() {
     const { classes } = this.props;
-    const { contract } = this.props.store;
+    const { contract } = ContractService;
 
     return (
       <div className={classes.contractForm}>
@@ -108,8 +105,9 @@ class ContractForm extends React.Component<IProps, IState> {
             className={classes.textField}
             style={{ fontWeight: 'bold' }}
           >
-            { this.inSearchContext() && 'Find your candidate'}
-            { this.inCreateContext() && 'Post your dream job'}
+            { this.inInSearchMode() && 'Find your candidate'}
+            { this.inInEditMode() && 'Edit your job'}
+            { this.inInCreateMode() && 'Post your dream job'}
           </Typography>
 
           <TextField
@@ -123,7 +121,7 @@ class ContractForm extends React.Component<IProps, IState> {
             helperText="Your dream job position"
           />
 
-          { this.inCreateContext() &&
+          { this.inInCreateMode() &&
             <TextField
               label="Description"
               className={classes.textField}
@@ -219,9 +217,8 @@ class ContractForm extends React.Component<IProps, IState> {
             <TextField
               label="Password"
               className={classes.textField}
-              type="email"
-              name="email"
-              autoComplete="email"
+              type="password"
+              name="password1"
               margin="normal"
               fullWidth={true}
               onChange={this.handleChange('password')}
@@ -230,12 +227,12 @@ class ContractForm extends React.Component<IProps, IState> {
               <TextField
                 label="Repeat password"
                 className={classes.textField}
-                type="email"
-                name="email"
+                type="password"
+                name="password2"
                 autoComplete="email"
                 margin="normal"
                 fullWidth={true}
-                onChange={this.handleChange('password')}
+                onChange={this.handleChange('password2')}
               />
             )}
           </>}
@@ -246,15 +243,15 @@ class ContractForm extends React.Component<IProps, IState> {
             fullWidth={true}
             variant="outlined"
           >
-            { this.inSearchContext() && 'Search'}
-            { this.inCreateContext() && 'Submit'}
+            { this.inInSearchMode() && 'Search'}
+            { this.inInCreateMode() && 'Submit'}
+            { this.inInEditMode() && 'Update'}
           </Button>
         </form>
       </div>
     );
   }
 }
-
 
 const styles = (theme: any) => ({
   container: {
@@ -264,9 +261,9 @@ const styles = (theme: any) => ({
     marginRight: theme.spacing.unit,
   },
   contractForm: {
-    paddingTop: 15,
-    paddingLeft: 30,
-    paddingRight: 30,
+    paddingTop: theme.spacing.unit,
+    paddingLeft: theme.spacing.unit,
+    paddingRight: theme.spacing.unit,
     minHeight: '100vh',
     maxWidth: 450,
   },

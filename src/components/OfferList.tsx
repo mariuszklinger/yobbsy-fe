@@ -4,16 +4,21 @@ import { observer } from 'mobx-react';
 import OfferCard from './OfferCard';
 
 import offerService from 'src/services/offer.service';
-// import './ContractList.scss';
+import { StyleRulesCallback, withStyles } from '@material-ui/core';
+
+interface IProps {
+  classes: any;
+}
 
 @observer
-class OffertList extends React.Component {
+class OffertList extends React.Component<IProps> {
   componentWillMount() {
     offerService.getOffers();
   }
 
   render() {
-    const list:any = offerService.list;
+    const { classes } = this.props;
+    const list: Offer.IOffer[] = offerService.list;
 
     const offerList = list.map((c: any) => (
       <OfferCard
@@ -22,7 +27,7 @@ class OffertList extends React.Component {
     ));
 
     return (
-      <div className="contract-list__wrapper">
+      <div className={classes.list}>
         { !!list.length && offerList }
         { !list.length && 'No results :(' }
       </div>
@@ -30,4 +35,10 @@ class OffertList extends React.Component {
   }
 }
 
-export default OffertList;
+const styles = (theme: any) => ({
+  list: {
+    paddingTop: theme.spacing.unit,
+  }
+});
+
+export default withStyles(styles as StyleRulesCallback<string>)(OffertList);

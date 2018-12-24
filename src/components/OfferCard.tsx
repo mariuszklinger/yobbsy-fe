@@ -8,6 +8,7 @@ import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 
 import userService from 'src/services/user.service';
+import offerService from 'src/services/offer.service';
 
 import Date from './Date';
 import { styles } from './ContractCard';
@@ -32,6 +33,14 @@ class OfferCard extends React.Component<IProps, IState> {
 
   openFeedbackForm = (accept: boolean) => () => this.setState({ feedbackFormOpened: true, accept, })
   closeFeedbackForm = () => this.setState({ feedbackFormOpened: false })
+
+  markAsSeen = () => {
+    const { offer } = this.props;
+
+    offerService
+      .markAsSeen(this.props.offer.id)
+      .then(() => offer.seen = true)
+  }
 
   render() {
     const { offer, classes } = this.props;
@@ -63,6 +72,16 @@ class OfferCard extends React.Component<IProps, IState> {
           <div>
             <p><CheckCircleOutlineIcon /> { offer.feedback }</p>
           </div>
+        }
+
+        { !offer.seen && userService.isHunter &&
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={this.markAsSeen}
+          >
+            Mark as read
+          </Button>
         }
 
         { offer.pending && userService.isEmployee &&

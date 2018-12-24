@@ -1,10 +1,14 @@
 import * as React from 'react';
-import { Typography } from '@material-ui/core';
+import { Typography, withStyles, StyleRulesCallback } from '@material-ui/core';
 
 import ContractList from 'src/components/ContractList';
 import contractSearchService from '../services/contract-search.service';
 
-class MyContractsPage extends React.Component<{}> {
+interface IProps {
+  classes: any;
+}
+
+class MyContractsPage extends React.Component<IProps> {
   constructor(props: any) {
     super(props);
 
@@ -13,27 +17,32 @@ class MyContractsPage extends React.Component<{}> {
   }
 
   render() {
+    const { classes } = this.props;
+
     return (
-      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-        <ContractList
-          store={contractSearchService}
-          editable={true}
+      <div className={classes.container}>
+        <Typography
+          align="left"
+          variant="h2"
         >
-          <Typography
-            align="left"
-            variant="h2"
-            style={{
-              fontWeight: 'bold',
-              paddingLeft: '50px',
-              marginBottom: '50px',
-            }}
-          >
-            Your posted jobs
-          </Typography>
-        </ContractList>
+          Your posted jobs
+        </Typography>
+
+        <ContractList
+          editable={true}
+        />
       </div>
     );
   }
 }
 
-export default MyContractsPage;
+const styles = (theme: any) => ({
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+  },
+});
+
+export default withStyles(styles as StyleRulesCallback<string>)(MyContractsPage);

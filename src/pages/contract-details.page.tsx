@@ -3,7 +3,6 @@ import * as React from 'react';
 import ContractCard from './../components/ContractCard';
 import contractService from '../services/contract.service';
 import ContractForm from 'src/components/ContractForm';
-// import contractSearchService from 'src/services/contract.service';
 
 interface IProps {
   match?: any;
@@ -44,10 +43,7 @@ class ContractDetailsPage extends React.Component<IProps, IState> {
     }
 
     if (editing) {
-      return <ContractForm
-        context="CREATE"
-        store={contractService}
-      />
+      return <ContractForm context="EDIT" />
     }
 
     return <ContractCard contract={this.state.contract} />;

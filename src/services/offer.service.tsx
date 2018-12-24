@@ -21,6 +21,12 @@ class OfferService {
       .then(({ data }) => console.log(data));
   }
 
+  markAsSeen = async (offerId: number) => {
+    return axios
+      .put(`/core/offer/${offerId}/mark-as-seen`)
+      .then(({ data }) => console.log(data));
+  }
+
   async createOffer(contractId: number, message: string) {
     const params = {
       description: message,

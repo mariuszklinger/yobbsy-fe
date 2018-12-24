@@ -120,7 +120,7 @@ class ContractCard extends React.Component<IProps, IState> {
               <Link to={`/contract/${contract.id}/edit`}>
                 Edit
               </Link>
-              |
+              &nbsp;&nbsp;
               <Link to={'/my-contracts'} onClick={this.deleteContract}>
                 Delete
               </Link>
@@ -139,14 +139,15 @@ class ContractCard extends React.Component<IProps, IState> {
   }
 }
 
+// # TODO: uzyc theme
 const styles = {
   card: {
     borderBottom: '1px solid #cacaca',
     maxWidth: 500,
     marginBottom: 30,
     paddingBottom: 30,
-    paddingLeft: 50,
-    paddingRight: 50,
+    paddingLeft: 60,
+    paddingRight: 60,
     textAlign: 'left',
 
     '& button': {
