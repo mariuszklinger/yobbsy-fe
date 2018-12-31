@@ -115,7 +115,7 @@ class ContractForm extends React.Component<IProps, IState> {
             className={classes.textField}
             type="text"
             margin="normal"
-            fullWidth={true}
+            fullWidth
             value={contract.title}
             onChange={this.handleChange('title')}
             helperText="Your dream job position"
@@ -126,10 +126,10 @@ class ContractForm extends React.Component<IProps, IState> {
               label="Description"
               className={classes.textField}
               type="text"
-              multiline={true}
+              multiline
               rowsMax="4"
               margin="normal"
-              fullWidth={true}
+              fullWidth
               value={contract.description}
               onChange={this.handleChange('description')}
               helperText="Provide some extra info"
@@ -147,7 +147,7 @@ class ContractForm extends React.Component<IProps, IState> {
 
           <TextField
             className={classNames(classes.textField50percent, classes.currency)}
-            select={true}
+            select
             label="Currency"
             value={contract.currency}
             onChange={this.handleChange('currency')}
@@ -173,7 +173,7 @@ class ContractForm extends React.Component<IProps, IState> {
             margin="normal"
             onChange={this.handleChange('notice')}
             helperText="How fast you can start new job? (months)"
-            select={true}
+            select
           >
             {notices.map(option => (
               <MenuItem key={option.value} value={option.value}>
@@ -191,7 +191,7 @@ class ContractForm extends React.Component<IProps, IState> {
               value={contract.email}
               autoComplete="email"
               margin="normal"
-              fullWidth={true}
+              fullWidth
               onChange={this.handleChange('email')}
               helperText="E-mail will be hidden from recruiter"
             />
@@ -220,7 +220,7 @@ class ContractForm extends React.Component<IProps, IState> {
               type="password"
               name="password1"
               margin="normal"
-              fullWidth={true}
+              fullWidth
               onChange={this.handleChange('password')}
             />
             { contract.password && (
@@ -231,7 +231,7 @@ class ContractForm extends React.Component<IProps, IState> {
                 name="password2"
                 autoComplete="email"
                 margin="normal"
-                fullWidth={true}
+                fullWidth
                 onChange={this.handleChange('password2')}
               />
             )}
@@ -240,7 +240,7 @@ class ContractForm extends React.Component<IProps, IState> {
           <Button
             type="submit"
             className={classes.textField}
-            fullWidth={true}
+            fullWidth
             variant="outlined"
           >
             { this.inInSearchMode() && 'Search'}

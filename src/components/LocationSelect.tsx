@@ -36,7 +36,7 @@ class LocationSelect extends React.Component<IProps> {
         onChange={this.onChange}
         className={classes.multiselect}
         components={{ DropdownIndicator: () => null, }}
-        isMulti={true}
+        isMulti
         loadOptions={ContractService.getLocations}
       />
     );

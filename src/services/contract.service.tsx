@@ -84,6 +84,12 @@ class ContractService implements IContractService {
       .then(({ data }) => this.setContract(data));
   }
 
+  confirmContract(id: number, hash: string) {
+    return axios
+      .patch(`/core/contract/${id}/confirm-contract?hash=${hash}`)
+      .then(({ data }) => data.contract);
+  }
+
   deleteContract(id: number) {
     return axios
       .delete(`/core/contract/${id}`);
@@ -93,6 +99,7 @@ class ContractService implements IContractService {
     const cbw = (e:any) => {
       return callback(e);
     }
+
     axios
       .get(`/core/tag?name=${query}`)
       .then(({ data }) => cbw(data.results));

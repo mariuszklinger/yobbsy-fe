@@ -30,7 +30,7 @@ class TagSelect extends React.Component<IProps> {
         onChange={onChange}
         className={classes.multiselect}
         components={{ DropdownIndicator: () => null }}
-        isMulti={true}
+        isMulti
         loadOptions={ContractService.getTags}
       />
     );

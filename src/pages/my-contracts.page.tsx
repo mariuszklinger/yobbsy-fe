@@ -23,13 +23,13 @@ class MyContractsPage extends React.Component<IProps> {
       <div className={classes.container}>
         <Typography
           align="left"
-          variant="h2"
+          variant="h5"
         >
           Your posted jobs
         </Typography>
 
         <ContractList
-          editable={true}
+          editable
         />
       </div>
     );
@@ -40,8 +40,6 @@ const styles = (theme: any) => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
   },
 });
 

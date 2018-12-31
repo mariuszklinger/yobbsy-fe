@@ -13,6 +13,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import PersonIcon from '@material-ui/icons/Person';
 import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
+import SettingsIcon from '@material-ui/icons/Settings';
 import CardTravelIcon from '@material-ui/icons/CardTravel';
 
 import userService from '../services/user.service';
@@ -93,8 +94,16 @@ class MyAppBar extends React.Component<IProps> {
           </Link>
         }
 
-        { userService.isEmployee && <b>#{userService.userData.id} Worker</b> }
-        { userService.isHunter && <b>#{userService.userData.id} Hunter</b> }
+        { userService.isLoggedIn &&
+          <Link to="/settings">
+            <IconButton className={classes.icon}>
+              <SettingsIcon className={classes.icon} />
+            </IconButton>
+          </Link>
+        }
+
+        { userService.isEmployee && <b>#{userService.userData.id} W</b> }
+        { userService.isHunter && <b>#{userService.userData.id} H</b> }
       </div>
     );
   }

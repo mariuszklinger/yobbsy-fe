@@ -61,7 +61,7 @@ class FeedbackForm extends React.Component<IProps, IState> {
     return (
       <Dialog
         fullScreen={false}
-        open={true}
+        open
         onBackdropClick={userService.closeLoginForm}
         onClose={onClose}
         aria-labelledby="responsive-dialog-title"
@@ -93,7 +93,7 @@ class FeedbackForm extends React.Component<IProps, IState> {
               value={this.state.message}
               margin="normal"
               rows="5"
-              multiline={true}
+              multiline
               className={classes.textField}
               onChange={this.handleChange('message')}
             />
