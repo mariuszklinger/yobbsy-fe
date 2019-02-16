@@ -265,7 +265,7 @@ const styles = (theme: any) => ({
     paddingLeft: theme.spacing.unit,
     paddingRight: theme.spacing.unit,
     minHeight: '100vh',
-    maxWidth: 450,
+    maxWidth: 500,
   },
   textField: {
     flex: 'auto',

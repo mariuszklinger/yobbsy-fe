@@ -2,7 +2,7 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
-import { LinearProgress, MuiThemeProvider, CssBaseline } from '@material-ui/core';
+import { LinearProgress, MuiThemeProvider, CssBaseline, Theme, withStyles, StyleRulesCallback } from '@material-ui/core';
 
 import ContractForm from './components/ContractForm';
 import OfferList from './components/OfferList';
@@ -26,17 +26,23 @@ import theme from './config/theme';
 
 const createContractForm = () => <ContractForm context="CREATE" />;
 
+interface IProps {
+  classes: any;
+}
+
 @observer
-class App extends React.Component {
+class App extends React.Component<IProps> {
   public render() {
+    const { classes } = this.props;
+
     return (
       <MuiThemeProvider theme={theme}>
-        { AppService.isLoading && <LinearProgress className="loading-bar" /> }
+        { AppService.isLoading && <LinearProgress className={classes.loadingBar} /> }
         <Router>
           <>
             <MyAppBar />
 
-            <div className="app">
+            <div className={classes.app}>
               <Route path="/" exact component={HomePage} />
               <Route path="/login" exact component={LoginPage} />
               <Route path="/register" exact component={RegisterPage} />
@@ -65,4 +71,26 @@ class App extends React.Component {
   }
 }
 
-export default App;
+const styles = (_: Theme) => ({
+  '@global': {
+    body: {
+      backgroundColor: _.palette.common.white,
+      fontFamily: 'sans-serif',
+      padding: 0,
+      margin: 0,
+    },
+  },
+
+  app: {
+    paddingLeft: 60,
+  },
+
+  loadingBar: {
+    position: 'fixed !important',
+    top: 0,
+    left: 0,
+    width: '100%',
+  },
+});
+
+export default withStyles(styles as StyleRulesCallback<string>)(App);
