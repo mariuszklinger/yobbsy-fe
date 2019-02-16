@@ -203,7 +203,7 @@ class ContractForm extends React.Component<IProps, IState> {
               style={{ textAlign: 'left' }}
               variant="subtitle1"
             >
-              Create password?
+              Set your own password?
               <Switch
                 checked={this.state.createAccount}
                 onChange={this.handleSwitch}

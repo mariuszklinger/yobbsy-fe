@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as Yup from 'yup';
 import { observer } from 'mobx-react';
 import { Formik } from 'formik';
 
@@ -30,8 +31,7 @@ interface IFormValues {
 @observer
 class RegisterForm extends React.Component<IProps> {
   register = (values: IFormValues) => {
-    console.log('elo');
-    console.log(values);
+    userService.register(values);
   }
 
   componentDidMount() {
@@ -50,8 +50,13 @@ class RegisterForm extends React.Component<IProps> {
           hunter: false,
           company: '',
         }}
+        validationSchema={Yup.object().shape({
+          email: Yup.string().email('Invalid e-mail address'),
+          password: Yup.string().min(5, 'Too Short!'),
+          password2: Yup.string().oneOf([Yup.ref("password")], 'Password does not match'),
+        })}
         onSubmit={this.register}
-        render={({ values, handleChange, handleSubmit }: any) => (
+        render={({ values, errors, handleChange, handleSubmit }: any) => (
           <form
             onSubmit={handleSubmit}
             className={classes.container}
@@ -62,6 +67,8 @@ class RegisterForm extends React.Component<IProps> {
               value={values.email}
               margin="normal"
               autoComplete="email"
+              error={!!errors.email}
+              helperText={errors.email || null}
               className={classes.textField}
               onChange={handleChange}
             />
@@ -73,6 +80,8 @@ class RegisterForm extends React.Component<IProps> {
               margin="normal"
               type="password"
               autoComplete="new-password"
+              error={!!errors.password}
+              helperText={errors.password || null}
               className={classes.textField}
               onChange={handleChange}
             />
@@ -84,6 +93,8 @@ class RegisterForm extends React.Component<IProps> {
               margin="normal"
               type="password"
               autoComplete="new-password"
+              error={!!errors.password2}
+              helperText={errors.password2 || null}
               className={classes.textField}
               onChange={handleChange}
             />
@@ -116,8 +127,8 @@ class RegisterForm extends React.Component<IProps> {
               />
 
               <TextField
-                label="After activation, you will get some starting credits"
-                value={15}
+                label="After activation, you will get"
+                value={'15 credits'}
                 margin="normal"
                 className={classes.textField}
                 disabled

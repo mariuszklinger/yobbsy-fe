@@ -41,7 +41,7 @@ class UserService implements IUserService {
   closeLoginForm = () => this.isLogInFormOpened = false
 
   @action
-  setUserData = ({ data }: any) => {
+  setUserData = ({ data }: { data: User.IUser }) => {
     this.userData = data;
     this.setAuthToken();
 
@@ -67,6 +67,21 @@ class UserService implements IUserService {
       .then(this.setUserData)
       .then(offerService.getOffers)
       .then(this.closeLoginForm);
+  }
+
+  register({ email, password, hunter, company}: any) {
+    const formdata = new FormData();
+    formdata.set('username', email);
+    formdata.set('password', password);
+    formdata.set('hunter', `${hunter}`);
+    formdata.set('company', company);
+
+    const config = {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    };
+
+    axios
+      .post('/core/register', formdata, config);
   }
 }
 

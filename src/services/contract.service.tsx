@@ -64,7 +64,7 @@ class ContractService implements IContractService {
         proficiency: 10,
         tag: { value: '2', label: 'javascript', name: 'javascript' },
       }
-    ] as any[],
+    ],
     email: 'dasdas21312zda@asdsada.pl',
   };
 
@@ -84,10 +84,14 @@ class ContractService implements IContractService {
       .then(({ data }) => this.setContract(data));
   }
 
-  confirmContract(id: number, hash: string) {
+  confirmContract(id: string, hash: string) {
     return axios
-      .patch(`/core/contract/${id}/confirm-contract?hash=${hash}`)
-      .then(({ data }) => data.contract);
+      .patch(`/core/contract/${id}/confirm-contract?hash=${hash}`);
+  }
+
+  confirmAccount(email: string, hash: string) {
+    return axios
+      .get(`/core/confirm-account?email=${email}&token=${hash}`);
   }
 
   deleteContract(id: number) {

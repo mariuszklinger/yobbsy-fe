@@ -1,3 +1,3 @@
 declare namespace Common {
-  type ToasterType = 'success' | 'error',
+  type ToasterType = 'success' | 'error'
 }

@@ -10,7 +10,7 @@ declare namespace Contract {
     id?: number,
     label?: string,
     name?: string,
-    value?: number,
+    value?: string,
   }
 
   interface ISkill {

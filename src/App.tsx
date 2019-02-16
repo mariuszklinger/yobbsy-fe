@@ -16,7 +16,7 @@ import LoginPage from './pages/login.page';
 import RegisterPage from './pages/register.page';
 import SearchPage from './pages/search.page';
 import ContractDetailsPage from './pages/contract-details.page';
-import ContractConfirmPage from './pages/contract-confirm.page';
+import ConfirmPage from './pages/confirm.page';
 import MyContractsPage from './pages/my-contracts.page';
 import SettingsPage from './pages/settings.page';
 
@@ -48,7 +48,9 @@ class App extends React.Component {
 
               <Route path="/offers" component={OfferList} />
               <PrivateRoute path="/search" hunter component={SearchPage} />
-              <Route path="/confirm-contract/:hash/:id" component={ContractConfirmPage} />
+
+              <Route path="/confirm-contract/:hash/:id" render={(props) => <ConfirmPage type="contract" {...props} />} />
+              <Route path="/confirm-account/:hash/:id" render={(props) => <ConfirmPage type="account" {...props} />} />
             </div>
             <LoginModal />
           </>
