@@ -2,7 +2,7 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
-import { LinearProgress, MuiThemeProvider } from '@material-ui/core';
+import { LinearProgress, MuiThemeProvider, CssBaseline } from '@material-ui/core';
 
 import ContractForm from './components/ContractForm';
 import OfferList from './components/OfferList';
@@ -57,6 +57,8 @@ class App extends React.Component {
         </Router>
 
         <Snackbar />
+
+        <CssBaseline />
 
       </MuiThemeProvider>
     );
