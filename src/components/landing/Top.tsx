@@ -55,7 +55,7 @@ const Top = ({ classes }: IProps) => {
 const styles = (theme: Theme) => ({
   root: {
     backgroundColor: theme.palette.primary.light,
-    backgroundImage: `linear-gradient(to right, ${theme.palette.primary.light}, ${theme.palette.primary.dark})`,
+    backgroundImage: `linear-gradient(to right, ${theme.palette.primary.light}, #000)`,
     minHeight: '60vh',
     padding: theme.spacing.unit,
     paddingLeft: theme.spacing.unit * 2,
