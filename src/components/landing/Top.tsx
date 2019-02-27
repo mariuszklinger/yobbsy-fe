@@ -3,6 +3,7 @@ import * as React from 'react';
 
 import { withStyles, StyleRulesCallback, Typography, Theme, Button } from '@material-ui/core';
 import Logo from '../common/Logo';
+// import Modal from '../common/Modal';
 
 // import ContractCard from './ContractCard';
 // import contractSearchService from 'src/services/contract-search.service';
@@ -45,6 +46,8 @@ const Top = ({ classes }: IProps) => {
           Find your candidate
         </Button>
       </div>
+
+      {/* <Modal title="elo" open={true}><span>elo elo</span></Modal> */}
     </div>
   );
 }
@@ -56,8 +59,11 @@ const styles = (theme: Theme) => ({
     minHeight: '60vh',
     padding: theme.spacing.unit,
     paddingLeft: theme.spacing.unit * 2,
+    marginBottom: theme.spacing.unit,
+    boxShadow: '0px 9px 20px 2px #ccc',
   },
   buttonRow: {
+    marginBottom: theme.spacing.unit * 2,
     marginTop: theme.spacing.unit,
   },
   lead: {
@@ -67,6 +73,7 @@ const styles = (theme: Theme) => ({
     color: '#d9b9ff',
   },
   logo: {
+    marginTop: theme.spacing.unit,
     marginBottom: theme.spacing.unit * 2,
   },
   addOfferButton: {
