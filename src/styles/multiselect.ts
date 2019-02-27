@@ -4,15 +4,17 @@ export default (theme: any) => ({
     width: 'calc(100% - 8px)',
     flex: 'auto',
 
+
     '& > div': {
       border: 'none',
       borderRadius: 0,
       borderBottom: '1px solid #ddd',
+      backgroundColor: 'white',
 
-      '> div': {
+      '& > div': {
         fontSize: 16,
-        padding: '0 0',
-
+        padding: 5,
+        borderRadius: 5,
       },
 
       '& span': {

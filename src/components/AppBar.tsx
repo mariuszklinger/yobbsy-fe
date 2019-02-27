@@ -63,7 +63,7 @@ class MyAppBar extends React.Component<IProps> {
           </Link>
         }
 
-        { userService.isHunter &&
+        { (!userService.isLoggedIn || userService.isHunter) &&
           <Link to="/search">
             <IconButton className={classes.icon}>
               <SearchIcon className={classes.icon} />

@@ -74,10 +74,11 @@ class App extends React.Component<IProps> {
 const styles = (_: Theme) => ({
   '@global': {
     body: {
-      backgroundColor: _.palette.common.white,
+      backgroundColor: '#FFF', // '#778ded',
       fontFamily: 'sans-serif',
       padding: 0,
       margin: 0,
+      height: '100vh',
     },
   },
 

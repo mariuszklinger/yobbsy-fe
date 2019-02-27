@@ -237,16 +237,17 @@ class ContractForm extends React.Component<IProps, IState> {
             )}
           </>}
 
-          <Button
-            type="submit"
-            className={classes.textField}
-            fullWidth
-            variant="outlined"
-          >
-            { this.inInSearchMode() && 'Search'}
-            { this.inInCreateMode() && 'Submit'}
-            { this.inInEditMode() && 'Update'}
-          </Button>
+          <div className={classes.actionWrapper}>
+            <Button
+              type="submit"
+              color="secondary"
+              variant="contained"
+            >
+              { this.inInSearchMode() && 'Search'}
+              { this.inInCreateMode() && 'Submit'}
+              { this.inInEditMode() && 'Update'}
+            </Button>
+          </div>
         </form>
       </div>
     );
@@ -257,8 +258,9 @@ const styles = (theme: any) => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
+    paddingLeft: theme.spacing.unit,
+    paddingRight: theme.spacing.unit,
+    backgroundColor: 'white',
   },
   contractForm: {
     paddingTop: theme.spacing.unit,
@@ -266,6 +268,17 @@ const styles = (theme: any) => ({
     paddingRight: theme.spacing.unit,
     minHeight: '100vh',
     maxWidth: 500,
+
+    [theme.breakpoints.down(600)]: {
+      paddingLeft: 0,
+      paddingRight: 0,
+    },
+  },
+  actionWrapper: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    padding: 10,
   },
   textField: {
     flex: 'auto',
@@ -275,7 +288,7 @@ const styles = (theme: any) => ({
   },
   currency: {
     marginLeft: 10,
-  }
+  },
 });
 
 export default withStyles(styles as StyleRulesCallback<string>)(ContractForm);

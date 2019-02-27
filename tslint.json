@@ -7,7 +7,8 @@
     "no-debugger": false,
     "object-literal-sort-keys": false,
     "jsx-boolean-value": ["never"],
-    "jsx-no-lambda": false
+    "jsx-no-lambda": false,
+    "no-unused-variable": false
   },
   "jsRules": {
     "object-literal-sort-keys": false, //Disable for javascript

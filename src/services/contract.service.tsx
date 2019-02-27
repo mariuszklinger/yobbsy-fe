@@ -51,8 +51,8 @@ class ContractService implements IContractService {
     title: 'CEO of stuff',
     description: 'I know everything, have a lot experience, give me the job. Lorem ipsum solor et al mirl.',
     locations: [
-      { value: 321, label: 'Pabianice, Poland', name: 'Pabianice', country: 'Poland' },
-      { value: 5124, label: 'Gdańsk, Poland', name: 'Gdańsk', country: 'Poland' },
+      { label: 'Miami, United States', name: 'Miami', country: 'United States' },
+      { label: 'Gdańsk, Poland', name: 'Gdańsk', country: 'Poland' },
     ],
     notice: 0,
     skills: [
