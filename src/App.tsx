@@ -37,7 +37,7 @@ class App extends React.Component<IProps> {
 
     return (
       <MuiThemeProvider theme={theme}>
-        { AppService.isLoading && <LinearProgress className={classes.loadingBar} /> }
+        { AppService.isLoading && <LinearProgress color="secondary" className={classes.loadingBar} /> }
         <Router>
           <>
             <MyAppBar />

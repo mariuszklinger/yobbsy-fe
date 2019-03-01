@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-
 import { withStyles, Theme } from '@material-ui/core/styles';
 import {
   Dialog,
@@ -10,17 +9,24 @@ import {
   StyleRulesCallback,
 } from '@material-ui/core';
 import { DialogProps } from '@material-ui/core/Dialog';
+import CloseIcon from '@material-ui/icons/Close';
 
 const styles = (theme: Theme) => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
+  root: {
+    '& div': {
+      overflow: 'visible',
+    },
   },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    flex: '1 100%',
-  },
+  closeCircle: {
+    borderRadius: '50%',
+    backgroundColor: theme.palette.primary.light,
+    color: theme.palette.common.white,
+    right: -11,
+    position: 'absolute',
+    top: -10,
+    padding: 4,
+    fontWeight: 'bold',
+  }
 });
 
 interface IProps {
@@ -36,23 +42,22 @@ class CustomDialog extends React.Component<IProps & DialogProps & { children?: a
 
     return (
       <Dialog
+        className={classes.root}
         fullScreen={false}
         open={true}
         // onBackdropClick={userService.closeLoginForm}
         // onClose={userService.closeLoginForm}
         {...rest}
       >
-        <DialogTitle
-          id="responsive-dialog-title"
-          className={classes.textField}
-        >
+        <CloseIcon
+          className={classes.closeCircle}
+          onClick={() => alert(1)} />
+        <DialogTitle>
           {title}
         </DialogTitle>
 
         <DialogContent>
-          <DialogContentText
-            className={classes.textField}
-          >
+          <DialogContentText>
             { children }
           </DialogContentText>
         </DialogContent>

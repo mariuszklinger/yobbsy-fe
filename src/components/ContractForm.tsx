@@ -5,7 +5,7 @@ import { observer } from 'mobx-react';
 import { toJS } from 'mobx';
 
 import Button from '@material-ui/core/Button';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, Theme } from '@material-ui/core/styles';
 import {
   TextField,
   MenuItem,
@@ -94,19 +94,18 @@ class ContractForm extends React.Component<IProps, IState> {
     const { contract } = ContractService;
 
     return (
-      <div className={classes.contractForm}>
+      <div className={classes.root}>
         <form
           className={classes.container}
           onSubmit={this.onSubmit}
         >
           <Typography
             align="left"
-            variant="h5"
-            className={classes.textField}
-            style={{ fontWeight: 'bold' }}
+            variant="h4"
+            className={classes.header}
           >
             { this.inInSearchMode() && 'Find your candidate'}
-            { this.inInEditMode() && 'Edit your job'}
+            { this.inInEditMode() && 'Edit your offer'}
             { this.inInCreateMode() && 'Post your dream job'}
           </Typography>
 
@@ -254,25 +253,26 @@ class ContractForm extends React.Component<IProps, IState> {
   }
 }
 
-const styles = (theme: any) => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
+const styles = (theme: Theme) => ({
+  root: {
     paddingLeft: theme.spacing.unit,
     paddingRight: theme.spacing.unit,
-    backgroundColor: 'white',
-  },
-  contractForm: {
-    paddingTop: theme.spacing.unit,
-    paddingLeft: theme.spacing.unit,
-    paddingRight: theme.spacing.unit,
-    minHeight: '100vh',
-    maxWidth: 500,
+    maxWidth: 600,
+    marginBottom: -2 * theme.spacing.unit,
 
     [theme.breakpoints.down(600)]: {
       paddingLeft: 0,
       paddingRight: 0,
     },
+  },
+  container: {
+    backgroundColor: 'white',
+    borderRadius: 5,
+    display: 'flex',
+    flexWrap: 'wrap',
+    padding: 2 * theme.spacing.unit,
+    paddingLeft: 3 * theme.spacing.unit,
+    paddingRight: 3 * theme.spacing.unit,
   },
   actionWrapper: {
     width: '100%',
@@ -282,6 +282,10 @@ const styles = (theme: any) => ({
   },
   textField: {
     flex: 'auto',
+  },
+  header: {
+    color: theme.palette.primary.main,
+    fontWeight: 'bold',
   },
   textField50percent: {
     flex: '0 1 calc(50% - 10px)',

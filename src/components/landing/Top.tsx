@@ -54,23 +54,26 @@ const Top = ({ classes }: IProps) => {
 
 const styles = (theme: Theme) => ({
   root: {
-    backgroundColor: theme.palette.primary.light,
-    backgroundImage: `linear-gradient(to right, ${theme.palette.primary.light}, #000)`,
+    backgroundImage: `linear-gradient(to right, ${theme.palette.primary.light}, ${theme.palette.primary.main})`,
     minHeight: '60vh',
     padding: theme.spacing.unit,
     paddingLeft: theme.spacing.unit * 2,
     marginBottom: theme.spacing.unit,
     boxShadow: '0px 9px 20px 2px #ccc',
+
+    '& li': {
+      color: theme.palette.common.white,
+    },
   },
   buttonRow: {
-    marginBottom: theme.spacing.unit * 2,
-    marginTop: theme.spacing.unit,
+    marginBottom: theme.spacing.unit * 1,
+    marginTop: theme.spacing.unit * 2,
   },
   lead: {
     color: theme.palette.common.white,
   },
   features: {
-    color: '#d9b9ff',
+    color: '#b3a9d4',
   },
   logo: {
     marginTop: theme.spacing.unit,

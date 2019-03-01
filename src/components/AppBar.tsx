@@ -18,6 +18,8 @@ import CardTravelIcon from '@material-ui/icons/CardTravel';
 
 import userService from '../services/user.service';
 import offerService from '../services/offer.service';
+import { Theme } from '@material-ui/core';
+// import Modal from './common/Modal';
 
 interface IProps {
   classes: any;
@@ -40,6 +42,7 @@ class MyAppBar extends React.Component<IProps> {
 
     return (
       <div className={classes.appbar}>
+        {/* <Modal title="elo" open={true}>ELOOO</Modal> */}
 
         <Link to="/">
           <IconButton className={classes.icon}>
@@ -94,6 +97,19 @@ class MyAppBar extends React.Component<IProps> {
           </Link>
         }
 
+        { !userService.isLoggedIn &&
+          <Link to="/offers">
+            <IconButton className={classes.icon}>
+              <Badge
+                color="secondary"
+                badgeContent={1}
+              >
+                <MailIcon />
+              </Badge>
+            </IconButton>
+          </Link>
+        }
+
         { userService.isLoggedIn &&
           <Link to="/settings">
             <IconButton className={classes.icon}>
@@ -109,14 +125,14 @@ class MyAppBar extends React.Component<IProps> {
   }
 }
 
-const styles = (theme: any) => ({
+const styles = (theme: Theme) => ({
   appbar: {
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.common.white,
     height: '100%',
     position: 'fixed',
     textAlign: 'center',
-    width: 60,
+    width: theme.spacing.unit * 2,
   },
   icon: {
     color: theme.palette.common.white,
