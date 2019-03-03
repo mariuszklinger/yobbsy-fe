@@ -7,6 +7,7 @@ import { withStyles, StyleRulesCallback, Theme } from '@material-ui/core';
 // import ContractCard from './ContractCard';
 // import contractSearchService from 'src/services/contract-search.service';
 import ContractForm from 'src/components/ContractForm';
+import { sectionStyle } from './common';
 
 interface IProps {
   classes: any;
@@ -16,16 +17,13 @@ const NewContractSection = ({ classes }: IProps) => {
   return (
     <div className={classes.root}>
 
-      <ContractForm context="CREATE" />
+      <ContractForm context="SEARCH" />
     </div>
   );
 }
 
 const styles = (theme: Theme) => ({
-  root: {
-    backgroundColor: theme.palette.primary.main,
-    padding: theme.spacing.unit,
-  },
+  ...sectionStyle(theme),
 });
 
 export default withStyles(styles as StyleRulesCallback<string>)(NewContractSection);

@@ -1,9 +1,10 @@
 import * as React from 'react';
 
-import ContractForm from 'src/components/ContractForm';
 import Top from 'src/components/landing/Top';
 import MainFeatures from 'src/components/landing/MainFeatures';
 import ContractSection from 'src/components/landing/ContractSection';
+import SearchSection from 'src/components/landing/SearchSection';
+import ExtraFeatures from 'src/components/landing/ExtraFeatures';
 
 class HomePage extends React.Component<{}> {
   render() {
@@ -13,7 +14,8 @@ class HomePage extends React.Component<{}> {
         <MainFeatures />
 
         <ContractSection />
-        <ContractForm context="SEARCH" />
+        <ExtraFeatures />
+        <SearchSection />
       </>
     );
   }

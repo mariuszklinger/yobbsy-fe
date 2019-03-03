@@ -58,6 +58,7 @@ class App extends React.Component<IProps> {
               <Route path="/confirm-contract/:hash/:id" render={(props) => <ConfirmPage type="contract" {...props} />} />
               <Route path="/confirm-account/:hash/:id" render={(props) => <ConfirmPage type="account" {...props} />} />
             </div>
+
             <LoginModal />
           </>
         </Router>
@@ -79,6 +80,7 @@ const styles = (_: Theme) => ({
       padding: 0,
       margin: 0,
       height: '100vh',
+      'overflow-x': 'hidden',
     },
   },
 

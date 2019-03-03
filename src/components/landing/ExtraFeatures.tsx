@@ -2,28 +2,30 @@ import * as React from 'react';
 // import { observer } from 'mobx-react';
 
 import { withStyles, StyleRulesCallback, Theme } from '@material-ui/core';
-// import Modal from '../common/Modal';
+import features from '../../assets/second.png';
 
 // import ContractCard from './ContractCard';
 // import contractSearchService from 'src/services/contract-search.service';
-import ContractForm from 'src/components/ContractForm';
-import { sectionStyle } from './common';
 
 interface IProps {
   classes: any;
 }
 
-const ContractSection = ({ classes }: IProps) => {
+const MainFeatures = ({ classes }: IProps) => {
   return (
     <div className={classes.root}>
-
-      <ContractForm context="CREATE" />
+      <img src={features} className={classes.placeholderimg} />
     </div>
   );
 }
 
 const styles = (theme: Theme) => ({
-  ...sectionStyle(theme),
+  root: {
+    minHeight: '60vh',
+  },
+  placeholderimg: {
+    height: 550,
+  }
 });
 
-export default withStyles(styles as StyleRulesCallback<string>)(ContractSection);
+export default withStyles(styles as StyleRulesCallback<string>)(MainFeatures);

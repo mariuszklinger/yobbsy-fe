@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
+import * as Yup from 'yup';
+import { Formik } from 'formik';
 
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, Theme } from '@material-ui/core/styles';
 import {
   TextField,
   StyleRulesCallback,
@@ -15,105 +17,88 @@ type FormType = 'REGISTRATION' | 'LOGIN';
 
 interface IProps {
   classes: any;
-  type?: FormType;
-}
-
-interface IState {
-  username: string;
-  password: string;
-  password2: string;
-  type: FormType;
 }
 
 @observer
-class LogInForm extends React.Component<IProps, IState> {
-  state: IState = {
-    username: 'hunter',
-    password: 'admin',
-    password2: '',
-    type: 'LOGIN'
-  }
+class LogInForm extends React.Component<IProps> {
 
-  constructor(props: IProps) {
-    super(props);
-
-    this.state = {
-      ...this.state,
-      type: props.type,
-    };
-  }
-
-  logIn = (event: any) => {
-    const { username, password } = this.state;
+  logIn = (values: any) => {
+    const { username, password } = values;
     userService.logIn(username, password);
-
-    event.preventDefault();
-  }
-
-  handleChange = (name: string) => (event: any) => {
-    const form = {
-      ...this.state,
-      [name]: event.target.value,
-    };
-
-    this.setState({ ...form });
   }
 
   render() {
-    const { username, password } = this.state;
     const { classes } = this.props;
 
+    const initValues = {
+      username: 'hunter@admin.pl',
+      password: 'admin',
+    };
+
+    const schema = Yup.object().shape({
+      username: Yup.string().required(),
+      password: Yup.string().required(),
+    });
+
     return (
-      <form
+      <Formik
+        initialValues={initValues}
+        validationSchema={schema}
         onSubmit={this.logIn}
-        className={classes.container}
-      >
-        <TextField
-          label="Login"
-          value={username}
-          margin="normal"
-          className={classes.textField}
-          onChange={this.handleChange('username')}
-        />
+        isInitialValid={true}
+        render={({ values, errors, isValid, handleChange, handleSubmit }: any) => (
+          <form
+            onSubmit={handleSubmit}
+            className={classes.root}
+          >
+            <TextField
+              name="username"
+              label="Login"
+              value={values.username}
+              margin="normal"
+              className={classes.textField}
+              onChange={handleChange}
+              error={!!errors.username}
+              helperText={errors.username || null}
+            />
 
-        <TextField
-          label="Password"
-          value={password}
-          margin="normal"
-          type="password"
-          autoComplete="asd"
-          className={classes.textField}
-          onChange={this.handleChange('password')}
-        />
+            <TextField
+              name="password"
+              label="Password"
+              value={values.password}
+              margin="normal"
+              type="password"
+              className={classes.textField}
+              onChange={handleChange}
+              error={!!errors.password}
+              helperText={errors.password || null}
+            />
 
-        <Button
-          type="submit"
-          className={classes.textField}
-          color="secondary"
-          variant="contained"
-        >
-          Log in
-        </Button>
-
-        <Link to="/register" className={classes.registerLink}>Register new account</Link>
-      </form>
+            <Button
+              type="submit"
+              className={classes.textField}
+              color="secondary"
+              variant="contained"
+              disabled={!isValid}
+            >
+              Log in
+            </Button>
+          </form>
+        )}
+      />
     );
   }
 }
 
-const styles = (theme: any) => ({
-  container: {
+const styles = (theme: Theme) => ({
+  root: {
     display: 'flex',
     flexWrap: 'wrap',
   },
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
     flex: '1 100%',
   },
   registerLink: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
     textAlign: 'right',
     marginTop: 25,
     display: 'block-inline',

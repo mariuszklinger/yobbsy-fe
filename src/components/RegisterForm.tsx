@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 
 import userService from 'src/services/user.service';
-import { Typography, Switch } from '@material-ui/core';
+import { Typography, Switch, Theme } from '@material-ui/core';
 
 type FormType = 'REGISTRATION' | 'LOGIN';
 
@@ -99,43 +99,24 @@ class RegisterForm extends React.Component<IProps> {
               onChange={handleChange}
             />
 
-            <Typography
+            <TextField
+              name="company"
+              label="Company name"
+              value={values.company}
+              margin="normal"
+              autoComplete="company-name"
               className={classes.textField}
-              style={{ textAlign: 'left' }}
-              variant="subtitle1"
-            >
-              Are you a recruiter?
-              <Switch
-                name="hunter"
-                checked={values.hunter}
-                onChange={handleChange}
-                value={values.hunter}
-                color="secondary"
-              />
-            </Typography>
+              onChange={handleChange}
+            />
 
-            {values.hunter && (
-            <>
-              <TextField
-                name="company"
-                label="Company name"
-                value={values.company}
-                margin="normal"
-                autoComplete="company-name"
-                className={classes.textField}
-                onChange={handleChange}
-              />
-
-              <TextField
-                label="After activation, you will get"
-                value={'15 credits'}
-                margin="normal"
-                className={classes.textField}
-                disabled
-                helperText="You can use them to contact candidates"
-              />
-            </>
-            )}
+            <TextField
+              label="After activation, you will get"
+              value={'15 credits'}
+              margin="normal"
+              className={classes.textField}
+              disabled
+              helperText="You can use them to contact candidates"
+            />
 
             <Button
               type="submit"
@@ -152,14 +133,13 @@ class RegisterForm extends React.Component<IProps> {
   }
 }
 
-const styles = (theme: any) => ({
+const styles = (theme: Theme) => ({
   container: {
+    transition: '0.4s',
     display: 'flex',
     flexWrap: 'wrap',
   },
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
     flex: '1 100%',
   },
 });

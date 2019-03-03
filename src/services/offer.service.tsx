@@ -1,9 +1,21 @@
 import axios, { AxiosResponse } from 'axios';
-import { action, observable } from 'mobx';
+import { action, observable, computed } from 'mobx';
+
+import userService from 'src/services/user.service';
 
 class OfferService {
   @observable
   list: Offer.IOffer[] = [];
+
+  @computed
+  get getUnreadCount() {
+    const isHunter = userService.isHunter;
+    const filter = isHunter ?
+      (offer: Offer.IOffer) => !offer.seen :
+      (offer: Offer.IOffer) => offer.pending;
+
+    return this.list.filter(filter).length;
+  }
 
   @action
   setOffers = (list: Offer.IOffer[]) => {

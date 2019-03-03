@@ -19,7 +19,7 @@ import CardTravelIcon from '@material-ui/icons/CardTravel';
 import userService from '../services/user.service';
 import offerService from '../services/offer.service';
 import { Theme } from '@material-ui/core';
-// import Modal from './common/Modal';
+import Modal from './common/Modal';
 
 interface IProps {
   classes: any;
@@ -27,23 +27,12 @@ interface IProps {
 
 @observer
 class MyAppBar extends React.Component<IProps> {
-  getUnreadCount() {
-    const isHunter = userService.isHunter;
-    const filter = isHunter ?
-      (offer: Offer.IOffer) => !offer.seen :
-      (offer: Offer.IOffer) => offer.pending;
-
-    return offerService.list.filter(filter).length;
-  }
-
   render() {
     const { classes } = this.props;
-    const offerCount = this.getUnreadCount();
+    const offerCount = offerService.getUnreadCount;
 
     return (
       <div className={classes.appbar}>
-        {/* <Modal title="elo" open={true}>ELOOO</Modal> */}
-
         <Link to="/">
           <IconButton className={classes.icon}>
             <HomeIcon />

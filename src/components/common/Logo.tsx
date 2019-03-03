@@ -7,7 +7,7 @@ import logo from '../../assets/yobbsy.svg';
 
 interface IProps {
   classes: any;
-  className: string;
+  className?: string;
 }
 
 class Logo extends React.Component<IProps> {
