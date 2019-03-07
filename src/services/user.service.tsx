@@ -1,6 +1,6 @@
-import { observable, action, computed } from "mobx";
 import axios from 'axios';
 import get from 'lodash-es/get';
+import { observable, action, computed } from "mobx";
 
 import offerService from './offer.service';
 import { AUTH_MODAL_MODE } from '../components/AuthModal';
@@ -41,6 +41,7 @@ class UserService implements IUserService {
   openLoginForm = (mode: AUTH_MODAL_MODE = AUTH_MODAL_MODE.LOGIN) => {
     this.authModalMode = mode;
     this.isLogInFormOpened = true;
+    setTimeout(() => document.body.style.overflow = 'auto', 0);
   }
 
   @action
@@ -91,7 +92,7 @@ class UserService implements IUserService {
       headers: { 'Content-Type': 'multipart/form-data' },
     };
 
-    axios
+    return axios
       .post('/core/register', formdata, config);
   }
 }

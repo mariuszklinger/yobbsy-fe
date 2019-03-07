@@ -37,7 +37,9 @@ class AuthModal extends React.Component<IProps, IState> {
     success: false,
   }
 
-  toggleMode = userService.toggleAuthModalMode
+  showSuccessPanel = () => {
+    this.setState({ success: true });
+  }
 
   render() {
     const { classes } = this.props;
@@ -58,7 +60,7 @@ class AuthModal extends React.Component<IProps, IState> {
 
         <Typography variant="headline">
           {/* <Logo /> */}
-          { isLogin && 'Log in' }
+          { isLogin && <b>Sign in</b> }
           { isRegister && <b>Register as a headhunter</b> }
         </Typography>
 
@@ -67,7 +69,7 @@ class AuthModal extends React.Component<IProps, IState> {
           { isRegister && 'After registration you will be able search for your perfect candidate' }
         </Typography>
 
-        { isRegister && <RegisterForm /> }
+        { isRegister && <RegisterForm onSuccess={this.showSuccessPanel} /> }
         { isLogin && <LoginForm /> }
 
         <Divider className={classes.divider} />
@@ -76,7 +78,7 @@ class AuthModal extends React.Component<IProps, IState> {
           Add your dream position
         </Button>
 
-        <Button onClick={this.toggleMode} variant="text" color="secondary" size="small" fullWidth>
+        <Button onClick={userService.toggleAuthModalMode} variant="text" color="secondary" size="small" fullWidth>
           { isLogin && 'Register as recruiter' }
           { isRegister && 'Back to login page' }
         </Button>

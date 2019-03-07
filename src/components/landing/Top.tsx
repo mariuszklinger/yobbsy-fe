@@ -1,12 +1,7 @@
 import * as React from 'react';
-// import { observer } from 'mobx-react';
 
 import { withStyles, StyleRulesCallback, Typography, Theme, Button } from '@material-ui/core';
 import Logo from '../common/Logo';
-// import Modal from '../common/Modal';
-
-// import ContractCard from './ContractCard';
-// import contractSearchService from 'src/services/contract-search.service';
 
 interface IProps {
   classes: any;
@@ -100,7 +95,7 @@ const styles = (theme: Theme) => ({
     marginBottom: theme.spacing.unit * 2,
 
     [theme.breakpoints.down(600)]: {
-      marginTop: 0,
+      // marginTop: 0,
       marginBottom: theme.spacing.unit,
       width: 200,
     }

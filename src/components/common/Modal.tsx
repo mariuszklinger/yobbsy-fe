@@ -63,6 +63,7 @@ class CustomDialog extends React.Component<IProps & DialogProps & { children?: a
         className={classnames(classes.root, className)}
         onBackdropClick={onClose}
         onClose={onClose}
+        scroll="body"
         {...rest}
       >
 

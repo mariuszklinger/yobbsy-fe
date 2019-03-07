@@ -15,7 +15,7 @@ class RegisterPage extends React.Component<IProps> {
 
     return (
       <div className={classes.root}>
-        <RegisterForm />
+        <RegisterForm onSuccess={() => alert(1)} />
       </div>
     );
   }

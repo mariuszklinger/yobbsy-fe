@@ -8,16 +8,17 @@ import {
   TextField,
   StyleRulesCallback,
   Button,
+  Theme,
 } from '@material-ui/core';
 
 import userService from 'src/services/user.service';
-import { Typography, Switch, Theme } from '@material-ui/core';
 
 type FormType = 'REGISTRATION' | 'LOGIN';
 
 interface IProps {
   classes: any;
   type?: FormType;
+  onSuccess: () => void;
 }
 
 interface IFormValues {
@@ -30,7 +31,10 @@ interface IFormValues {
 @observer
 class RegisterForm extends React.Component<IProps> {
   register = (values: IFormValues) => {
-    userService.register(values);
+    const { onSuccess } = this.props;
+    userService
+      .register(values)
+      .then(onSuccess);
   }
 
   render() {
@@ -39,10 +43,10 @@ class RegisterForm extends React.Component<IProps> {
     return (
       <Formik
         initialValues={{
-          email: '',
-          password: '',
-          password2: '',
-          company: '',
+          email: 'test@testowy.casd.pl',
+          password: 'test123',
+          password2: 'test123',
+          company: 'FAcebook SA',
         }}
         validationSchema={Yup.object().shape({
           email: Yup.string().email('Invalid e-mail address').required(),
