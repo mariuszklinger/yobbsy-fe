@@ -72,10 +72,12 @@ const styles = (theme: Theme) => ({
       textAlign: 'center',
 
       '& > button': {
+        fontSize: 16,
         marginRight: 0,
-        marginBottom: theme.spacing.unit,
+        marginBottom: 22,
         maxWidth: 400,
-        width: '100%',
+        height: 45,
+        width: 240,
       },
     }
   },
