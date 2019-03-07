@@ -6,6 +6,7 @@ import {
   withStyles,
   StyleRulesCallback,
   Badge,
+  Hidden,
 } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
@@ -50,7 +51,7 @@ class MyAppBar extends React.Component<IProps> {
         { userService.isEmployee &&
           <Link to="/my-contracts">
             <IconButton className={classes.icon}>
-                <CardTravelIcon />
+              <CardTravelIcon />
             </IconButton>
           </Link>
         }
@@ -114,6 +115,8 @@ class MyAppBar extends React.Component<IProps> {
   }
 }
 
+export const APPBAR_WIDTH = 60;
+
 const styles = (theme: Theme) => ({
   appbar: {
     backgroundColor: theme.palette.primary.main,
@@ -121,7 +124,7 @@ const styles = (theme: Theme) => ({
     height: '100%',
     position: 'fixed',
     textAlign: 'center',
-    width: theme.spacing.unit * 2,
+    width: APPBAR_WIDTH,
   },
   icon: {
     color: theme.palette.common.white,

@@ -260,7 +260,7 @@ const styles = (theme: Theme) => ({
     maxWidth: 600,
     marginBottom: -2 * theme.spacing.unit,
 
-    [theme.breakpoints.down(600)]: {
+    [theme.breakpoints.down(700)]: {
       paddingLeft: 0,
       paddingRight: 0,
     },
@@ -273,6 +273,10 @@ const styles = (theme: Theme) => ({
     padding: 2 * theme.spacing.unit,
     paddingLeft: 3 * theme.spacing.unit,
     paddingRight: 3 * theme.spacing.unit,
+
+    [theme.breakpoints.down(700)]: {
+      padding: theme.spacing.unit,
+    },
   },
   actionWrapper: {
     width: '100%',

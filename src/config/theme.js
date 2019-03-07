@@ -5,6 +5,16 @@ const theme = createMuiTheme({
     useNextVariants: true,
   },
 
+  breakpoints: {
+    values: {
+      lg: 1280,
+      md: 960,
+      sm: 700,
+      xl: 1920,
+      xs: 0,
+    },
+  },
+
   spacing: {
     unit: 30,
   },

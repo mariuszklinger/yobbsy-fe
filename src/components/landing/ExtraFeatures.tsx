@@ -6,6 +6,7 @@ import features from '../../assets/second.png';
 
 // import ContractCard from './ContractCard';
 // import contractSearchService from 'src/services/contract-search.service';
+import { featureSectionStyle } from './common';
 
 interface IProps {
   classes: any;
@@ -20,12 +21,7 @@ const MainFeatures = ({ classes }: IProps) => {
 }
 
 const styles = (theme: Theme) => ({
-  root: {
-    minHeight: '60vh',
-  },
-  placeholderimg: {
-    height: 550,
-  }
+  ...featureSectionStyle(theme),
 });
 
 export default withStyles(styles as StyleRulesCallback<string>)(MainFeatures);

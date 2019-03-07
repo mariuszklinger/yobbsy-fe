@@ -34,12 +34,14 @@ enum MODE {
 
 interface IState {
   mode: MODE,
+  success: boolean,
 }
 
 @observer
-class LogInModal extends React.Component<IProps, IState> {
+class AuthModal extends React.Component<IProps, IState> {
   state: IState =  {
     mode: MODE.LOGIN,
+    success: false,
   }
 
   toggleMode = () => {
@@ -59,7 +61,7 @@ class LogInModal extends React.Component<IProps, IState> {
     return (
       <Modal
         // open={true}
-        fullScreen={!!fullScreen}
+        // fullScreen={!!fullScreen}
         open={userService.isLogInFormOpened}
         onBackdropClick={userService.closeLoginForm}
         onClose={userService.closeLoginForm}
@@ -108,4 +110,4 @@ const styles = (theme: Theme) => ({
   },
 });
 
-export default withMobileDialog({breakpoint: 'xs'})(withStyles(styles as StyleRulesCallback<string>)(LogInModal));
+export default withMobileDialog({breakpoint: 'xs'})(withStyles(styles as StyleRulesCallback<string>)(AuthModal));

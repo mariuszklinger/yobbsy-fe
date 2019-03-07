@@ -2,13 +2,13 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
-import { LinearProgress, MuiThemeProvider, CssBaseline, Theme, withStyles, StyleRulesCallback } from '@material-ui/core';
+import { LinearProgress, MuiThemeProvider, CssBaseline, Theme, withStyles, StyleRulesCallback, Hidden } from '@material-ui/core';
 
 import ContractForm from './components/ContractForm';
 import OfferList from './components/OfferList';
 import Snackbar from './components/Snackbar';
-import MyAppBar from './components/AppBar';
-import LoginModal from './components/LoginModal';
+import MyAppBar, { APPBAR_WIDTH } from './components/AppBar';
+import LoginModal from './components/AuthModal';
 import PrivateRoute from './components/PrivateRoute';
 
 import HomePage from './pages/home.page';
@@ -40,7 +40,9 @@ class App extends React.Component<IProps> {
         { AppService.isLoading && <LinearProgress color="secondary" className={classes.loadingBar} /> }
         <Router>
           <>
-            <MyAppBar />
+            <Hidden only={['xs']}>
+              <MyAppBar />
+            </Hidden>
 
             <div className={classes.app}>
               <Route path="/" exact component={HomePage} />
@@ -72,7 +74,9 @@ class App extends React.Component<IProps> {
   }
 }
 
-const styles = (_: Theme) => ({
+const styles = (_: Theme) => {
+  console.log(_);
+  return ({
   '@global': {
     body: {
       backgroundColor: '#FFF', // '#778ded',
@@ -82,10 +86,17 @@ const styles = (_: Theme) => ({
       height: '100vh',
       'overflow-x': 'hidden',
     },
+    '*': {
+      transitions: '0.5s',
+    }
   },
 
   app: {
-    paddingLeft: 60,
+    paddingLeft: APPBAR_WIDTH,
+
+    [theme.breakpoints.down(700)]: {
+      paddingLeft: 0,
+    },
   },
 
   loadingBar: {
@@ -94,6 +105,6 @@ const styles = (_: Theme) => ({
     left: 0,
     width: '100%',
   },
-});
+})};
 
 export default withStyles(styles as StyleRulesCallback<string>)(App);

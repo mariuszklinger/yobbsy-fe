@@ -64,10 +64,25 @@ const styles = (theme: Theme) => ({
     '& li': {
       color: theme.palette.common.white,
     },
+
+    [theme.breakpoints.down(600)]: {
+      padding: theme.spacing.unit,
+    },
   },
   buttonRow: {
     marginBottom: theme.spacing.unit * 1,
     marginTop: theme.spacing.unit * 2,
+
+    [theme.breakpoints.down(600)]: {
+      textAlign: 'center',
+
+      '& > button': {
+        marginRight: 0,
+        marginBottom: theme.spacing.unit,
+        maxWidth: 400,
+        width: '100%',
+      },
+    }
   },
   lead: {
     color: theme.palette.common.white,

@@ -34,10 +34,6 @@ class RegisterForm extends React.Component<IProps> {
     userService.register(values);
   }
 
-  componentDidMount() {
-    userService.closeLoginForm();
-  }
-
   render() {
     const { classes } = this.props;
 
@@ -51,12 +47,12 @@ class RegisterForm extends React.Component<IProps> {
           company: '',
         }}
         validationSchema={Yup.object().shape({
-          email: Yup.string().email('Invalid e-mail address'),
+          email: Yup.string().email('Invalid e-mail address').required(),
           password: Yup.string().min(5, 'Too Short!'),
           password2: Yup.string().oneOf([Yup.ref("password")], 'Password does not match'),
         })}
         onSubmit={this.register}
-        render={({ values, errors, handleChange, handleSubmit }: any) => (
+        render={({ values, errors, handleChange, handleSubmit, isValid }: any) => (
           <form
             onSubmit={handleSubmit}
             className={classes.container}
@@ -121,6 +117,7 @@ class RegisterForm extends React.Component<IProps> {
             <Button
               type="submit"
               className={classes.textField}
+              disabled={!isValid}
               color="secondary"
               variant="contained"
             >
