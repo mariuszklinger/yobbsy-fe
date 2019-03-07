@@ -86,6 +86,11 @@ const styles = (theme: Theme) => ({
   },
   lead: {
     color: theme.palette.common.white,
+
+    [theme.breakpoints.down(600)]: {
+      fontSize: 24,
+      lineHeight: 1.4,
+    }
   },
   features: {
     color: '#b3a9d4',
@@ -93,6 +98,12 @@ const styles = (theme: Theme) => ({
   logo: {
     marginTop: theme.spacing.unit,
     marginBottom: theme.spacing.unit * 2,
+
+    [theme.breakpoints.down(600)]: {
+      marginTop: 0,
+      marginBottom: theme.spacing.unit,
+      width: 200,
+    }
   },
   addOfferButton: {
     marginRight: theme.spacing.unit / 2,

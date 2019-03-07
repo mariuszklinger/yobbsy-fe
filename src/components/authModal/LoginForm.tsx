@@ -11,9 +11,6 @@ import {
 } from '@material-ui/core';
 
 import userService from 'src/services/user.service';
-import { Link } from 'react-router-dom';
-
-type FormType = 'REGISTRATION' | 'LOGIN';
 
 interface IProps {
   classes: any;

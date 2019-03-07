@@ -22,6 +22,7 @@ import ContractSearchService from '../services/contract-search.service';
 import userService from '../services/user.service';
 
 import { currencies, notices } from '../consts/dicts';
+import { AUTH_MODAL_MODE } from './AuthModal';
 
 interface IProps {
   classes: any;
@@ -77,12 +78,20 @@ class ContractForm extends React.Component<IProps, IState> {
   }
 
   onSubmit = (event: any) => {
+    event.preventDefault();
+
     const save = ContractService.save;
     const search = ContractSearchService.search;
-    const action = this.inInCreateMode() || this.inInEditMode() ? save : search;
 
+    // search function requires active hunter account
+    const notHunter = !userService.isHunter;
+    if (this.inInSearchMode() && notHunter) {
+      userService.openLoginForm(AUTH_MODAL_MODE.REGISTER);
+      return;
+    }
+
+    const action = this.inInCreateMode() || this.inInEditMode() ? save : search;
     action();
-    event.preventDefault();
   }
 
   createAccountEnabled = () => {
@@ -140,6 +149,7 @@ class ContractForm extends React.Component<IProps, IState> {
             value={contract.salary}
             className={classNames(classes.textField50percent, classes.salary)}
             margin="normal"
+            type="number"
             onChange={this.handleChange('salary')}
             helperText="Minimal accepting salary (monthly)"
           />

@@ -64,7 +64,7 @@ class MyAppBar extends React.Component<IProps> {
           </Link>
         }
 
-        <IconButton onClick={userService.openLoginForm}>
+        <IconButton onClick={() => userService.openLoginForm()}>
           <PersonIcon className={classes.icon} />
         </IconButton>
 

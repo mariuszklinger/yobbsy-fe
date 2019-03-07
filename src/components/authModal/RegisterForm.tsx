@@ -24,7 +24,6 @@ interface IFormValues {
   email: string,
   password: string,
   password2: string,
-  hunter: boolean,
   company?: string,
 }
 
@@ -43,13 +42,14 @@ class RegisterForm extends React.Component<IProps> {
           email: '',
           password: '',
           password2: '',
-          hunter: false,
           company: '',
         }}
         validationSchema={Yup.object().shape({
           email: Yup.string().email('Invalid e-mail address').required(),
-          password: Yup.string().min(5, 'Too Short!'),
-          password2: Yup.string().oneOf([Yup.ref("password")], 'Password does not match'),
+          company: Yup.string().min(1, 'Too short').required(),
+          password: Yup.string().min(5, 'Too Short!').required(),
+          password2: Yup.string().oneOf([Yup.ref("password")], 'Password does not match').required(),
+
         })}
         onSubmit={this.register}
         render={({ values, errors, handleChange, handleSubmit, isValid }: any) => (

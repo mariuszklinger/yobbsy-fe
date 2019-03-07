@@ -1,18 +1,11 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 
-import LoginForm from './LoginForm';
-
 import { withStyles } from '@material-ui/core/styles';
 import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
   StyleRulesCallback,
   LinearProgress
 } from '@material-ui/core';
-import withMobileDialog from '@material-ui/core/withMobileDialog';
 
 import userService from 'src/services/user.service';
 import appService from 'src/services/app.service';
@@ -20,48 +13,42 @@ import Modal from './common/Modal';
 import { Typography, Divider, Theme } from '@material-ui/core';
 import Logo from './common/Logo';
 import Button from '@material-ui/core/Button';
-import RegisterForm from './RegisterForm';
+
+import LoginForm from './authModal/LoginForm';
+import RegisterForm from './authModal/RegisterForm';
 
 interface IProps {
   classes: any;
   fullScreen?: boolean;
 }
 
-enum MODE {
+export enum AUTH_MODAL_MODE {
   LOGIN,
   REGISTER,
 }
 
 interface IState {
-  mode: MODE,
   success: boolean,
 }
 
 @observer
 class AuthModal extends React.Component<IProps, IState> {
   state: IState =  {
-    mode: MODE.LOGIN,
     success: false,
   }
 
-  toggleMode = () => {
-    this.setState(
-      (prev: IState) => ({ mode: prev.mode === MODE.LOGIN ? MODE.REGISTER : MODE.LOGIN })
-    );
-  }
+  toggleMode = userService.toggleAuthModalMode
 
   render() {
-    const { classes, fullScreen } = this.props;
-    const { mode } = this.state;
+    const { classes } = this.props;
+    const mode = userService.authModalMode;
 
     // @ts-ignore
-    const isRegister = mode === MODE.REGISTER;
-    const isLogin = mode === MODE.LOGIN;
+    const isRegister = mode === AUTH_MODAL_MODE.REGISTER;
+    const isLogin = mode === AUTH_MODAL_MODE.LOGIN;
 
     return (
       <Modal
-        // open={true}
-        // fullScreen={!!fullScreen}
         open={userService.isLogInFormOpened}
         onBackdropClick={userService.closeLoginForm}
         onClose={userService.closeLoginForm}
@@ -72,7 +59,7 @@ class AuthModal extends React.Component<IProps, IState> {
         <Typography variant="headline">
           {/* <Logo /> */}
           { isLogin && 'Log in' }
-          { isRegister && 'Register as a headhunter' }
+          { isRegister && <b>Register as a headhunter</b> }
         </Typography>
 
         <Typography variant="subtitle2">
@@ -110,4 +97,4 @@ const styles = (theme: Theme) => ({
   },
 });
 
-export default withMobileDialog({breakpoint: 'xs'})(withStyles(styles as StyleRulesCallback<string>)(AuthModal));
+export default withStyles(styles as StyleRulesCallback<string>)(AuthModal);

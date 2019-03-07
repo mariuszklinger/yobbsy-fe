@@ -19,6 +19,10 @@ const styles = (theme: Theme) => ({
       overflow: 'visible',
       maxHeight: 'none',
     },
+
+    '& > div:nth-child(2)': {
+      margin: 24,
+    }
   },
   content: {
     padding: theme.spacing.unit,

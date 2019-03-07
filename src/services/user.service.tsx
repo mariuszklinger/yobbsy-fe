@@ -3,6 +3,7 @@ import axios from 'axios';
 import get from 'lodash-es/get';
 
 import offerService from './offer.service';
+import { AUTH_MODAL_MODE } from '../components/AuthModal';
 
 interface IUserService {
   isLoggedIn: boolean,
@@ -12,7 +13,9 @@ interface IUserService {
 
 class UserService implements IUserService {
   @observable userData: User.IUser = null;
+
   @observable isLogInFormOpened: boolean = false;
+  @observable authModalMode: AUTH_MODAL_MODE = AUTH_MODAL_MODE.LOGIN;
 
   constructor() {
     const user = localStorage.getItem('userData');
@@ -35,10 +38,18 @@ class UserService implements IUserService {
   }
 
   @action
-  openLoginForm = () => this.isLogInFormOpened = true
+  openLoginForm = (mode: AUTH_MODAL_MODE = AUTH_MODAL_MODE.LOGIN) => {
+    this.authModalMode = mode;
+    this.isLogInFormOpened = true;
+  }
 
   @action
   closeLoginForm = () => this.isLogInFormOpened = false
+
+  @action
+  toggleAuthModalMode = () => {
+    this.authModalMode = this.authModalMode === AUTH_MODAL_MODE.LOGIN ? AUTH_MODAL_MODE.REGISTER : AUTH_MODAL_MODE.LOGIN;
+  }
 
   @action
   setUserData = ({ data }: { data: User.IUser }) => {
@@ -69,7 +80,7 @@ class UserService implements IUserService {
       .then(this.closeLoginForm);
   }
 
-  register({ email, password, hunter, company}: any) {
+  register({ email, password, hunter = true, company}: any) {
     const formdata = new FormData();
     formdata.set('username', email);
     formdata.set('password', password);

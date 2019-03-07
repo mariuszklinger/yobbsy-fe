@@ -3,7 +3,7 @@ import * as React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { StyleRulesCallback } from '@material-ui/core';
 
-import RegisterForm from 'src/components/RegisterForm';
+import RegisterForm from 'src/components/authModal/RegisterForm';
 
 interface IProps {
   classes: any;
