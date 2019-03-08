@@ -33,6 +33,9 @@ interface IState {
   createAccount: boolean;
 }
 
+export const SEARCH_FORM_ID = 'search-contract-form';
+export const ADD_FORM_ID = 'add-contract-form';
+
 @observer
 class ContractForm extends React.Component<IProps, IState> {
   state: IState = {
@@ -102,6 +105,8 @@ class ContractForm extends React.Component<IProps, IState> {
     const { classes } = this.props;
     const { contract } = ContractService;
 
+    const searchMode = this.inInSearchMode();
+
     return (
       <div className={classes.root}>
         <form
@@ -109,6 +114,7 @@ class ContractForm extends React.Component<IProps, IState> {
           onSubmit={this.onSubmit}
         >
           <Typography
+            id={searchMode ? SEARCH_FORM_ID : ADD_FORM_ID}
             align="left"
             variant="h4"
             className={classes.header}
@@ -268,6 +274,7 @@ const styles = (theme: Theme) => ({
     paddingLeft: theme.spacing.unit,
     paddingRight: theme.spacing.unit,
     maxWidth: 600,
+    height: 800,
     marginBottom: -2 * theme.spacing.unit,
 
     [theme.breakpoints.down(700)]: {

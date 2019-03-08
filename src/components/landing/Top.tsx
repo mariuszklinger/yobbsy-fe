@@ -2,12 +2,23 @@ import * as React from 'react';
 
 import { withStyles, StyleRulesCallback, Typography, Theme, Button } from '@material-ui/core';
 import Logo from '../common/Logo';
+import { ADD_FORM_ID } from '../ContractForm';
+import { SEARCH_FORM_ID } from './../ContractForm';
 
 interface IProps {
   classes: any;
 }
 
+function scrollTo(id: string) {
+  const element = document.getElementById(id);
+  element.scrollIntoView();
+}
+
 const Top = ({ classes }: IProps) => {
+
+  const scrollToNewContract = () => scrollTo(ADD_FORM_ID);
+  const scrollToSearchContract = () => scrollTo(SEARCH_FORM_ID);
+
   return (
     <div className={classes.root}>
       <Logo className={classes.logo} />
@@ -33,16 +44,23 @@ const Top = ({ classes }: IProps) => {
       </ul>
 
       <div className={classes.buttonRow}>
-        <Button variant="contained" color="secondary" className={classes.addOfferButton}>
+        <Button
+          variant="contained"
+          color="secondary"
+          className={classes.addOfferButton}
+          onClick={scrollToNewContract}
+        >
           + Add offer
         </Button>
 
-        <Button variant="outlined" color="secondary">
+        <Button
+          variant="outlined"
+          color="secondary"
+          onClick={scrollToSearchContract}
+        >
           Find your candidate
         </Button>
       </div>
-
-      {/* <Modal title="elo" open={true}><span>elo elo</span></Modal> */}
     </div>
   );
 }

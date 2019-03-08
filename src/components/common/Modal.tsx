@@ -20,9 +20,12 @@ const styles = (theme: Theme) => ({
       maxHeight: 'none',
     },
 
-    '& > div:nth-child(2)': {
-      margin: 24,
-    }
+    [theme.breakpoints.down(600)]: {
+      '& > div:nth-child(2)': {
+        margin: 24,
+      }
+    },
+
   },
   content: {
     padding: theme.spacing.unit,
@@ -42,7 +45,11 @@ const styles = (theme: Theme) => ({
 
     '&:hover': {
       backgroundColor: theme.palette.secondary.main,
-    }
+    },
+
+    [theme.breakpoints.down(600)]: {
+      fontSize: 30,
+    },
   }
 });
 
@@ -64,6 +71,7 @@ class CustomDialog extends React.Component<IProps & DialogProps & { children?: a
         onBackdropClick={onClose}
         onClose={onClose}
         scroll="body"
+        maxWidth="xs"
         {...rest}
       >
 

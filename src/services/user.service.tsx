@@ -14,6 +14,8 @@ interface IUserService {
 class UserService implements IUserService {
   @observable userData: User.IUser = null;
 
+  @observable loading: boolean = false;
+
   @observable isLogInFormOpened: boolean = false;
   @observable authModalMode: AUTH_MODAL_MODE = AUTH_MODAL_MODE.LOGIN;
 
@@ -55,6 +57,7 @@ class UserService implements IUserService {
   @action
   setUserData = ({ data }: { data: User.IUser }) => {
     this.userData = data;
+    this.loading = false;
     this.setAuthToken();
 
     localStorage.setItem('userData', JSON.stringify(data));
@@ -65,7 +68,10 @@ class UserService implements IUserService {
     axios.defaults.headers.common.Authorization = token;
   }
 
+  @action
   logIn(username: string, password: string) {
+    this.loading = true;
+
     const formdata = new FormData();
     formdata.set('username', username);
     formdata.set('password', password);
@@ -81,6 +87,13 @@ class UserService implements IUserService {
       .then(this.closeLoginForm);
   }
 
+  @action
+  onRegisterSuccess = (data: any) => {
+    this.loading = false;
+    return data;
+  }
+
+  @action
   register({ email, password, hunter = true, company}: any) {
     const formdata = new FormData();
     formdata.set('username', email);
@@ -88,12 +101,15 @@ class UserService implements IUserService {
     formdata.set('hunter', `${hunter}`);
     formdata.set('company', company);
 
+    this.loading = true;
+
     const config = {
       headers: { 'Content-Type': 'multipart/form-data' },
     };
 
     return axios
-      .post('/core/register', formdata, config);
+      .post('/core/register', formdata, config)
+      .then(this.onRegisterSuccess);
   }
 }
 

@@ -88,6 +88,9 @@ const styles = (_: Theme) => {
     },
     '*': {
       transitions: '0.5s',
+      scrollBehavior: 'smooth',
+    },
+    '#root': {
     }
   },
 

@@ -20,7 +20,7 @@ import CardTravelIcon from '@material-ui/icons/CardTravel';
 import userService from '../services/user.service';
 import offerService from '../services/offer.service';
 import { Theme } from '@material-ui/core';
-import Modal from './common/Modal';
+import { ADD_FORM_ID, SEARCH_FORM_ID } from './ContractForm';
 
 interface IProps {
   classes: any;
@@ -41,11 +41,11 @@ class MyAppBar extends React.Component<IProps> {
         </Link>
 
         { (userService.isEmployee || !userService.isLoggedIn) &&
-          <Link to="/new-contract">
+          <a href={`#${ADD_FORM_ID}`}>
             <IconButton className={classes.icon}>
               <AddIcon />
             </IconButton>
-          </Link>
+          </a>
         }
 
         { userService.isEmployee &&
@@ -57,11 +57,11 @@ class MyAppBar extends React.Component<IProps> {
         }
 
         { (!userService.isLoggedIn || userService.isHunter) &&
-          <Link to="/search">
+          <a href={`#${SEARCH_FORM_ID}`}>
             <IconButton className={classes.icon}>
               <SearchIcon className={classes.icon} />
             </IconButton>
-          </Link>
+          </a>
         }
 
         <IconButton onClick={() => userService.openLoginForm()}>

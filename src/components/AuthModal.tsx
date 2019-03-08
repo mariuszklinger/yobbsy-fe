@@ -16,6 +16,7 @@ import Button from '@material-ui/core/Button';
 
 import LoginForm from './authModal/LoginForm';
 import RegisterForm from './authModal/RegisterForm';
+import RegistrationSuccess from './authModal/RegistrationSuccess';
 
 interface IProps {
   classes: any;
@@ -28,21 +29,22 @@ export enum AUTH_MODAL_MODE {
 }
 
 interface IState {
-  success: boolean,
+  succeed: boolean,
 }
 
 @observer
 class AuthModal extends React.Component<IProps, IState> {
   state: IState =  {
-    success: false,
+    succeed: false,
   }
 
   showSuccessPanel = () => {
-    this.setState({ success: true });
+    this.setState({ succeed: true });
   }
 
   render() {
     const { classes } = this.props;
+    const { succeed } = this.state;
     const mode = userService.authModalMode;
 
     // @ts-ignore
@@ -69,19 +71,23 @@ class AuthModal extends React.Component<IProps, IState> {
           { isRegister && 'After registration you will be able search for your perfect candidate' }
         </Typography>
 
-        { isRegister && <RegisterForm onSuccess={this.showSuccessPanel} /> }
-        { isLogin && <LoginForm /> }
+        {succeed && <RegistrationSuccess onClose={userService.closeLoginForm} />}
 
-        <Divider className={classes.divider} />
+        {!succeed && <>
+          { isRegister && <RegisterForm onSuccess={this.showSuccessPanel} /> }
+          { isLogin && <LoginForm /> }
 
-        <Button variant="outlined" color="secondary" size="small" fullWidth>
-          Add your dream position
-        </Button>
+          <Divider className={classes.divider} />
 
-        <Button onClick={userService.toggleAuthModalMode} variant="text" color="secondary" size="small" fullWidth>
-          { isLogin && 'Register as recruiter' }
-          { isRegister && 'Back to login page' }
-        </Button>
+          <Button variant="outlined" color="secondary" size="small" fullWidth>
+            Add your dream position
+          </Button>
+
+          <Button onClick={userService.toggleAuthModalMode} variant="text" color="secondary" size="small" fullWidth>
+            { isLogin && 'Register as recruiter' }
+            { isRegister && 'Back to login page' }
+          </Button>
+        </>}
       </Modal>
     );
   }

@@ -46,14 +46,14 @@ class RegisterForm extends React.Component<IProps> {
           email: 'test@testowy.casd.pl',
           password: 'test123',
           password2: 'test123',
-          company: 'FAcebook SA',
+          company: 'Facebook SA',
+          loading: userService.loading,
         }}
         validationSchema={Yup.object().shape({
           email: Yup.string().email('Invalid e-mail address').required(),
           company: Yup.string().min(1, 'Too short').required(),
           password: Yup.string().min(5, 'Too Short!').required(),
           password2: Yup.string().oneOf([Yup.ref("password")], 'Password does not match').required(),
-
         })}
         onSubmit={this.register}
         render={({ values, errors, handleChange, handleSubmit, isValid }: any) => (
@@ -121,7 +121,7 @@ class RegisterForm extends React.Component<IProps> {
             <Button
               type="submit"
               className={classes.textField}
-              disabled={!isValid}
+              disabled={!isValid || values.loading}
               color="secondary"
               variant="contained"
             >
