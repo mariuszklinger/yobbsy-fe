@@ -30,7 +30,7 @@ export function getContractJson(obj: Contract.IContractFull) {
   return contract;
 }
 
-function getEmptyContract(): Contract.IContractFull {
+export function getEmptyContract(): Contract.IContractFull {
   return {
     id: null,
     salary: null,
@@ -39,7 +39,7 @@ function getEmptyContract(): Contract.IContractFull {
     description: '',
     locations: [],
     notice: 0,
-    skills: [] as any[],
+    skills: [],
     email: '',
   };
 }
@@ -115,12 +115,12 @@ class ContractService implements IContractService {
       .then(({ data }) => callback(data.results));
   }
 
-  save = () => {
-    const contract = getContractJson(this.contract);
+  save = (contract: any) => {
+    // const contract = getContractJson(this.contract);
     const method = contract.id ? axios.put : axios.post;
     const url = contract.id ? `/core/contract/${contract.id}` : '/core/contract';
 
-    method(url, contract)
+    return method(url, contract)
       .then(({ data }) => console.log(data));
   }
 

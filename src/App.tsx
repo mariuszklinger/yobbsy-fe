@@ -74,9 +74,7 @@ class App extends React.Component<IProps> {
   }
 }
 
-const styles = (_: Theme) => {
-  console.log(_);
-  return ({
+const styles = (_: Theme) => ({
   '@global': {
     body: {
       backgroundColor: '#FFF', // '#778ded',
@@ -108,6 +106,6 @@ const styles = (_: Theme) => {
     left: 0,
     width: '100%',
   },
-})};
+});
 
 export default withStyles(styles as StyleRulesCallback<string>)(App);

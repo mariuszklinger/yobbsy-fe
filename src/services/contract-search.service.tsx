@@ -18,8 +18,8 @@ class ContractSearchService implements IContractSearchService {
   }
 
   @action
-  search = () => {
-    axios
+  search = (values: any) => { // TODO:
+    return axios
       .get(`/core/contract?salary=1000000`)
       .then(({ data }: any) => {
         this.setContractList(data.results);
@@ -29,7 +29,7 @@ class ContractSearchService implements IContractSearchService {
 
   @action
   getMyContracts = () => {
-    axios
+    return axios
       .get(`/core/contract/my_contracts`)
       .then(({ data }: any) => {
         this.setContractList(data.results);
