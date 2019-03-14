@@ -1,0 +1,10 @@
+{
+  "buildpacks": [
+    {
+      "url": "mars/create-react-app"
+    }
+  ],
+  "env": {
+    "BACKEND_API": "https://yobbsy-back.herokuapp.com/"
+  }
+}
