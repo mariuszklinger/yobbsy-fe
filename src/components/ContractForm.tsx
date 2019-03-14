@@ -30,6 +30,7 @@ import SuccessPane from './contractForm/SuccessPane';
 
 interface IProps {
   contract?: Contract.IContractFull;
+  className?: string;
   context: 'SEARCH' | 'CREATE' | 'EDIT';
   classes: any;
 }
@@ -102,12 +103,11 @@ class ContractForm extends React.Component<IProps, IState> {
       .then(() => setSubmitting(false));
   }
 
-  showSuccessPane = () => {
-    this.setState({ succeed: true });
-  }
+  showSuccessPane = () => this.setState({ succeed: true });
+  hideSuccessPane = () => this.setState({ succeed: false });
 
   render() {
-    const { classes, contract } = this.props;
+    const { classes, contract, className } = this.props;
     const { succeed } = this.state;
     const searchMode = this.inInSearchMode();
 
@@ -141,7 +141,7 @@ class ContractForm extends React.Component<IProps, IState> {
     };
 
     return (
-      <div className={classes.root}>
+      <div className={classnames(className, classes.root)}>
         <Formik<IFormValues>
           initialValues={initValues}
           validationSchema={schema}
@@ -152,7 +152,7 @@ class ContractForm extends React.Component<IProps, IState> {
               className={classes.container}
               onSubmit={handleSubmit}
             >
-              <div className={classnames({
+              <div className={classnames(classes.formWrapper, {
                 [classes.successFadeOut]: succeed,
               })}>
                 <Typography
@@ -334,9 +334,12 @@ class ContractForm extends React.Component<IProps, IState> {
                 </div>
               </div>
 
-              <SuccessPane className={classnames({
-                [classes.successFadeIn]: succeed,
-              })}/>
+              <SuccessPane
+                className={classnames({
+                  [classes.successFadeIn]: succeed,
+                })}
+                callback={this.hideSuccessPane}
+              />
             </form>
           )}
         />
@@ -361,8 +364,6 @@ const styles = (theme: Theme) => ({
   container: {
     backgroundColor: 'white',
     borderRadius: 5,
-    display: 'flex',
-    flexWrap: 'wrap',
     padding: 2 * theme.spacing.unit,
     paddingLeft: 3 * theme.spacing.unit,
     paddingRight: 3 * theme.spacing.unit,
@@ -371,6 +372,10 @@ const styles = (theme: Theme) => ({
       padding: theme.spacing.unit,
     },
   },
+  formWrapper: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
   actionWrapper: {
     width: '100%',
     display: 'flex',
@@ -378,7 +383,7 @@ const styles = (theme: Theme) => ({
     padding: 10,
   },
   textField: {
-    flex: 'auto',
+    // flex: 'auto',
   },
   header: {
     color: theme.palette.primary.main,

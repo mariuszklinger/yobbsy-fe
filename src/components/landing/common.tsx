@@ -14,12 +14,7 @@ export const sectionStyle = (theme: Theme) => ({
 });
 
 export const featureSectionStyle = (theme: Theme) => ({
-  root: {
-    minHeight: '60vh',
-    maxWidth: '100vw',
-    overflow: 'hidden',
-  },
-  placeholderimg: {
-    height: 550,
-  }
+  minHeight: '60vh',
+  maxWidth: '100vw',
+  overflow: 'hidden',
 });

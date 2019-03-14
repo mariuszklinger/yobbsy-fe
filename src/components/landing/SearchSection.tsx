@@ -17,13 +17,17 @@ const NewContractSection = ({ classes }: IProps) => {
   return (
     <div className={classes.root}>
 
-      <ContractForm context="SEARCH" />
+      <ContractForm context="SEARCH" className={classes.searchForm} />
     </div>
   );
 }
 
 const styles = (theme: Theme) => ({
   ...sectionStyle(theme),
+
+  searchForm: {
+    marginTop: -60,
+  }
 });
 
 export default withStyles(styles as StyleRulesCallback<string>)(NewContractSection);

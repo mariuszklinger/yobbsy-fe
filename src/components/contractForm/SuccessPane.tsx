@@ -9,14 +9,16 @@ import {
 } from '@material-ui/core';
 
 import success_airplane from './send_icon.svg';
+import Button from '@material-ui/core/Button';
 
 interface IProps {
   className: string;
   classes: any;
   text?: string;
+  callback?: () => void;
 }
 
-const SuccessPane = ({ classes, className, text }: IProps) => {
+const SuccessPane = ({ classes, className, text, callback }: IProps) => {
   return (
     <div className={classnames(className, classes.root)}>
       <CheckCircle color="secondary" className={classes.checkSign} />
@@ -24,6 +26,15 @@ const SuccessPane = ({ classes, className, text }: IProps) => {
       <div>
         <Typography variant="h4" color="secondary">Success!</Typography>
         <Typography variant="h6" color="secondary">{text || 'Messege sent!'}</Typography>
+
+        <br />
+        {callback && <Button
+          color="secondary"
+          variant="contained"
+          onClick={callback}
+        >
+          Add another
+        </Button>}
       </div>
     </div>
   );
@@ -39,7 +50,7 @@ const styles = (theme: Theme) => ({
     opacity: 0,
     position: 'absolute',
     textAlign: 'center',
-    top: 200,
+    bottom: 0,
     width: '100%',
     zIndex: -1,
   },

@@ -7,8 +7,8 @@ import {
   LinearProgress
 } from '@material-ui/core';
 
-import userService from 'src/services/user.service';
-import appService from 'src/services/app.service';
+import userService from '../services/user.service';
+import appService from '../services/app.service';
 import Modal from './common/Modal';
 import { Typography, Divider, Theme } from '@material-ui/core';
 import Logo from './common/Logo';

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Fade from 'react-reveal/Fade';
 
 import { withStyles, StyleRulesCallback, Theme, Typography } from '@material-ui/core';
 
@@ -42,21 +43,25 @@ const MainFeatures = ({ classes }: IProps) => {
   return <div className={classes.root}>
     {content.map((feature) => (
         <div className={classes.featureRow}>
-          <div className={classes.featureImgWrapper}>
-            <img className={classes.featureImg} src={feature.img} />
-          </div>
+          <Fade>
+            <div className={classes.featureImgWrapper}>
+              <img className={classes.featureImg} src={feature.img} />
+            </div>
 
-          <div>
-            <Typography className={classes.header} variant="h4" color="primary">{feature.title}</Typography>
-            <Typography className={classes.text} variant="h6">{feature.text}</Typography>
-          </div>
+            <div>
+              <Typography className={classes.header} variant="h4" color="primary">{feature.title}</Typography>
+              <Typography className={classes.text} variant="h6">{feature.text}</Typography>
+            </div>
+          </Fade>
         </div>
     ))}
   </div>
 }
 
 const styles = (theme: Theme) => ({
-  ...featureSectionStyle(theme),
+  root: {
+    ...featureSectionStyle(theme),
+  },
   featureRow: {
     alignItems: 'center',
     display: 'flex',
@@ -85,8 +90,8 @@ const styles = (theme: Theme) => ({
     },
   },
   featureImg: {
-    maxHeight: 150,
-    width: 150,
+    maxHeight: 120,
+    width: 135,
     display: 'inline-block',
     marginRight: theme.spacing.unit,
 
