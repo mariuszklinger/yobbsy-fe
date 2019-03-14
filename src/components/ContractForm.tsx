@@ -1,5 +1,6 @@
 import * as React from 'react';
-import classNames from 'classnames';
+import * as Yup from 'yup';
+import classnames from 'classnames';
 import { observer } from 'mobx-react';
 
 import { toJS } from 'mobx';
@@ -24,12 +25,17 @@ import userService from '../services/user.service';
 import { currencies, notices } from '../consts/dicts';
 import { AUTH_MODAL_MODE } from './AuthModal';
 import { Formik, FormikActions } from 'formik';
-import * as Yup from 'yup';
 import { getEmptyContract } from './../services/contract.service';
+import SuccessPane from './contractForm/SuccessPane';
 
 interface IProps {
-  classes: any;
+  contract?: Contract.IContractFull;
   context: 'SEARCH' | 'CREATE' | 'EDIT';
+  classes: any;
+}
+
+interface IState {
+  succeed: boolean;
 }
 
 interface IFormValues extends Contract.IContractFull {
@@ -49,33 +55,35 @@ const schema = Yup.object().shape({
   salary: Yup.number().typeError('Provide valid number').required('Salary is required'),
   currency: Yup.string().required('Currency is required'),
   password: Yup.string(),
-  passwordRepeated: Yup.string().oneOf([Yup.ref('password'), ''], 'Passwords do not match').test('password_repeat', 'omg', function (value) {
-    console.log(this.resolve(Yup.ref('password')));
-    return !!this.resolve(Yup.ref('password')) ? !!value : true;
-  }),
+  passwordRepeated: Yup.string().oneOf([Yup.ref('password'), ''], 'Passwords do not match')
+    .test('password_repeat', 'Passwords do not match', function (value) {
+      return !!this.resolve(Yup.ref('password')) ? !!value : true;
+    }),
 });
 
+const handleLocationSelect = (setFieldValue: any) => (locations: Contract.ILocation[]) => {
+  setFieldValue('locations', [...locations]);
+}
+
+const handleSkillSelect = (setFieldValue: any) => (values: any) => {
+  const skills = [...values]
+    .map((record: any) => ({ proficiency: 10, tag: toJS(record)}));
+
+  setFieldValue('skills', skills);
+}
+
 @observer
-class ContractForm extends React.Component<IProps> {
+class ContractForm extends React.Component<IProps, IState> {
+  state = {
+    succeed: false,
+  };
 
   inInSearchMode = () => this.props.context === 'SEARCH'
   inInCreateMode = () => this.props.context === 'CREATE'
   inInEditMode = () => this.props.context === 'EDIT'
   createAccountEnabled = () => this.inInCreateMode() && !userService.isLoggedIn;
 
-  handleLocationSelect = (setFieldValue: any) => (locations: Contract.ILocation[]) => {
-    setFieldValue('locations', [...locations]);
-  }
-
-  handleSkillSelect = (setFieldValue: any) => (values: any) => {
-    const skills = [...values]
-      .map((record: any) => ({ proficiency: 10, tag: toJS(record)}));
-
-    setFieldValue('skills', skills);
-  }
-
   onSubmit = (values: IFormValues, { setSubmitting }: FormikActions<IFormValues>) => {
-    setSubmitting(true);
     const save = ContractService.save;
     const search = ContractSearchService.search;
 
@@ -83,20 +91,29 @@ class ContractForm extends React.Component<IProps> {
     const notHunter = !userService.isHunter;
     if (this.inInSearchMode() && notHunter) {
       userService.openLoginForm(AUTH_MODAL_MODE.REGISTER);
+      setSubmitting(false);
       return;
     }
 
     const action = this.inInCreateMode() || this.inInEditMode() ? save : search;
-    action(values).then(() => setSubmitting(false));
+
+    action(values)
+      .then(this.showSuccessPane)
+      .then(() => setSubmitting(false));
+  }
+
+  showSuccessPane = () => {
+    this.setState({ succeed: true });
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, contract } = this.props;
+    const { succeed } = this.state;
     const searchMode = this.inInSearchMode();
 
     const initValues = {
       ...getEmptyContract(),
-      setPassword: true,
+      setPassword: false,
       password: '',
       passwordRepeated : '',
 
@@ -120,196 +137,208 @@ class ContractForm extends React.Component<IProps> {
         }
       ],
       email: 'dasdas21312zaaada@asdsada.pl',
+      ...contract,
     };
 
     return (
       <div className={classes.root}>
-      <Formik<IFormValues>
-        initialValues={initValues}
-        validationSchema={schema}
-        onSubmit={this.onSubmit}
-        isInitialValid
-        render={({ values, errors, isValid, handleChange, handleSubmit, setFieldValue, isSubmitting }) => (
-          <form className={classes.container} onSubmit={handleSubmit}>
-            <Typography
-              id={searchMode ? SEARCH_FORM_ID : ADD_FORM_ID}
-              align="left"
-              variant="h4"
-              className={classes.header}
+        <Formik<IFormValues>
+          initialValues={initValues}
+          validationSchema={schema}
+          onSubmit={this.onSubmit}
+          isInitialValid
+          render={({ values, errors, isValid, handleChange, handleSubmit, setFieldValue, isSubmitting }) => (
+            <form
+              className={classes.container}
+              onSubmit={handleSubmit}
             >
-              { this.inInSearchMode() && 'Find your candidate'}
-              { this.inInEditMode() && 'Edit your offer'}
-              { this.inInCreateMode() && 'Post your dream job'}
-            </Typography>
+              <div className={classnames({
+                [classes.successFadeOut]: succeed,
+              })}>
+                <Typography
+                  id={searchMode ? SEARCH_FORM_ID : ADD_FORM_ID}
+                  align="left"
+                  variant="h4"
+                  className={classes.header}
+                >
+                  { this.inInSearchMode() && 'Find your candidate'}
+                  { this.inInEditMode() && 'Edit your offer'}
+                  { this.inInCreateMode() && 'Post your dream job'}
+                </Typography>
 
-            <TextField
-              name="title"
-              label="Job title"
-              className={classes.textField}
-              type="text"
-              margin="normal"
-              fullWidth
-              value={values.title}
-              onChange={handleChange}
-              error={!!errors.title}
-              helperText={errors.title || 'Your dream job position'}
-            />
-
-            { this.inInCreateMode() &&
-              <TextField
-                name="description"
-                label="Description"
-                className={classes.textField}
-                type="text"
-                multiline
-                rowsMax="4"
-                margin="normal"
-                fullWidth
-                value={values.description}
-                onChange={handleChange}
-                error={!!errors.description}
-                helperText={errors.description || 'Provide some extra info'}
-              />
-            }
-
-            <TextField
-              name="salary"
-              label="Salary"
-              value={values.salary}
-              className={classNames(classes.textField50percent, classes.salary)}
-              margin="normal"
-              type="number"
-              onChange={handleChange}
-              error={!!errors.salary}
-              helperText={errors.salary || 'Minimal accepting salary (monthly)'}
-            />
-
-            <TextField
-              name="currency"
-              className={classNames(classes.textField50percent, classes.currency)}
-              select
-              label="Currency"
-              value={values.currency}
-              onChange={handleChange}
-              error={!!errors.currency}
-              helperText={errors.currency || 'Please select your currency'}
-              margin="normal"
-              style={{ textAlign: 'left' }}
-            >
-              {currencies.map(option => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-
-            <TagSelect
-              selected={values.skills}
-              onChange={this.handleSkillSelect(setFieldValue)}
-            />
-
-            <LocationSelect
-              selected={values.locations}
-              onChange={this.handleLocationSelect(setFieldValue)}
-            />
-
-            <TextField
-              name="notice"
-              label="Notice period"
-              value={values.notice}
-              className={classes.textField}
-              type="number"
-              margin="normal"
-              onChange={handleChange}
-              error={!!errors.notice}
-              helperText={errors.notice || 'How fast you can start new job? (months)'}
-              select
-              fullWidth
-            >
-              {notices.map(option => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-
-            { this.createAccountEnabled() &&
-              <TextField
-                name="email"
-                label="Email"
-                className={classes.textField}
-                type="email"
-                value={values.email}
-                autoComplete="email"
-                margin="normal"
-                fullWidth
-                onChange={handleChange}
-                error={!!errors.email}
-                helperText={errors.email || 'E-mail will be hidden from recruiter'}
-              />
-            }
-
-            { this.createAccountEnabled() &&
-              <Typography
-                className={classes.textField}
-                style={{ textAlign: 'left' }}
-                variant="subtitle1"
-              >
-                Set your own password?
-                <Switch
-                  name="setPassword"
-                  checked={values.setPassword}
-                  onClick={(_: any) => setFieldValue('setPassword', !values.setPassword)}
-                  color="secondary"
-                />
-              </Typography>
-            }
-
-            { this.createAccountEnabled() && values.setPassword && <>
-              <TextField
-                name="password"
-                value={values.password}
-                label="Password"
-                className={classes.textField}
-                autoComplete="password"
-                type="password"
-                margin="normal"
-                onChange={handleChange}
-                error={!!errors.password}
-                helperText={errors.password || ''}
-                fullWidth
-              />
-              { values.password && (
                 <TextField
-                  name="passwordRepeated"
-                  value={values.passwordRepeated}
-                  label="Repeat password"
+                  name="title"
+                  label="Job title"
                   className={classes.textField}
-                  type="password"
+                  type="text"
                   margin="normal"
-                  autoComplete="password"
-                  error={!!errors.passwordRepeated}
-                  helperText={errors.passwordRepeated}
                   fullWidth
+                  value={values.title}
                   onChange={handleChange}
+                  error={!!errors.title}
+                  helperText={errors.title || 'Your dream job position'}
                 />
-              )}
-            </>}
 
-            <div className={classes.actionWrapper}>
-              <Button
-                disabled={!isValid || isSubmitting}
-                color="secondary"
-                variant="contained"
-                type="submit"
-              >
-                { this.inInSearchMode() && 'Search'}
-                { this.inInCreateMode() && 'Submit'}
-                { this.inInEditMode() && 'Update'}
-              </Button>
-            </div>
-          </form>
-        )}
+                { (this.inInCreateMode() || this.inInEditMode) &&
+                  <TextField
+                    name="description"
+                    label="Description"
+                    className={classes.textField}
+                    type="text"
+                    multiline
+                    rowsMax="4"
+                    margin="normal"
+                    fullWidth
+                    value={values.description}
+                    onChange={handleChange}
+                    error={!!errors.description}
+                    helperText={errors.description || 'Provide some extra info'}
+                  />
+                }
+
+                <TextField
+                  name="salary"
+                  label="Salary"
+                  value={values.salary}
+                  className={classnames(classes.textField50percent, classes.salary)}
+                  margin="normal"
+                  type="number"
+                  onChange={handleChange}
+                  error={!!errors.salary}
+                  helperText={errors.salary || 'Minimal accepting salary (monthly)'}
+                />
+
+                <TextField
+                  name="currency"
+                  className={classnames(classes.textField50percent, classes.currency)}
+                  select
+                  label="Currency"
+                  value={values.currency}
+                  onChange={handleChange}
+                  error={!!errors.currency}
+                  helperText={errors.currency || 'Please select your currency'}
+                  margin="normal"
+                  style={{ textAlign: 'left' }}
+                >
+                  {currencies.map(option => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
+
+                <TagSelect
+                  selected={values.skills}
+                  onChange={handleSkillSelect(setFieldValue)}
+                />
+
+                <LocationSelect
+                  selected={values.locations}
+                  onChange={handleLocationSelect(setFieldValue)}
+                />
+
+                <TextField
+                  name="notice"
+                  label="Notice period"
+                  value={values.notice}
+                  className={classes.textField}
+                  type="number"
+                  margin="normal"
+                  onChange={handleChange}
+                  error={!!errors.notice}
+                  helperText={errors.notice || 'How fast you can start new job? (months)'}
+                  select
+                  fullWidth
+                >
+                  {notices.map(option => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
+
+                { this.createAccountEnabled() &&
+                  <TextField
+                    name="email"
+                    label="Email"
+                    className={classes.textField}
+                    type="email"
+                    value={values.email}
+                    autoComplete="email"
+                    margin="normal"
+                    fullWidth
+                    onChange={handleChange}
+                    error={!!errors.email}
+                    helperText={errors.email || 'E-mail will be hidden from recruiter'}
+                  />
+                }
+
+                { this.createAccountEnabled() &&
+                  <Typography
+                    className={classes.textField}
+                    style={{ textAlign: 'left' }}
+                    variant="subtitle1"
+                  >
+                    Set your own password?
+                    <Switch
+                      name="setPassword"
+                      checked={values.setPassword}
+                      onClick={(_: any) => setFieldValue('setPassword', !values.setPassword)}
+                      color="secondary"
+                    />
+                  </Typography>
+                }
+
+                { this.createAccountEnabled() && values.setPassword && <>
+                  <TextField
+                    name="password"
+                    value={values.password}
+                    label="Password"
+                    className={classes.textField}
+                    autoComplete="password"
+                    type="password"
+                    margin="normal"
+                    onChange={handleChange}
+                    error={!!errors.password}
+                    helperText={errors.password || ''}
+                    fullWidth
+                  />
+                  { values.password && (
+                    <TextField
+                      name="passwordRepeated"
+                      value={values.passwordRepeated}
+                      label="Repeat password"
+                      className={classes.textField}
+                      type="password"
+                      margin="normal"
+                      autoComplete="password"
+                      error={!!errors.passwordRepeated}
+                      helperText={errors.passwordRepeated}
+                      fullWidth
+                      onChange={handleChange}
+                    />
+                  )}
+                </>}
+
+                <div className={classes.actionWrapper}>
+                  <Button
+                    disabled={!isValid || isSubmitting}
+                    color="secondary"
+                    variant="contained"
+                    type="submit"
+                  >
+                    { this.inInSearchMode() && 'Search'}
+                    { this.inInCreateMode() && 'Submit'}
+                    { this.inInEditMode() && 'Update'}
+                  </Button>
+                </div>
+              </div>
+
+              <SuccessPane className={classnames({
+                [classes.successFadeIn]: succeed,
+              })}/>
+            </form>
+          )}
         />
       </div>
     );
@@ -318,6 +347,7 @@ class ContractForm extends React.Component<IProps> {
 
 const styles = (theme: Theme) => ({
   root: {
+    position: 'relative',
     paddingLeft: theme.spacing.unit,
     paddingRight: theme.spacing.unit,
     maxWidth: 600,
@@ -348,7 +378,7 @@ const styles = (theme: Theme) => ({
     padding: 10,
   },
   textField: {
-    // flex: 'auto',
+    flex: 'auto',
   },
   header: {
     color: theme.palette.primary.main,
@@ -360,6 +390,21 @@ const styles = (theme: Theme) => ({
   currency: {
     marginLeft: 10,
   },
+  successFadeOut: {
+    opacity: 0,
+    transition: '0.3s',
+  },
+  successFadeIn: {
+    zIndex: 1,
+    opacity: 1,
+    transition: '0.3s',
+
+    [theme.breakpoints.up(700)]: {
+      marginLeft: -76,
+      width: 515,
+    },
+  },
+
 });
 
 export default withStyles(styles as StyleRulesCallback<string>)(ContractForm);

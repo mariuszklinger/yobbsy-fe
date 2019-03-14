@@ -43,7 +43,7 @@ class ContractDetailsPage extends React.Component<IProps, IState> {
     }
 
     if (editing) {
-      return <ContractForm context="EDIT" />
+      return <ContractForm contract={this.state.contract} context="EDIT" />
     }
 
     return <ContractCard contract={this.state.contract} />;

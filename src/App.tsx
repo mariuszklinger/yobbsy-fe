@@ -85,7 +85,6 @@ const styles = (_: Theme) => ({
       'overflow-x': 'hidden',
     },
     '*': {
-      transitions: '0.5s',
       scrollBehavior: 'smooth',
     },
     '#root': {
@@ -105,6 +104,7 @@ const styles = (_: Theme) => ({
     top: 0,
     left: 0,
     width: '100%',
+    zIndex: 10000,
   },
 });
 

@@ -88,16 +88,14 @@ class MyAppBar extends React.Component<IProps> {
         }
 
         { !userService.isLoggedIn &&
-          <Link to="/offers">
-            <IconButton className={classes.icon}>
-              <Badge
-                color="secondary"
-                badgeContent={1}
-              >
-                <MailIcon />
-              </Badge>
-            </IconButton>
-          </Link>
+          <IconButton className={classes.icon} onClick={() => userService.openLoginForm()}>
+            <Badge
+              color="secondary"
+              badgeContent={1}
+            >
+              <MailIcon />
+            </Badge>
+          </IconButton>
         }
 
         { userService.isLoggedIn &&
