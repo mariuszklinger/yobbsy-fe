@@ -3,12 +3,16 @@ import get from 'lodash-es/get';
 
 import AppService from '../services/app.service';
 
-const BACKEND_API = {
+interface ENV_DICT {
+  [key: string]: string,
+}
+
+const BACKEND_API: ENV_DICT = {
   production: 'https://yobbsy-back.herokuapp.com',
   development: 'http://localhost:8000',
 };
 
-axios.defaults.baseURL = BACKEND_API[process.env.NODE_ENV];
+axios.defaults.baseURL = BACKEND_API[process.env.NODE_ENV || 'development'];
 
 const onRequestStart = (config: any) => {
   AppService.loadingStart();

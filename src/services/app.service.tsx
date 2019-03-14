@@ -1,4 +1,5 @@
 import { observable, action } from "mobx";
+import { common } from "@material-ui/core/colors";
 
 interface IContractService {
   loadingStart: () => void;
@@ -9,8 +10,8 @@ class AppService implements IContractService {
   @observable isLoading: boolean = false;
 
   @observable toasterActive: boolean = false;
-  @observable toasterType: Common.ToasterType = null;
-  @observable toasterMessage: string = null;
+  @observable toasterType: Common.ToasterType | null = null;
+  @observable toasterMessage: string = '';
 
   @action
   loadingStart = () => {
@@ -26,7 +27,7 @@ class AppService implements IContractService {
   showToaster = (name: Common.ToasterType, msg?: string) => {
     this.toasterActive = true;
     this.toasterType = name;
-    this.toasterMessage = msg;
+    this.toasterMessage = msg!;
   }
 
   @action

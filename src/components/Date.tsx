@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as Moment from 'moment';
+import moment from 'moment';
 
 import { StyleRulesCallback, withStyles } from '@material-ui/core';
 
@@ -9,7 +9,7 @@ interface IProps {
 }
 
 export function Date({ dateStr, classes }: IProps) {
-  const formatted = Moment(dateStr, Moment.HTML5_FMT.DATETIME_LOCAL_SECONDS)
+  const formatted = moment(dateStr, moment.HTML5_FMT.DATETIME_LOCAL_SECONDS)
     .format('YYYY-MM-DD, HH:mm');
   return <span className={classes.dateWrapper}>{ formatted }</span>;
 }

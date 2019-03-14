@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Typography, withStyles, StyleRulesCallback } from '@material-ui/core';
 
-import ContractList from 'src/components/ContractList';
+import ContractList from '../components/ContractList';
 import contractSearchService from '../services/contract-search.service';
 
 interface IProps {

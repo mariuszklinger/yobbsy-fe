@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import Top from 'src/components/landing/Top';
-import MainFeatures from 'src/components/landing/MainFeatures';
-import ContractSection from 'src/components/landing/ContractSection';
-import SearchSection from 'src/components/landing/SearchSection';
-import ExtraFeatures from 'src/components/landing/ExtraFeatures';
+import Top from '../components/landing/Top';
+import MainFeatures from '../components/landing/MainFeatures';
+import ContractSection from '../components/landing/ContractSection';
+import SearchSection from '../components/landing/SearchSection';
+import ExtraFeatures from '../components/landing/ExtraFeatures';
 
 class HomePage extends React.Component<{}> {
   render() {

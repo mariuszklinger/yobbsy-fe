@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import { withStyles, StyleRulesCallback } from '@material-ui/core';
 
 import ContractCard from './ContractCard';
-import contractSearchService from 'src/services/contract-search.service';
+import contractSearchService from '../services/contract-search.service';
 
 interface IProps {
   classes: any;

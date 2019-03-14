@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import { action, observable, computed } from 'mobx';
 
-import userService from 'src/services/user.service';
+import userService from './user.service';
 
 class OfferService {
   @observable

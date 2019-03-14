@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import ContractForm from 'src/components/ContractForm';
-import ContractList from 'src/components/ContractList';
+import ContractForm from '../components/ContractForm';
+import ContractList from '../components/ContractList';
 
 class SearchPage extends React.Component<{}> {
   render() {

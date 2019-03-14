@@ -7,8 +7,8 @@ import Button from '@material-ui/core/Button';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 
-import userService from 'src/services/user.service';
-import offerService from 'src/services/offer.service';
+import userService from '../services/user.service';
+import offerService from '../services/offer.service';
 
 import Date from './Date';
 import { styles } from './ContractCard';

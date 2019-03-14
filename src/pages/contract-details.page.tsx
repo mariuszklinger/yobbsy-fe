@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import ContractCard from './../components/ContractCard';
 import contractService from '../services/contract.service';
-import ContractForm from 'src/components/ContractForm';
+import ContractForm from '../components/ContractForm';
 
 interface IProps {
   match?: any;

@@ -32,8 +32,8 @@ export function getContractJson(obj: Contract.IContractFull) {
 
 export function getEmptyContract(): Contract.IContractFull {
   return {
-    id: null,
-    salary: null,
+    id: undefined,
+    salary: 1000,
     currency: '',
     title: '',
     description: '',

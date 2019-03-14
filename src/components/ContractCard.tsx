@@ -33,7 +33,7 @@ class ContractCard extends React.Component<IProps, IState> {
     const markAsDeleted = () => this.setState({ deleted: true });
 
     contractService
-      .deleteContract(id)
+      .deleteContract(id as number)
       .then(markAsDeleted)
   }
 
@@ -61,7 +61,7 @@ class ContractCard extends React.Component<IProps, IState> {
           </Link>
         </Typography>
 
-        <Date dateStr={ contract.modified } />
+        <Date dateStr={ contract.modified as string } />
 
         <div className={classes.skillsWrapper}>
           { contract.skills && contract.skills.map((skill: any) =>

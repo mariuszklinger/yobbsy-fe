@@ -60,7 +60,7 @@ class MySnackbar extends React.Component<IProps> {
     const { classes } = this.props;
     const variant = AppService.toasterType;
     const message = AppService.toasterMessage;
-    const Icon = variantIcon[variant];
+    const Icon = variantIcon[variant!];
 
     if (!AppService.toasterActive) {
       return null;
@@ -77,7 +77,7 @@ class MySnackbar extends React.Component<IProps> {
         onClose={AppService.hideToaster}
       >
         <SnackbarContent
-          className={classes[variant]}
+          className={classes[variant!]}
           message={
             <span className={classes.message}>
               <Icon className={classNames(classes.icon, classes.iconVariant)} />

@@ -11,7 +11,7 @@ import {
   Theme,
 } from '@material-ui/core';
 
-import userService from 'src/services/user.service';
+import userService from '../../services/user.service';
 
 type FormType = 'REGISTRATION' | 'LOGIN';
 

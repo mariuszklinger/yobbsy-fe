@@ -4,7 +4,7 @@ import { Typography } from '@material-ui/core';
 
 import contractService from '../services/contract.service';
 import userService from '../services/user.service';
-import ContractCard from 'src/components/ContractCard';
+import ContractCard from '../components/ContractCard';
 
 interface IProps {
   match?: any;

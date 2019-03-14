@@ -13,7 +13,7 @@ interface IProps {
 
 function scrollTo(id: string) {
   const element = document.getElementById(id);
-  element.scrollIntoView();
+  element!.scrollIntoView();
 }
 
 const Top = ({ classes }: IProps) => {

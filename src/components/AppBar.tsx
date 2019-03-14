@@ -106,8 +106,8 @@ class MyAppBar extends React.Component<IProps> {
           </Link>
         }
 
-        { userService.isEmployee && <b>#{userService.userData.id} W</b> }
-        { userService.isHunter && <b>#{userService.userData.id} H</b> }
+        { userService.isEmployee && <b>#{userService.userData!.id} W</b> }
+        { userService.isHunter && <b>#{userService.userData!.id} H</b> }
       </div>
     );
   }

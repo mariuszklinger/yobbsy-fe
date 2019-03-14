@@ -15,7 +15,7 @@ interface IProps {
 @observer
 class TagSelect extends React.Component<IProps> {
 
-  ref: null; // TODO: ogarnac focus po wyborze
+  ref: any = null; // TODO: ogarnac focus po wyborze
 
   getValues = () => this.props.selected.map((record: Contract.ISkill) => record.tag);
 

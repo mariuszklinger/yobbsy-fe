@@ -6,7 +6,7 @@ import { withStyles, StyleRulesCallback, Theme } from '@material-ui/core';
 
 // import ContractCard from './ContractCard';
 // import contractSearchService from 'src/services/contract-search.service';
-import ContractForm from 'src/components/ContractForm';
+import ContractForm from '../ContractForm';
 import { sectionStyle } from './common';
 
 interface IProps {

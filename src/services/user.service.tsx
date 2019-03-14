@@ -12,7 +12,7 @@ interface IUserService {
 }
 
 class UserService implements IUserService {
-  @observable userData: User.IUser = null;
+  @observable userData?: User.IUser;
 
   @observable loading: boolean = false;
 
@@ -64,7 +64,7 @@ class UserService implements IUserService {
   }
 
   setAuthToken = () => {
-    const token = `Token ${this.userData.token}`
+    const token = `Token ${this.userData!.token}`
     axios.defaults.headers.common.Authorization = token;
   }
 

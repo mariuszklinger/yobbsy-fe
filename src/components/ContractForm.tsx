@@ -169,7 +169,6 @@ class ContractForm extends React.Component<IProps, IState> {
                 <TextField
                   name="title"
                   label="Job title"
-                  className={classes.textField}
                   type="text"
                   margin="normal"
                   fullWidth
@@ -183,7 +182,6 @@ class ContractForm extends React.Component<IProps, IState> {
                   <TextField
                     name="description"
                     label="Description"
-                    className={classes.textField}
                     type="text"
                     multiline
                     rowsMax="4"
@@ -241,7 +239,6 @@ class ContractForm extends React.Component<IProps, IState> {
                   name="notice"
                   label="Notice period"
                   value={values.notice}
-                  className={classes.textField}
                   type="number"
                   margin="normal"
                   onChange={handleChange}
@@ -261,7 +258,6 @@ class ContractForm extends React.Component<IProps, IState> {
                   <TextField
                     name="email"
                     label="Email"
-                    className={classes.textField}
                     type="email"
                     value={values.email}
                     autoComplete="email"
@@ -275,7 +271,6 @@ class ContractForm extends React.Component<IProps, IState> {
 
                 { this.createAccountEnabled() &&
                   <Typography
-                    className={classes.textField}
                     style={{ textAlign: 'left' }}
                     variant="subtitle1"
                   >
@@ -294,7 +289,6 @@ class ContractForm extends React.Component<IProps, IState> {
                     name="password"
                     value={values.password}
                     label="Password"
-                    className={classes.textField}
                     autoComplete="password"
                     type="password"
                     margin="normal"
@@ -308,7 +302,6 @@ class ContractForm extends React.Component<IProps, IState> {
                       name="passwordRepeated"
                       value={values.passwordRepeated}
                       label="Repeat password"
-                      className={classes.textField}
                       type="password"
                       margin="normal"
                       autoComplete="password"
@@ -381,9 +374,6 @@ const styles = (theme: Theme) => ({
     display: 'flex',
     justifyContent: 'center',
     padding: 10,
-  },
-  textField: {
-    // flex: 'auto',
   },
   header: {
     color: theme.palette.primary.main,

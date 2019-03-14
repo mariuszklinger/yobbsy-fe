@@ -10,7 +10,7 @@ import {
   Button,
 } from '@material-ui/core';
 
-import userService from 'src/services/user.service';
+import userService from '../../services/user.service';
 
 interface IProps {
   classes: any;

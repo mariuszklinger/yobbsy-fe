@@ -13,9 +13,9 @@ import {
   LinearProgress
 } from '@material-ui/core';
 
-import userService from 'src/services/user.service';
-import appService from 'src/services/app.service';
-import offerService from 'src/services/offer.service';
+import userService from '../services/user.service';
+import appService from '../services/app.service';
+import offerService from '../services/offer.service';
 
 interface IProps {
   classes: any;
@@ -46,7 +46,7 @@ class OfferForm extends React.Component<IProps, IState> {
     const { message } = this.state;
     const { onClose, contract: { id } } = this.props;
 
-    offerService.createOffer(id, message).then(onClose);
+    offerService.createOffer(id!, message).then(onClose);
     event.preventDefault();
   }
 
