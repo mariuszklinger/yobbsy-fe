@@ -5,6 +5,8 @@ import Logo from '../common/Logo';
 import { ADD_FORM_ID } from '../ContractForm';
 import { SEARCH_FORM_ID } from './../ContractForm';
 
+import chaos_img from './top/chaos_img.svg';
+
 interface IProps {
   classes: any;
 }
@@ -67,7 +69,9 @@ const Top = ({ classes }: IProps) => {
 
 const styles = (theme: Theme) => ({
   root: {
-    backgroundImage: `linear-gradient(to right, ${theme.palette.primary.light}, ${theme.palette.primary.main})`,
+    backgroundImage: `url(${chaos_img}), linear-gradient(to right, ${theme.palette.primary.light}, ${theme.palette.primary.main})`,
+    backgroundPosition: 'top right',
+    backgroundRepeat: 'no-repeat',
     minHeight: '60vh',
     padding: theme.spacing.unit,
     paddingLeft: theme.spacing.unit * 2,
@@ -78,8 +82,9 @@ const styles = (theme: Theme) => ({
       color: theme.palette.common.white,
     },
 
-    [theme.breakpoints.down(600)]: {
+    [theme.breakpoints.down(1100)]: {
       padding: theme.spacing.unit,
+      backgroundImage: `linear-gradient(to right, ${theme.palette.primary.light}, ${theme.palette.primary.main})`,
     },
   },
   buttonRow: {

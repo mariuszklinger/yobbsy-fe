@@ -1,14 +1,10 @@
 import * as React from 'react';
 import classnames from 'classnames';
 
-import Button from '@material-ui/core/Button';
 import CheckCircle from '@material-ui/icons/CheckCircleOutline';
 import { withStyles, Theme } from '@material-ui/core/styles';
 import {
-  TextField,
-  MenuItem,
   StyleRulesCallback,
-  Switch,
   Typography
 } from '@material-ui/core';
 
@@ -39,12 +35,12 @@ const styles = (theme: Theme) => ({
     backgroundRepeat: 'no-repeat',
     backgroundPositionY: 80,
     height: 400,
-    opacity: 0,
-    width: '100%',
     marginLeft: -30,
+    opacity: 0,
     position: 'absolute',
     textAlign: 'center',
     top: 200,
+    width: '100%',
     zIndex: -1,
   },
   checkSign: {
