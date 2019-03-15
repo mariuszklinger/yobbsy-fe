@@ -10,25 +10,34 @@ import {
 
 import success_airplane from './send_icon.svg';
 import Button from '@material-ui/core/Button';
+import { FormContext } from '../ContractForm';
 
 interface IProps {
   className: string;
   classes: any;
-  text?: string;
   callback?: () => void;
+  context: FormContext;
 }
 
-const SuccessPane = ({ classes, className, text, callback }: IProps) => {
+const SUCCESS_MSG_DICT = {
+  EDIT: 'Update was saved!',
+  CREATE: 'Your offer was saved!',
+  SEARCH: '',
+}
+
+const SuccessPane = ({ classes, className, context, callback }: IProps) => {
+  const showButton = context !== 'EDIT';
+
   return (
     <div className={classnames(className, classes.root)}>
       <CheckCircle color="secondary" className={classes.checkSign} />
 
       <div>
         <Typography variant="h4" color="secondary">Success!</Typography>
-        <Typography variant="h6" color="secondary">{text || 'Messege sent!'}</Typography>
+        <Typography variant="h6" color="secondary">{SUCCESS_MSG_DICT[context]}</Typography>
 
         <br />
-        {callback && <Button
+        {callback && showButton && <Button
           color="secondary"
           variant="contained"
           onClick={callback}

@@ -15,6 +15,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
 import SettingsIcon from '@material-ui/icons/Settings';
+import PowerOff from '@material-ui/icons/PowerSettingsNew';
 import CardTravelIcon from '@material-ui/icons/CardTravel';
 
 import userService from '../services/user.service';
@@ -64,9 +65,11 @@ class MyAppBar extends React.Component<IProps> {
           </a>
         }
 
-        <IconButton onClick={() => userService.openLoginForm()}>
-          <PersonIcon className={classes.icon} />
-        </IconButton>
+        { !userService.isLoggedIn &&
+          <IconButton onClick={() => userService.openLoginForm()}>
+            <PersonIcon className={classes.icon} />
+          </IconButton>
+        }
 
         { userService.isLoggedIn &&
           <Link to="/offers">
@@ -106,8 +109,11 @@ class MyAppBar extends React.Component<IProps> {
           </Link>
         }
 
-        { userService.isEmployee && <b>#{userService.userData!.id} W</b> }
-        { userService.isHunter && <b>#{userService.userData!.id} H</b> }
+        { userService.isLoggedIn &&
+          <IconButton className={classes.icon} onClick={() => userService.logOut()}>
+            <PowerOff />
+          </IconButton>
+        }
       </div>
     );
   }

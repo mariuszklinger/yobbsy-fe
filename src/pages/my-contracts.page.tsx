@@ -3,6 +3,8 @@ import { Typography, withStyles, StyleRulesCallback } from '@material-ui/core';
 
 import ContractList from '../components/ContractList';
 import contractSearchService from '../services/contract-search.service';
+import ContractForm from '../components/ContractForm';
+import MediumHeader from '../components/common/MediumHeader';
 
 interface IProps {
   classes: any;
@@ -21,16 +23,17 @@ class MyContractsPage extends React.Component<IProps> {
 
     return (
       <div className={classes.container}>
-        <Typography
-          align="left"
-          variant="h5"
-        >
-          Your posted jobs
-        </Typography>
+        <ContractForm context="CREATE" />
 
-        <ContractList
-          editable
-        />
+        <div className={classes.offerList}>
+          <MediumHeader>
+            Your posted jobs
+          </MediumHeader>
+
+          <ContractList
+            editable
+          />
+        </div>
       </div>
     );
   }
@@ -40,6 +43,9 @@ const styles = (theme: any) => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
+  },
+  offerList: {
+    padding: theme.spacing.unit * 2,
   },
 });
 

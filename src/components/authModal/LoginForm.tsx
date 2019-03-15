@@ -28,7 +28,7 @@ class LogInForm extends React.Component<IProps> {
     const { classes } = this.props;
 
     const initValues = {
-      username: 'hunter@admin.pl',
+      username: 'mariusz@admin.pl',
       password: 'admin',
     };
 

@@ -27,11 +27,14 @@ import { AUTH_MODAL_MODE } from './AuthModal';
 import { Formik, FormikActions } from 'formik';
 import { getEmptyContract } from './../services/contract.service';
 import SuccessPane from './contractForm/SuccessPane';
+import MediumHeader from './common/MediumHeader';
+
+export type FormContext = 'SEARCH' | 'CREATE' | 'EDIT';
 
 interface IProps {
   contract?: Contract.IContractFull;
   className?: string;
-  context: 'SEARCH' | 'CREATE' | 'EDIT';
+  context: FormContext;
   classes: any;
 }
 
@@ -49,13 +52,13 @@ export const SEARCH_FORM_ID = 'search-contract-form';
 export const ADD_FORM_ID = 'add-contract-form';
 
 const schema = Yup.object().shape({
-  title: Yup.string().required('Title is required'),
-  description: Yup.string().required('Write few words about your dream position'),
+  title: Yup.string().required('Title is required').max(100, 'Maximum length is 100'),
+  description: Yup.string().required('Write few words about your dream position').max(300, 'Maximum length is 300'),
   email: Yup.string().email('Invalid email').required('E-mail is required'),
   notice: Yup.string().required('Notice is required'),
   salary: Yup.number().typeError('Provide valid number').required('Salary is required'),
   currency: Yup.string().required('Currency is required'),
-  password: Yup.string(),
+  password: Yup.string().max(50, 'Maximum length is 50'),
   passwordRepeated: Yup.string().oneOf([Yup.ref('password'), ''], 'Passwords do not match')
     .test('password_repeat', 'Passwords do not match', function (value) {
       return !!this.resolve(Yup.ref('password')) ? !!value : true;
@@ -83,6 +86,8 @@ class ContractForm extends React.Component<IProps, IState> {
   inInCreateMode = () => this.props.context === 'CREATE'
   inInEditMode = () => this.props.context === 'EDIT'
   createAccountEnabled = () => this.inInCreateMode() && !userService.isLoggedIn;
+  showSuccessPane = () => this.setState({ succeed: true });
+  hideSuccessPane = () => this.setState({ succeed: false });
 
   onSubmit = (values: IFormValues, { setSubmitting }: FormikActions<IFormValues>) => {
     const save = ContractService.save;
@@ -102,9 +107,6 @@ class ContractForm extends React.Component<IProps, IState> {
       .then(this.showSuccessPane)
       .then(() => setSubmitting(false));
   }
-
-  showSuccessPane = () => this.setState({ succeed: true });
-  hideSuccessPane = () => this.setState({ succeed: false });
 
   render() {
     const { classes, contract, className } = this.props;
@@ -155,16 +157,13 @@ class ContractForm extends React.Component<IProps, IState> {
               <div className={classnames(classes.formWrapper, {
                 [classes.successFadeOut]: succeed,
               })}>
-                <Typography
+                <MediumHeader
                   id={searchMode ? SEARCH_FORM_ID : ADD_FORM_ID}
-                  align="left"
-                  variant="h4"
-                  className={classes.header}
                 >
                   { this.inInSearchMode() && 'Find your candidate'}
                   { this.inInEditMode() && 'Edit your offer'}
                   { this.inInCreateMode() && 'Post your dream job'}
-                </Typography>
+                </MediumHeader>
 
                 <TextField
                   name="title"
@@ -331,6 +330,7 @@ class ContractForm extends React.Component<IProps, IState> {
                 className={classnames({
                   [classes.successFadeIn]: succeed,
                 })}
+                context={this.props.context}
                 callback={this.hideSuccessPane}
               />
             </form>
@@ -374,10 +374,6 @@ const styles = (theme: Theme) => ({
     display: 'flex',
     justifyContent: 'center',
     padding: 10,
-  },
-  header: {
-    color: theme.palette.primary.main,
-    fontWeight: 'bold',
   },
   textField50percent: {
     flex: '0 1 calc(50% - 10px)',

@@ -146,8 +146,6 @@ const styles = {
     maxWidth: 500,
     marginBottom: 30,
     paddingBottom: 30,
-    paddingLeft: 60,
-    paddingRight: 60,
     textAlign: 'left',
 
     '& button': {

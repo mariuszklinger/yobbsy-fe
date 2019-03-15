@@ -4,6 +4,7 @@ import { observable, action, computed } from "mobx";
 
 import offerService from './offer.service';
 import { AUTH_MODAL_MODE } from '../components/AuthModal';
+import { history } from '../config/history';
 
 interface IUserService {
   isLoggedIn: boolean,
@@ -84,7 +85,16 @@ class UserService implements IUserService {
       .post('/core/api-token-auth', formdata, config)
       .then(this.setUserData)
       .then(offerService.getOffers)
-      .then(this.closeLoginForm);
+      .then(this.closeLoginForm)
+      .then(() => history.push('/my-contracts'));
+  }
+
+  @action
+  logOut = () => {
+    this.userData = undefined;
+    delete axios.defaults.headers.common.Authorization;
+    localStorage.removeItem('userData');
+    history.push('/');
   }
 
   @action

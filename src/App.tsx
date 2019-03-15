@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Router, Route } from "react-router-dom";
 
 import { LinearProgress, MuiThemeProvider, CssBaseline, Theme, withStyles, StyleRulesCallback, Hidden } from '@material-ui/core';
 
@@ -23,6 +23,7 @@ import SettingsPage from './pages/settings.page';
 import AppService from './services/app.service';
 
 import theme from './config/theme';
+import { history } from './config/history';
 
 const createContractForm = () => <ContractForm context="CREATE" />;
 
@@ -38,7 +39,7 @@ class App extends React.Component<IProps> {
     return (
       <MuiThemeProvider theme={theme}>
         { AppService.isLoading && <LinearProgress color="secondary" className={classes.loadingBar} /> }
-        <Router>
+        <Router history={history}>
           <>
             <Hidden only={['xs']}>
               <MyAppBar />
@@ -102,6 +103,7 @@ const styles = (_: Theme) => ({
   loadingBar: {
     position: 'fixed !important',
     top: 0,
+
     left: 0,
     width: '100%',
     zIndex: 10000,
