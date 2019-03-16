@@ -6,6 +6,7 @@ import { ADD_FORM_ID } from '../ContractForm';
 import { SEARCH_FORM_ID } from './../ContractForm';
 
 import chaos_img from './top/chaos_img.svg';
+import Fade from 'react-reveal/Fade';
 
 interface IProps {
   classes: any;
@@ -33,36 +34,40 @@ const Top = ({ classes }: IProps) => {
         Leave your <b>job requirements</b><br />and forget the rest!
       </Typography>
 
-      <ul>
-        <li>
-          <Typography className={classes.features} variant="h6">no more useless connection request</Typography>
-        </li>
-        <li>
-          <Typography className={classes.features} variant="h6">fully <b>anonymous</b> - no one will know your identity until both sides reveal</Typography>
-        </li>
-        <li>
-          <Typography className={classes.features} variant="h6">job offers perfectly tailored for you</Typography>
-        </li>
-      </ul>
+      <Fade>
+        <ul>
+          <li>
+            <Typography className={classes.features} variant="h6">no more useless connection request</Typography>
+          </li>
+          <li>
+            <Typography className={classes.features} variant="h6">fully <b>anonymous</b> - no one will know your identity until both sides reveal</Typography>
+          </li>
+          <li>
+            <Typography className={classes.features} variant="h6">job offers perfectly tailored for you</Typography>
+          </li>
+        </ul>
+      </Fade>
 
-      <div className={classes.buttonRow}>
-        <Button
-          variant="contained"
-          color="secondary"
-          className={classes.addOfferButton}
-          onClick={scrollToNewContract}
-        >
-          + Add offer
-        </Button>
+      <Fade>
+        <div className={classes.buttonRow}>
+            <Button
+              variant="contained"
+              color="secondary"
+              className={classes.addOfferButton}
+              onClick={scrollToNewContract}
+            >
+              + Add offer
+            </Button>
 
-        <Button
-          variant="outlined"
-          color="secondary"
-          onClick={scrollToSearchContract}
-        >
-          Find your candidate
-        </Button>
-      </div>
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={scrollToSearchContract}
+            >
+              Find your candidate
+            </Button>
+        </div>
+      </Fade>
     </div>
   );
 }
@@ -120,7 +125,6 @@ const styles = (theme: Theme) => ({
     marginBottom: theme.spacing.unit * 2,
 
     [theme.breakpoints.down(600)]: {
-      // marginTop: 0,
       marginBottom: theme.spacing.unit,
       width: 200,
     }

@@ -42,7 +42,7 @@ const content: IFeature[] = [
 const MainFeatures = ({ classes }: IProps) => {
   return <div className={classes.root}>
     {content.map((feature) => (
-        <div className={classes.featureRow}>
+        <div className={classes.featureRow} key={feature.title}>
           <Fade>
             <div className={classes.featureImgWrapper}>
               <img className={classes.featureImg} src={feature.img} />

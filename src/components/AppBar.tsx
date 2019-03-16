@@ -6,13 +6,11 @@ import {
   withStyles,
   StyleRulesCallback,
   Badge,
-  Hidden,
 } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import MailIcon from '@material-ui/icons/Mail';
 import PersonIcon from '@material-ui/icons/Person';
-import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
 import SettingsIcon from '@material-ui/icons/Settings';
 import PowerOff from '@material-ui/icons/PowerSettingsNew';
@@ -22,6 +20,7 @@ import userService from '../services/user.service';
 import offerService from '../services/offer.service';
 import { Theme } from '@material-ui/core';
 import { ADD_FORM_ID, SEARCH_FORM_ID } from './ContractForm';
+import Logo from './common/Logo';
 
 interface IProps {
   classes: any;
@@ -35,13 +34,11 @@ class MyAppBar extends React.Component<IProps> {
 
     return (
       <div className={classes.appbar}>
-        <Link to="/">
-          <IconButton className={classes.icon}>
-            <HomeIcon />
-          </IconButton>
+        <Link to="/" className={classes.rotatedLogo}>
+          <Logo className={classes.logoImg} />
         </Link>
 
-        { (userService.isEmployee || !userService.isLoggedIn) &&
+        { !userService.isLoggedIn &&
           <a href={`#${ADD_FORM_ID}`}>
             <IconButton className={classes.icon}>
               <AddIcon />
@@ -132,6 +129,23 @@ const styles = (theme: Theme) => ({
   },
   icon: {
     color: theme.palette.common.white,
+  },
+  rotatedLogo: {
+    transform: 'rotate(90deg)',
+    width: 50,
+    display: 'inline-block',
+    marginTop: 36,
+    marginBottom: 78,
+    height: 'auto',
+  },
+  logoImg: {
+    filter: 'grayscale(100%)',
+    transition: '0.3s',
+    width: 100,
+
+    '&:hover': {
+      filter: 'grayscale(0%)',
+    }
   }
 });
 

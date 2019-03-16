@@ -11,6 +11,7 @@ declare namespace Contract {
     label?: string,
     name?: string,
     value?: string,
+    __isNew__?: boolean,
   }
 
   interface ISkill {

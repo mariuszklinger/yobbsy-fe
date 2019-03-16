@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 
 import { Typography, StyleRulesCallback, withStyles } from '@material-ui/core';
 import Chip from '@material-ui/core/Chip';
+import EventIcon from '@material-ui/icons/Event';
+import PlaceIcon from '@material-ui/icons/Place';
 import Button from '@material-ui/core/Button';
 
 import Date from './Date';
@@ -10,6 +12,7 @@ import OfferForm from './OfferForm';
 
 import userService from '../services/user.service';
 import contractService from '../services/contract.service';
+import { Theme } from '@material-ui/core/styles';
 
 interface IProps {
   classes: any;
@@ -29,7 +32,12 @@ class ContractCard extends React.Component<IProps, IState> {
   }
 
   deleteContract = () => {
-    const { id } = this.props.contract;
+    const { id, title } = this.props.contract;
+    const choice = confirm(`Delete offer: ${title}?`);
+    if (!choice) {
+      return;
+    }
+
     const markAsDeleted = () => this.setState({ deleted: true });
 
     contractService
@@ -56,7 +64,7 @@ class ContractCard extends React.Component<IProps, IState> {
           align="left"
           variant="h5"
         >
-          <Link to={`/contract/${contract.id}`}>
+          <Link to={`/contract/${contract.id}`} className={classes.headerLink}>
             { contract.title }
           </Link>
         </Typography>
@@ -78,7 +86,7 @@ class ContractCard extends React.Component<IProps, IState> {
           align="left"
           variant="h6"
         >
-          { contract.salary } { contract.currency }
+          <b>{ contract.salary }</b> { contract.currency }
         </Typography>
 
         <Typography
@@ -89,18 +97,28 @@ class ContractCard extends React.Component<IProps, IState> {
           { contract.description }
         </Typography>
 
+        <br />
+        <br />
+
         <Typography
           align="left"
           variant="subtitle2"
         >
-          { !!contract.notice && `Notice: ${ contract.notice } month`}
-          { !contract.notice && <span>Notice: <b>Immediately</b></span>}
-          <br />
-          Locations: <ul>
-            { contract.locations.map((l: Contract.ILocation) => (
-              <li key={l.name}>{ l.name }, {l.country} </li>
-            ))}
-          </ul>
+          <EventIcon className={classes.dataIcon} /> Notice:
+          { !!contract.notice && `    ${ contract.notice } month (s)`}
+          { !contract.notice && <b> Immediately</b>}
+        </Typography>
+
+        <Typography
+          align="left"
+          variant="subtitle2"
+        >
+          <PlaceIcon className={classes.dataIcon} /> Locations:
+            <ul>
+              { contract.locations.map((l: Contract.ILocation) => (
+                <li key={l.name}>{ l.name }, {l.country} </li>
+              ))}
+            </ul>
         </Typography>
 
         <div style={{ paddingLeft: 0 }}>
@@ -139,10 +157,10 @@ class ContractCard extends React.Component<IProps, IState> {
   }
 }
 
-// # TODO: uzyc theme
-const styles = {
+const styles = (theme: Theme) => ({
   card: {
     borderBottom: '1px solid #cacaca',
+    color: theme.palette.primary.main,
     maxWidth: 500,
     marginBottom: 30,
     paddingBottom: 30,
@@ -158,6 +176,18 @@ const styles = {
     },
   },
 
+  dataIcon: {
+    display: 'inline-block',
+    fontSize: 23,
+    marginBottom: -5,
+  },
+
+  headerLink: {
+    fontWeight: 'bold',
+    color: theme.palette.secondary.main,
+    textDecoration: 'none',
+  },
+
   skillsWrapper: {
     marginTop: 10,
     marginBottom: 10,
@@ -169,10 +199,9 @@ const styles = {
       marginRight: 5,
     },
   },
-}
+});
 
-const getStyles = () => styles;
 
 export { styles };
 
-export default withStyles(getStyles as StyleRulesCallback<string>)(ContractCard);
+export default withStyles(styles as StyleRulesCallback<string>)(ContractCard);

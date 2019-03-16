@@ -114,5 +114,4 @@ class OfferCard extends React.Component<IProps, IState> {
   }
 }
 
-const getStyles = () => styles;
-export default withStyles(getStyles as StyleRulesCallback<string>)(OfferCard);
+export default withStyles(styles as StyleRulesCallback<string>)(OfferCard);

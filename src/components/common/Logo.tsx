@@ -13,12 +13,13 @@ interface IProps {
 class Logo extends React.Component<IProps> {
   render() {
     const { classes, className } = this.props;
-    return <img src={logo} className={classNames(classes.root, className)} width={200} />;
+    return <img src={logo} className={classNames(classes.root, className)} />;
   }
 }
 
 const styles = (theme: Theme) => ({
   root: {
+    width: 200,
   },
 });
 

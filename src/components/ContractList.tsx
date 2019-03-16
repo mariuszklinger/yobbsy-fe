@@ -5,6 +5,7 @@ import { withStyles, StyleRulesCallback } from '@material-ui/core';
 
 import ContractCard from './ContractCard';
 import contractSearchService from '../services/contract-search.service';
+import Fade from 'react-reveal/Fade';
 
 interface IProps {
   classes: any;
@@ -23,12 +24,14 @@ class ContractList extends React.Component<IProps> {
     const { list } = contractSearchService;
     const { classes, editable } = this.props;
 
-    const contractList = list.map((c: Contract.IContractShort) => (
-      <ContractCard
-        key={c.id}
-        contract={c}
-        editable={editable} />
-    ));
+    const contractList = list.map((c: Contract.IContractShort) =>
+      <Fade>
+        <ContractCard
+          key={c.id}
+          contract={c}
+          editable={editable} />
+      </Fade>
+    );
 
     return (
       <div className={classes.list}>

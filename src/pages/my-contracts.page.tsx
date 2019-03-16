@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Typography, withStyles, StyleRulesCallback } from '@material-ui/core';
+import { withStyles, StyleRulesCallback } from '@material-ui/core';
 
 import ContractList from '../components/ContractList';
 import contractSearchService from '../services/contract-search.service';
@@ -23,7 +23,10 @@ class MyContractsPage extends React.Component<IProps> {
 
     return (
       <div className={classes.container}>
-        <ContractForm context="CREATE" />
+        <ContractForm
+          context="CREATE"
+          callback={contractSearchService.getMyContracts}
+        />
 
         <div className={classes.offerList}>
           <MediumHeader>
@@ -46,6 +49,9 @@ const styles = (theme: any) => ({
   },
   offerList: {
     padding: theme.spacing.unit * 2,
+    boxShadow: 'inset 6px 0px 20px 2px #e2e2e2',
+    backgroundColor: '#efefef',
+    flex: 1,
   },
 });
 

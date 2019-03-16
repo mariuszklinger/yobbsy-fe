@@ -36,6 +36,7 @@ interface IProps {
   className?: string;
   context: FormContext;
   classes: any;
+  callback?: () => any;
 }
 
 interface IState {
@@ -70,8 +71,13 @@ const handleLocationSelect = (setFieldValue: any) => (locations: Contract.ILocat
 }
 
 const handleSkillSelect = (setFieldValue: any) => (values: any) => {
+  const prepareTag = (tag: Contract.ITag) => ({
+    ...tag,
+    ...tag.__isNew__ && { name: tag.label!.toLowerCase(), },
+  });
+
   const skills = [...values]
-    .map((record: any) => ({ proficiency: 10, tag: toJS(record)}));
+    .map((record: any) => ({ proficiency: 10, tag: prepareTag(toJS(record))}));
 
   setFieldValue('skills', skills);
 }
@@ -92,20 +98,27 @@ class ContractForm extends React.Component<IProps, IState> {
   onSubmit = (values: IFormValues, { setSubmitting }: FormikActions<IFormValues>) => {
     const save = ContractService.save;
     const search = ContractSearchService.search;
+    const setSubmittingFalse = () => setSubmitting(false);
 
     // search function requires active hunter account
     const notHunter = !userService.isHunter;
     if (this.inInSearchMode() && notHunter) {
       userService.openLoginForm(AUTH_MODAL_MODE.REGISTER);
-      setSubmitting(false);
+      setSubmittingFalse();
       return;
     }
 
     const action = this.inInCreateMode() || this.inInEditMode() ? save : search;
+    const onSuccess = () => {
+      const { callback } = this.props;
+      setSubmittingFalse();
+      callback && callback();
+    }
 
     action(values)
       .then(this.showSuccessPane)
-      .then(() => setSubmitting(false));
+      .then(onSuccess, setSubmittingFalse)
+      .catch(setSubmittingFalse);
   }
 
   render() {
@@ -124,8 +137,8 @@ class ContractForm extends React.Component<IProps, IState> {
       title: 'CEO of stuff',
       description: 'I know everything, have a lot experience, give me the job. Lorem ipsum solor et al mirl.',
       locations: [
-        { label: 'Miami, United States', name: 'Miami', country: 'United States' },
-        { label: 'Gdańsk, Poland', name: 'Gdańsk', country: 'Poland' },
+        { value: 1, label: 'Miami, United States', name: 'Miami', country: 'United States' },
+        { value: 2, label: 'Gdańsk, Poland', name: 'Gdańsk', country: 'Poland' },
       ],
       notice: 0,
       skills: [
@@ -347,7 +360,8 @@ const styles = (theme: Theme) => ({
     paddingLeft: theme.spacing.unit,
     paddingRight: theme.spacing.unit,
     maxWidth: 600,
-    marginBottom: -2 * theme.spacing.unit,
+    maxHeight: 600,
+    // marginBottom: -2 * theme.spacing.unit,
 
     [theme.breakpoints.down(700)]: {
       paddingLeft: 0,
