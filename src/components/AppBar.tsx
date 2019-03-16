@@ -129,6 +129,11 @@ const styles = (theme: Theme) => ({
   },
   icon: {
     color: theme.palette.common.white,
+    transition: '0.3s',
+
+    '&:hover': {
+      color: theme.palette.secondary.main,
+    }
   },
   rotatedLogo: {
     transform: 'rotate(90deg)',
