@@ -29,7 +29,7 @@ const styles = (theme: Theme) => ({
   },
   content: {
     padding: theme.spacing.unit,
-    maxWidth: 400,
+    // maxWidth: 400,
   },
   closeCircle: {
     borderRadius: '50%',

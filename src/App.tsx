@@ -78,7 +78,7 @@ class App extends React.Component<IProps> {
 const styles = (_: Theme) => ({
   '@global': {
     body: {
-      backgroundColor: '#FFF', // '#778ded',
+      backgroundColor: '#FFF',
       fontFamily: 'sans-serif',
       padding: 0,
       margin: 0,
@@ -88,8 +88,6 @@ const styles = (_: Theme) => ({
     '*': {
       scrollBehavior: 'smooth',
     },
-    '#root': {
-    }
   },
 
   app: {

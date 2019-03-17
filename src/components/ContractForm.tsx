@@ -59,6 +59,8 @@ const schema = Yup.object().shape({
   notice: Yup.string().required('Notice is required'),
   salary: Yup.number().typeError('Provide valid number').required('Salary is required'),
   currency: Yup.string().required('Currency is required'),
+  locations: Yup.array().min(1).max(7),
+  skills: Yup.array().min(1).max(8),
   password: Yup.string().max(50, 'Maximum length is 50'),
   passwordRepeated: Yup.string().oneOf([Yup.ref('password'), ''], 'Passwords do not match')
     .test('password_repeat', 'Passwords do not match', function (value) {
@@ -88,9 +90,9 @@ class ContractForm extends React.Component<IProps, IState> {
     succeed: false,
   };
 
-  inInSearchMode = () => this.props.context === 'SEARCH'
-  inInCreateMode = () => this.props.context === 'CREATE'
-  inInEditMode = () => this.props.context === 'EDIT'
+  inInSearchMode = () => this.props.context === 'SEARCH';
+  inInCreateMode = () => this.props.context === 'CREATE';
+  inInEditMode = () => this.props.context === 'EDIT';
   createAccountEnabled = () => this.inInCreateMode() && !userService.isLoggedIn;
   showSuccessPane = () => this.setState({ succeed: true });
   hideSuccessPane = () => this.setState({ succeed: false });
@@ -409,7 +411,6 @@ const styles = (theme: Theme) => ({
       width: 515,
     },
   },
-
 });
 
 export default withStyles(styles as StyleRulesCallback<string>)(ContractForm);

@@ -133,7 +133,7 @@ const styles = (theme: Theme) => ({
 
     '&:hover': {
       color: theme.palette.secondary.main,
-    }
+    },
   },
   rotatedLogo: {
     transform: 'rotate(90deg)',

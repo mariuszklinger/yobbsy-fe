@@ -197,6 +197,7 @@ const styles = (theme: Theme) => ({
 
     '& > div': {
       marginRight: 5,
+      marginBottom: 5,
     },
   },
 });

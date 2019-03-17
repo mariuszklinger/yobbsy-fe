@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { withStyles, StyleRulesCallback, Theme } from '@material-ui/core';
 
 import ContractCard from './../components/ContractCard';
 import contractService from '../services/contract.service';
@@ -7,12 +8,14 @@ import ContractForm from '../components/ContractForm';
 interface IProps {
   match?: any;
   editing: boolean;
+  classes: any;
 }
 
 interface IState {
   loading: boolean;
   contract: Contract.IContractFull,
 }
+
 
 class ContractDetailsPage extends React.Component<IProps, IState> {
   state = {
@@ -35,7 +38,8 @@ class ContractDetailsPage extends React.Component<IProps, IState> {
   }
 
   render() {
-    const { loading } = this.state;
+    const { loading, contract } = this.state;
+    const { classes } = this.props;
     const editing = this.props.match.params.edit === 'edit';
 
     if (loading) {
@@ -43,11 +47,20 @@ class ContractDetailsPage extends React.Component<IProps, IState> {
     }
 
     if (editing) {
-      return <ContractForm contract={this.state.contract} context="EDIT" />
+      return <ContractForm contract={contract} context="EDIT" />;
     }
 
-    return <ContractCard contract={this.state.contract} />;
+    return <div className={classes.wrapper}>
+      <ContractCard contract={contract} />;
+    </div>;
   }
 }
 
-export default ContractDetailsPage;
+const styles = (theme: Theme) => ({
+  wrapper: {
+    padding: theme.spacing.unit * 2,
+  },
+});
+
+
+export default withStyles(styles as StyleRulesCallback<string>)(ContractDetailsPage);
