@@ -362,7 +362,7 @@ const styles = (theme: Theme) => ({
     paddingLeft: theme.spacing.unit,
     paddingRight: theme.spacing.unit,
     maxWidth: 600,
-    maxHeight: 600,
+    // maxHeight: 600,
     // marginBottom: -2 * theme.spacing.unit,
 
     [theme.breakpoints.down(700)]: {
