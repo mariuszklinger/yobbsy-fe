@@ -16,20 +16,17 @@ import { Typography } from '@material-ui/core';
 const styles = (theme: Theme) => ({
   root: {
     '& div': {
-      overflow: 'visible',
       maxHeight: 'none',
     },
 
     [theme.breakpoints.down(600)]: {
       '& > div:nth-child(2)': {
-        margin: 24,
+        margin: '24 !important',
       }
     },
-
   },
   content: {
     padding: theme.spacing.unit,
-    // maxWidth: 400,
   },
   closeCircle: {
     borderRadius: '50%',
@@ -50,12 +47,18 @@ const styles = (theme: Theme) => ({
     [theme.breakpoints.down(600)]: {
       fontSize: 30,
     },
+  },
+  customPaper: {
+    overflow: 'visible',
+
+    [theme.breakpoints.down(360)]: {
+      margin: '0 !important',
+    },
   }
 });
 
 interface IProps {
   classes: any;
-  // children: any;
   className?: string;
   title?: string;
 }
@@ -72,6 +75,7 @@ class CustomDialog extends React.Component<IProps & DialogProps & { children?: a
         onClose={onClose}
         scroll="body"
         maxWidth="xs"
+        classes={{ paper: classes.customPaper  }}
         {...rest}
       >
 
@@ -80,7 +84,7 @@ class CustomDialog extends React.Component<IProps & DialogProps & { children?: a
           onClick={onClose} />
 
         <div className={classes.content}>
-          <Typography variant="headline">
+          <Typography variant="h6">
             {title}
           </Typography>
 

@@ -60,7 +60,7 @@ class AuthModal extends React.Component<IProps, IState> {
       >
         { appService.isLoading && <LinearProgress className={classes.loader} /> }
 
-        <Typography variant="headline">
+        <Typography variant="h6">
           {/* <Logo /> */}
           { isLogin && <b>Sign in</b> }
           { isRegister && <b>Register as a headhunter</b> }

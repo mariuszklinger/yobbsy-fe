@@ -78,6 +78,7 @@ class App extends React.Component<IProps> {
 const styles = (_: Theme) => ({
   '@global': {
     body: {
+      overflow: 'auto',
       backgroundColor: '#FFF',
       fontFamily: 'sans-serif',
       padding: 0,
