@@ -3,16 +3,20 @@ import classNames from 'classnames';
 
 import { Theme, withStyles, StyleRulesCallback } from '@material-ui/core';
 
-import logo from '../../assets/yobbsy.svg';
+import logoWhite from './logo/yobbsy-white.svg';
+import logoBlack from './logo/yobbsy-black.svg';
 
 interface IProps {
   classes: any;
   className?: string;
+  variant: 'white' | 'black';
 }
 
 class Logo extends React.Component<IProps> {
   render() {
-    const { classes, className } = this.props;
+    const { classes, className, variant } = this.props;
+    const logo = variant === 'white' ? logoWhite : logoBlack;
+
     return <img src={logo} className={classNames(classes.root, className)} />;
   }
 }

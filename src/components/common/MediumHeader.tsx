@@ -5,8 +5,9 @@ import {
   StyleRulesCallback,
   Typography
 } from '@material-ui/core';
+import { TypographyProps } from '@material-ui/core/Typography';
 
-interface IProps {
+interface IProps extends TypographyProps {
   children: any;
   className?: string;
   id?: string;
@@ -15,7 +16,7 @@ interface IProps {
 
 class MediumHeader extends React.Component<IProps> {
   render() {
-    const { id, children, classes, className } = this.props;
+    const { id, children, classes, className, ...rest } = this.props;
 
     return (
       <Typography
@@ -23,6 +24,7 @@ class MediumHeader extends React.Component<IProps> {
         align="left"
         variant="h4"
         className={classnames(classes.header, className)}
+        {...rest}
       >
       {children}
       </Typography>
@@ -35,7 +37,6 @@ const styles = (theme: Theme) => ({
     color: theme.palette.primary.main,
     fontWeight: 'bold',
   },
-
 });
 
 export default withStyles(styles as StyleRulesCallback<string>)(MediumHeader);

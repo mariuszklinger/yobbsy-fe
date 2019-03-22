@@ -35,7 +35,7 @@ class MyAppBar extends React.Component<IProps> {
     return (
       <div className={classes.appbar}>
         <Link to="/" className={classes.rotatedLogo}>
-          <Logo className={classes.logoImg} />
+          <Logo variant="white" className={classes.logoImg} />
         </Link>
 
         { !userService.isLoggedIn &&
@@ -126,6 +126,7 @@ const styles = (theme: Theme) => ({
     position: 'fixed',
     textAlign: 'center',
     width: APPBAR_WIDTH,
+    zIndex: 100,
   },
   icon: {
     color: theme.palette.common.white,

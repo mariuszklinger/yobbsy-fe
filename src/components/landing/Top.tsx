@@ -6,6 +6,7 @@ import { ADD_FORM_ID } from '../ContractForm';
 import { SEARCH_FORM_ID } from './../ContractForm';
 
 import chaos_img from './top/chaos_img.svg';
+
 import Fade from 'react-reveal/Fade';
 
 interface IProps {
@@ -24,12 +25,12 @@ const Top = ({ classes }: IProps) => {
 
   return (
     <div className={classes.root}>
-      <Logo className={classes.logo} />
+      <Logo variant="black" className={classes.logo} />
 
       <Typography
         className={classes.lead}
         variant="h3"
-        color="textSecondary"
+        color="primary"
       >
         Leave your <b>job requirements</b><br />and forget the rest!
       </Typography>
@@ -50,22 +51,22 @@ const Top = ({ classes }: IProps) => {
 
       <Fade>
         <div className={classes.buttonRow}>
-            <Button
-              variant="contained"
-              color="secondary"
-              className={classes.addOfferButton}
-              onClick={scrollToNewContract}
-            >
-              + Add offer
-            </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            className={classes.addOfferButton}
+            onClick={scrollToNewContract}
+          >
+            + Add offer
+          </Button>
 
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={scrollToSearchContract}
-            >
-              Find your candidate
-            </Button>
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={scrollToSearchContract}
+          >
+            Find your candidate
+          </Button>
         </div>
       </Fade>
     </div>
@@ -74,22 +75,18 @@ const Top = ({ classes }: IProps) => {
 
 const styles = (theme: Theme) => ({
   root: {
-    backgroundImage: `url(${chaos_img}), linear-gradient(to right, ${theme.palette.primary.light}, ${theme.palette.primary.main})`,
-    backgroundPosition: 'top right',
+    backgroundImage: `url(${chaos_img})`,
+    backgroundPosition: '800px 80px',
+    backgroundSize: '400px 400px',
     backgroundRepeat: 'no-repeat',
     minHeight: '60vh',
     padding: theme.spacing.unit,
     paddingLeft: theme.spacing.unit * 2,
-    marginBottom: theme.spacing.unit,
-    boxShadow: '0px 9px 20px 2px #ccc',
-
-    '& li': {
-      color: theme.palette.common.white,
-    },
+    position: 'relative',
+    color: theme.palette.primary.main,
 
     [theme.breakpoints.down(1100)]: {
       padding: theme.spacing.unit,
-      backgroundImage: `linear-gradient(to right, ${theme.palette.primary.light}, ${theme.palette.primary.main})`,
     },
   },
   buttonRow: {
@@ -110,15 +107,13 @@ const styles = (theme: Theme) => ({
     }
   },
   lead: {
-    color: theme.palette.common.white,
-
     [theme.breakpoints.down(600)]: {
       fontSize: 24,
       lineHeight: 1.4,
     }
   },
   features: {
-    color: '#b3a9d4',
+    // color: '#b3a9d4',
   },
   logo: {
     marginTop: theme.spacing.unit,

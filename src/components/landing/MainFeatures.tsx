@@ -61,6 +61,22 @@ const MainFeatures = ({ classes }: IProps) => {
 const styles = (theme: Theme) => ({
   root: {
     ...featureSectionStyle(theme),
+    position: 'relative',
+    paddingBottom: theme.spacing.unit * 2,
+
+    '&:before': {
+      content: '""',
+      borderRadius: '50%',
+      position: 'absolute',
+      display: 'block',
+      width: 600,
+      height: 70,
+      zIndex: 100,
+      top: -100,
+      left: 98,
+      boxShadow: '1px 1px 90px 20px #bfbfbf',
+      paddingTop: theme.spacing.unit * 3,
+    },
   },
   featureRow: {
     alignItems: 'center',

@@ -25,9 +25,8 @@ class ContractList extends React.Component<IProps> {
     const { classes, editable } = this.props;
 
     const contractList = list.map((c: Contract.IContractShort) =>
-      <Fade>
+      <Fade key={c.id}>
         <ContractCard
-          key={c.id}
           contract={c}
           editable={editable} />
       </Fade>
@@ -36,7 +35,7 @@ class ContractList extends React.Component<IProps> {
     return (
       <div className={classes.list}>
         { !!list.length && contractList }
-        { !list.length && 'No results :(' }
+        { !list.length && 'No results :(' /* TODO: loader */}
       </div>
     );
   }

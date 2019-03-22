@@ -14,9 +14,6 @@ interface IProps {
 
 @observer
 class TagSelect extends React.Component<IProps> {
-
-  ref: any = null; // TODO: ogarnac focus po wyborze
-
   getValues = () => this.props.selected.map((record: Contract.ISkill) => record.tag);
 
   render() {
@@ -24,14 +21,13 @@ class TagSelect extends React.Component<IProps> {
 
     return (
       <AsyncCreatable
-        ref={(el: any) => this.ref = el}
         placeholder="Job keyword"
-        value={this.getValues()}
         onChange={onChange}
         className={classes.multiselect}
         components={{ DropdownIndicator: () => null }}
         isMulti
         loadOptions={ContractService.getTags}
+        value={this.getValues()}
       />
     );
   }
