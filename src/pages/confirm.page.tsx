@@ -27,17 +27,12 @@ class ConfirmationPage extends React.Component<IProps, IState> {
     contract: null as any,
   }
 
-  constructor(props: IProps) {
-    super(props);
-  }
-
   componentDidMount() {
     const { hash, id } = this.props.match.params;
     const { type } = this.props;
 
     const method = type === 'account' ? contractService.confirmAccount : contractService.confirmContract;
-    method(id, hash)
-      .then(this.onConfirm);
+    method(id, hash).then(this.onConfirm);
   }
 
   onConfirm = ({ data }: { data: IConfirmationResponse }) => {
@@ -61,7 +56,7 @@ class ConfirmationPage extends React.Component<IProps, IState> {
           { type === 'account' && 'Your account is now active'}
           { type === 'contract' && 'Your contract is now active'}
 
-          <ContractCard contract={contract} />
+          { type === 'contract' && <ContractCard contract={contract} />}
         </Typography>
       </>;
     }

@@ -65,7 +65,7 @@ class ContractService implements IContractService {
         tag: { value: '2', label: 'javascript', name: 'javascript' },
       }
     ],
-    email: 'dasdas21312zda@asdsada.pl',
+    email: 'rinceee@gmail.com',
   };
 
   clear() {
@@ -91,7 +91,7 @@ class ContractService implements IContractService {
 
   confirmAccount(email: string, hash: string) {
     return axios
-      .get(`/core/confirm-account?email=${email}&token=${hash}`);
+      .post(`/core/confirm-account?email=${email}&token=${hash}`);
   }
 
   deleteContract(id: number) {

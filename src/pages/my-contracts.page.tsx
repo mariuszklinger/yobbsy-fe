@@ -48,10 +48,11 @@ const styles = (theme: any) => ({
     flexWrap: 'wrap',
   },
   offerList: {
-    padding: theme.spacing.unit * 2,
-    boxShadow: 'inset 6px 0px 20px 2px #e2e2e2',
     backgroundColor: '#efefef',
+    boxShadow: 'inset 6px 0px 20px 2px #e2e2e2',
     flex: 1,
+    padding: theme.spacing.unit * 2,
+    minHeight: '100vh',
   },
 });
 

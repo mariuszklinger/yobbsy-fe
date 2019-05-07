@@ -51,7 +51,7 @@ class ContractDetailsPage extends React.Component<IProps, IState> {
     }
 
     return <div className={classes.wrapper}>
-      <ContractCard contract={contract} />;
+      <ContractCard contract={contract} />
     </div>;
   }
 }
